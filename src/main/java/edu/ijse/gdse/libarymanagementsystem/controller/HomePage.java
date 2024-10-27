@@ -83,7 +83,6 @@ public class HomePage implements Initializable {
             }else{
                 //DTO IS NOT NULL... (user has login)
                 userDetails = userModel.getUserDetails(email);
-                System.out.println(userDetails);
                 lblWellcome.setText("Wellcome " + userDetails.getName() + ",");
                 currentUName.setText(userDetails.getName());
             }
@@ -100,37 +99,6 @@ public class HomePage implements Initializable {
         } catch (Exception e3){
             e3.printStackTrace();
         }
-    }
-
-    public void getUserDetails(){
-//        try{
-//            if(DashBoardContro.isAdminLogin()){
-//                //DTO IS NULL ...(admin has log in)
-//
-//                lblWellcome.setText("Wellcome admin,");
-//            }else{
-//                //DTO IS NOT NULL... (user has login)
-////                userDetails = userModel.getUserDetails(getUserEmail());
-////                lblWellcome.setText("Wellcome " + userDetails.getName() + ",");
-//            }
-//
-//
-//        }catch (ClassNotFoundException e1){
-//            System.out.println("class not Found");
-//            e1.printStackTrace();
-//        } catch (SQLException e2){
-//            System.out.println("Sql queree error");
-//            e2.printStackTrace();
-//        } catch (Exception e3){
-//            e3.printStackTrace();
-//        }
-    }
-
-
-    private void serPrivacyWindow(){
-//        if(!DashBoardContro.isAdminLogin()){
-//            currentUName.setText(userDetails.getName());
-//        }
     }
 
     //EXIT BUTTON
@@ -185,14 +153,16 @@ public class HomePage implements Initializable {
 
     private void updateUser(){
         try{
-            DashBoardContro dashBoardContro = new DashBoardContro();
             boolean isUpdated = userModel.updateUser(txtNewUserName.getText(),txtNewPassword.getText(),userDetails.getEmail());
             if(isUpdated){
                 //saved
                 new Alert(Alert.AlertType.CONFIRMATION,"Successfully updated!").show();
+                clearText();
+                //when successfully updated we need to auto maticaly go to login page
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+                Stage window = (Stage) txtCurruntPassword.getScene().getWindow();
+                window.setScene(new Scene(loader.load()));
 
-                dashBoardContro.logout();
-                //when successfully updated we need to auto maticaly log out
             }else{
                 new Alert(Alert.AlertType.CONFIRMATION,"Failed").show();
             }
@@ -203,11 +173,19 @@ public class HomePage implements Initializable {
         }catch (SQLException e2){
             System.out.println("Sql Exception");
             e2.printStackTrace();
+        }catch (IOException e3){
+            System.out.println("IOExeption");
+            e3.printStackTrace();
         }
     }
     //end hear-
 
-
+    private void clearText(){
+        txtCurruntPassword.setText("");
+        txtNewPassword.setText("");
+        txtPasswordConfirm.setText("");
+        txtNewUserName.setText("");
+    }
 
 
 
@@ -227,7 +205,5 @@ public class HomePage implements Initializable {
             System.out.println("IOException");
             e.printStackTrace();
         }
-
-//        logout();
     }
 }

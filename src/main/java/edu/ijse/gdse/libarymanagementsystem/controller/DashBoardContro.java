@@ -344,9 +344,10 @@ public class DashBoardContro implements Initializable  {
             body.getChildren().clear();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/HomePage.fxml"));
             AnchorPane load = fxmlLoader.load();
-            HomePage controller = fxmlLoader.getController();
-//            controller.setDashboardBody(dashboardBody);
-            controller.setUserDetails(userEmail);
+
+            HomePage homepageContro = fxmlLoader.getController();
+            homepageContro.setUserDetails(userEmail);
+
             body.getChildren().add(load);
         }catch(Exception e){
             System.out.println("Unable to loard DashBoard on Dashboard conto");
