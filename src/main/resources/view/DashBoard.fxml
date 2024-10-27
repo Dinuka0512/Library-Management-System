@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="dashboardBody" prefHeight="740.0" prefWidth="1152.0" style="-fx-background-color: #DCDCDC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.gdse.libarymanagementsystem.controller.DashBoardContro">
+   <children>
+      <AnchorPane fx:id="body" layoutX="95.0" layoutY="85.0" prefHeight="546.0" prefWidth="1059.0" />
+      <Pane layoutY="633.0" prefHeight="112.0" prefWidth="1153.0" style="-fx-background-color: #676767;">
+         <children>
+            <ImageView fitHeight="73.0" fitWidth="250.0" layoutX="903.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Logo.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="919.0" layoutY="55.0" text="The Gnanapradeepa Public Library" textAlignment="RIGHT" textFill="WHITE" />
+            <Label layoutX="1025.0" layoutY="70.0" text="at Bandaragama" textFill="WHITE" />
+            <AnchorPane fx:id="empAnch" layoutX="110.0" layoutY="48.0" prefHeight="31.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+               <children>
+                  <Label layoutX="22.0" layoutY="6.0" text="Manage Employee" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+         </children>
+      </Pane>
+      <AnchorPane fx:id="anchorBtnBody" layoutY="83.0" prefHeight="663.0" prefWidth="94.0" style="-fx-background-color: #777D8A;">
+         <children>
+            <ImageView fx:id="bookImg" fitHeight="45.0" fitWidth="45.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#openManageBookView" onMouseEntered="#showName" onMouseExited="#closeName" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/book.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="memberImg" fitHeight="58.0" fitWidth="45.0" layoutX="24.0" layoutY="88.0" onMouseClicked="#OpenMamageMemberView" onMouseEntered="#showNameMem" onMouseExited="#closeNameMem" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/members.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="authorImg" fitHeight="45.0" fitWidth="45.0" layoutX="24.0" layoutY="157.0" onMouseEntered="#showNameAuth" onMouseExited="#closeNameAuth" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/author.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="sectionsImg" fitHeight="45.0" fitWidth="45.0" layoutX="24.0" layoutY="223.0" onMouseEntered="#showNameSec" onMouseExited="#closeNameSec" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/sectionManage.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="suppliersImg" fitHeight="52.0" fitWidth="45.0" layoutX="24.0" layoutY="296.0" onMouseEntered="#showNameSup" onMouseExited="#closeNameSup" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/supplier.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cupboardImg" fitHeight="45.0" fitWidth="45.0" layoutX="24.0" layoutY="370.0" onMouseEntered="#showNameCup" onMouseExited="#closeNameCup" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/cupboards.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="paymentsImg" fitHeight="45.0" fitWidth="45.0" layoutX="24.0" layoutY="442.0" onMouseEntered="#showNamePay" onMouseExited="#closeNamePay" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/payments.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="damageImg" fitHeight="45.0" fitWidth="45.0" layoutX="24.0" layoutY="518.0" onMouseEntered="#showNameDama" onMouseExited="#closeNameDama" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/damages.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="employeeImg" fitHeight="35.0" fitWidth="45.0" layoutX="29.0" layoutY="597.0" onMouseEntered="#showNameEmp" onMouseExited="#closeNameEmp" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/empolyes.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="btnNamesAnchor" layoutX="94.0" layoutY="83.0" prefHeight="663.0" prefWidth="251.0" style="-fx-background-color: #777D8A;" visible="false">
+         <children>
+            <Label layoutX="21.0" layoutY="36.0" text="Manage Books" textFill="#d0d0d0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="97.0" text="Manage Members " textFill="#d0d0d0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="163.0" text="Manage Authors" textFill="#d0d0d0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="231.0" text="Manage Sections" textFill="#d0d0d0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="302.0" text="Manage Suppliers" textFill="#d0d0d0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="378.0" text="Manage Cupboards" textFill="#d0d0d0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="455.0" text="Manage Payments" textFill="#d0d0d0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="528.0" text="Manage Damages" textFill="#d0d0d0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="21.0" layoutY="603.0" text="Manage Employee" textFill="#d0d0d0">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Pane prefHeight="83.0" prefWidth="1152.0" style="-fx-background-color: #EFEFEF;">
+         <children>
+            <ImageView fx:id="navigate" fitHeight="35.0" fitWidth="44.0" layoutX="35.0" layoutY="24.0" onMouseEntered="#navigateToWhere" onMouseExited="#navigateExit" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/navigate.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="92.0" fitWidth="289.0" layoutX="70.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Logo.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="1077.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/user.png" />
+               </image>
+            </ImageView>
+            <Circle fill="#1f93ff00" layoutX="1100.0" layoutY="42.0" radius="28.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label fx:id="userGmail" alignment="CENTER_RIGHT" layoutX="678.0" layoutY="25.0" prefHeight="18.0" prefWidth="386.0" text="Sample@gmail.com" />
+            <Label fx:id="lblLogout" layoutX="1015.0" layoutY="43.0" onMouseClicked="#loardLoginPage" text="Log out" textAlignment="RIGHT" textFill="#026c86">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnAddNewUser" layoutX="877.0" layoutY="26.0" mnemonicParsing="false" onAction="#addNewUser" prefHeight="31.0" prefWidth="131.0" style="-fx-background-color: #2a6f5b;" text="Add new User" textFill="WHITE" visible="false" />
+         </children>
+      </Pane>
+      <Line endX="-100.0" endY="556.0" layoutX="194.0" layoutY="189.0" startX="-100.0" startY="-104.0" stroke="WHITE" />
+      <AnchorPane fx:id="bookAnch" layoutX="106.0" layoutY="120.0" prefHeight="31.0" prefWidth="138.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+         <children>
+            <Label layoutX="25.0" layoutY="6.0" text="Manage Books " textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="membAnch" layoutX="259.0" layoutY="196.0" prefHeight="0.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" />
+      <AnchorPane fx:id="memAnch" layoutX="104.0" layoutY="181.0" prefHeight="31.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="6.0" text="Manage Members " textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="authorAnch" layoutX="107.0" layoutY="246.0" prefHeight="31.0" prefWidth="147.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="6.0" text="Manage Authors" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="sectAnch" layoutX="107.0" layoutY="313.0" prefHeight="31.0" prefWidth="147.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="6.0" text="Manage Sections" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="supAnch" layoutX="106.0" layoutY="388.0" prefHeight="31.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="6.0" text="Manage Suppliers" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="cupAnch" layoutX="106.0" layoutY="459.0" prefHeight="31.0" prefWidth="165.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="6.0" text="Manage Cupboards" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="payAnch" layoutX="106.0" layoutY="532.0" prefHeight="31.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="6.0" text="Manage Payments" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="damAnch" layoutX="110.0" layoutY="608.0" prefHeight="31.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="6.0" text="Manage Damages" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

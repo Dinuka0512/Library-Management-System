@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="546.0" prefWidth="1059.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.gdse.libarymanagementsystem.controller.HomePage">
+   <children>
+      <AnchorPane fx:id="workSpace" layoutX="4.0" layoutY="4.0" prefHeight="553.0" prefWidth="1059.0">
+         <children>
+            <Label fx:id="lblWellcome" layoutX="14.0" layoutY="5.0" text="Wellcome Some one,">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="234.0" layoutX="14.0" layoutY="305.0" stroke="TRANSPARENT" strokeType="INSIDE" style="-fx-arc-height: 6; -fx-arc-height: 6;" width="724.0" />
+            <Label fx:id="lblPrivacy" layoutX="901.0" layoutY="9.0" onMouseClicked="#openPrivacyWindow" prefHeight="21.0" prefWidth="124.0" text="Privacy and security" textAlignment="RIGHT" textFill="#0033ff" underline="true" />
+            <ImageView fitHeight="25.0" fitWidth="21.0" layoutX="875.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/lock.png" />
+               </image>
+            </ImageView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="254.0" layoutX="14.0" layoutY="37.0" stroke="TRANSPARENT" strokeType="INSIDE" style="-fx-arc-height: 6; -fx-arc-height: 6;" width="724.0" />
+            <StackedBarChart layoutX="21.0" layoutY="345.0" prefHeight="184.0" prefWidth="705.0">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis side="LEFT" />
+               </yAxis>
+            </StackedBarChart>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="195.0" layoutX="749.0" layoutY="37.0" stroke="TRANSPARENT" strokeType="INSIDE" style="-fx-arc-height: 6; -fx-arc-height: 6;" width="289.0" />
+            <Label layoutX="761.0" layoutY="56.0" text="Most Popular Books">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="789.0" layoutY="87.0" text="Most Popular Books">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Line endX="100.0" layoutX="676.0" layoutY="80.0" startX="100.0" startY="132.0" stroke="#000000ad" strokeWidth="0.5" />
+            <Label layoutX="789.0" layoutY="119.0" text="Most Popular Books">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="789.0" layoutY="152.0" text="Most Popular Books">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="789.0" layoutY="184.0" text="Most Popular Books">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="963.0" layoutY="87.0" prefHeight="25.0" prefWidth="64.0" text="1500">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="963.0" layoutY="184.0" prefHeight="25.0" prefWidth="64.0" text="1500">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="963.0" layoutY="152.0" prefHeight="25.0" prefWidth="64.0" text="1500">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="963.0" layoutY="120.0" prefHeight="25.0" prefWidth="64.0" text="1500">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="164.0" layoutX="749.0" layoutY="241.0" stroke="TRANSPARENT" strokeType="INSIDE" style="-fx-arc-height: 6; -fx-arc-height: 6;" width="289.0" />
+            <Label layoutX="761.0" layoutY="260.0" text="Best Members">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="789.0" layoutY="291.0" prefHeight="25.0" prefWidth="130.0" text="sample">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Line endX="100.0" layoutX="676.0" layoutY="284.0" startX="100.0" startY="90.0" stroke="#000000ad" strokeWidth="0.5" />
+            <Label layoutX="789.0" layoutY="323.0" prefHeight="25.0" prefWidth="130.0" text="sample">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="789.0" layoutY="356.0" prefHeight="25.0" prefWidth="130.0" text="sample">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="923.0" layoutY="291.0" prefHeight="25.0" prefWidth="99.0" text="1500">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="923.0" layoutY="323.0" prefHeight="25.0" prefWidth="99.0" text="1500">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="923.0" layoutY="356.0" prefHeight="25.0" prefWidth="99.0" text="1500">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="36.0" layoutY="316.0" text="Member Activities">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="anchorPrivacy" layoutX="749.0" layoutY="35.0" prefHeight="374.0" prefWidth="289.0" style="-fx-background-color: #bdbdbd;" visible="false">
+               <children>
+                  <Label layoutX="23.0" layoutY="31.0" text="Current User Name - " />
+                  <Label fx:id="currentUName" layoutX="151.0" layoutY="31.0" text="userName">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="23.0" layoutY="51.0" text="User Name" />
+                  <TextField fx:id="txtNewUserName" layoutX="23.0" layoutY="69.0" prefHeight="31.0" prefWidth="244.0" promptText="New user name" style="-fx-background-color: #ffffff; -fx-background-radius: 7;" />
+                  <Label layoutX="23.0" layoutY="114.0" text="Current password" />
+                  <TextField fx:id="txtCurruntPassword" layoutX="23.0" layoutY="132.0" prefHeight="31.0" prefWidth="244.0" promptText="Current password" style="-fx-background-color: #ffffff; -fx-background-radius: 7;" />
+                  <Label layoutX="23.0" layoutY="175.0" text="New password" />
+                  <TextField fx:id="txtNewPassword" layoutX="23.0" layoutY="193.0" prefHeight="31.0" prefWidth="244.0" promptText="New Password" style="-fx-background-color: #ffffff; -fx-background-radius: 7;" />
+                  <Label layoutX="23.0" layoutY="234.0" text="Confirm password" />
+                  <TextField fx:id="txtPasswordConfirm" layoutX="23.0" layoutY="252.0" prefHeight="31.0" prefWidth="244.0" promptText="Confirm" style="-fx-background-color: #ffffff; -fx-background-radius: 7;" />
+                  <Button fx:id="btnSave" layoutX="150.0" layoutY="309.0" mnemonicParsing="false" onAction="#saveNewDetails" prefHeight="30.0" prefWidth="103.0" text="Save" />
+                  <Button fx:id="btnExit" layoutX="36.0" layoutY="309.0" mnemonicParsing="false" onAction="#closePrivacyWindow" prefHeight="30.0" prefWidth="103.0" text="Exit" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
