@@ -15,13 +15,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class HomePage extends DashBoardContro implements Initializable {
+public class HomePage implements Initializable {
 
     private UserModel userModel = new UserModel();
 
@@ -60,13 +61,20 @@ public class HomePage extends DashBoardContro implements Initializable {
 
     private UserDto userDetails;
 
+    @Setter
+    private AnchorPane dashboardBody;
+
+
+    private String userEmail;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getUserDetails();
-        serPrivacyWindow();
+
+//        getUserDetails();
+//        serPrivacyWindow();
     }
-    public void getUserDetails(){
+
+    public void setUserDetails(String email){
         try{
             if(DashBoardContro.isAdminLogin()){
                 //DTO IS NULL ...(admin has log in)
@@ -74,11 +82,15 @@ public class HomePage extends DashBoardContro implements Initializable {
                 lblWellcome.setText("Wellcome admin,");
             }else{
                 //DTO IS NOT NULL... (user has login)
-                userDetails = userModel.getUserDetails(getUserEmail());
+                userDetails = userModel.getUserDetails(email);
+                System.out.println(userDetails);
                 lblWellcome.setText("Wellcome " + userDetails.getName() + ",");
+                currentUName.setText(userDetails.getName());
             }
 
-
+//            if(!DashBoardContro.isAdminLogin()){
+//                currentUName.setText(userDetails.getName());
+//            }
         }catch (ClassNotFoundException e1){
             System.out.println("class not Found");
             e1.printStackTrace();
@@ -90,11 +102,35 @@ public class HomePage extends DashBoardContro implements Initializable {
         }
     }
 
+    public void getUserDetails(){
+//        try{
+//            if(DashBoardContro.isAdminLogin()){
+//                //DTO IS NULL ...(admin has log in)
+//
+//                lblWellcome.setText("Wellcome admin,");
+//            }else{
+//                //DTO IS NOT NULL... (user has login)
+////                userDetails = userModel.getUserDetails(getUserEmail());
+////                lblWellcome.setText("Wellcome " + userDetails.getName() + ",");
+//            }
+//
+//
+//        }catch (ClassNotFoundException e1){
+//            System.out.println("class not Found");
+//            e1.printStackTrace();
+//        } catch (SQLException e2){
+//            System.out.println("Sql queree error");
+//            e2.printStackTrace();
+//        } catch (Exception e3){
+//            e3.printStackTrace();
+//        }
+    }
+
 
     private void serPrivacyWindow(){
-        if(!DashBoardContro.isAdminLogin()){
-            currentUName.setText(userDetails.getName());
-        }
+//        if(!DashBoardContro.isAdminLogin()){
+//            currentUName.setText(userDetails.getName());
+//        }
     }
 
     //EXIT BUTTON
@@ -146,14 +182,16 @@ public class HomePage extends DashBoardContro implements Initializable {
         }
     }
 
+
     private void updateUser(){
         try{
-
+            DashBoardContro dashBoardContro = new DashBoardContro();
             boolean isUpdated = userModel.updateUser(txtNewUserName.getText(),txtNewPassword.getText(),userDetails.getEmail());
             if(isUpdated){
                 //saved
                 new Alert(Alert.AlertType.CONFIRMATION,"Successfully updated!").show();
-//                logout();
+
+                dashBoardContro.logout();
                 //when successfully updated we need to auto maticaly log out
             }else{
                 new Alert(Alert.AlertType.CONFIRMATION,"Failed").show();
@@ -190,6 +228,6 @@ public class HomePage extends DashBoardContro implements Initializable {
             e.printStackTrace();
         }
 
-        logout();
+//        logout();
     }
 }
