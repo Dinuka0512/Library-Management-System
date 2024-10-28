@@ -3,6 +3,7 @@ package edu.ijse.gdse.libarymanagementsystem.controller;
 import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
 import edu.ijse.gdse.libarymanagementsystem.model.BranchModel;
 import edu.ijse.gdse.libarymanagementsystem.model.CreateAccountModel;
+import edu.ijse.gdse.libarymanagementsystem.util.Validation;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,21 +85,26 @@ public class CreateAccountContro implements Initializable {
         }else{
             //BRANCH ID HAS SELECTED
 
-            boolean nameValidation = txtName.getText().matches("^[A-Za-z ]+$");
+//            boolean nameValidation = txtName.getText().matches("^[A-Za-z ]+$");
+            boolean nameValidation = Validation.isValidName(txtName.getText());
             if(nameValidation && !txtName.getText().equals(null)){
                 //CHECK NAME IS IT NOT NULL AND IS IT CORRECT NAME
 
-                boolean cityNameValidation = txtAddress.getText().matches("^[A-Za-z ]+$");
+//                boolean cityNameValidation = txtAddress.getText().matches("^[A-Za-z ]+$");
+                boolean cityNameValidation = Validation.isValidName(txtAddress.getText());
                 if(cityNameValidation && !txtAddress.getText().equals(null)){
                     //CHECK THE CITY ADDRESS AND IS IT VALID NAME
 
                     if(cAccountModel.isUniqueEmail(txtEmail.getText()) && !txtEmail.getText().equals(null)){
                         //UNIQUE EMAIL
-                        boolean isValidEmail = txtEmail.getText().matches(".+\\@.+\\..+");
+
+//                        boolean isValidEmail = txtEmail.getText().matches(".+\\@.+\\..+");
+                        boolean isValidEmail = Validation.isValidEmail(txtEmail.getText());
                         if(isValidEmail && !txtEmail.getText().equals(null)){
                             //CHECK THE EMAIL AND IS IT VALID EMAIL
 
-                            boolean isValidPassword = txtPassword.getText().matches("^[a-zA-Z0-9]{4,30}$");
+//                            boolean isValidPassword = txtPassword.getText().matches("^[a-zA-Z0-9]{4,30}$");
+                            boolean isValidPassword = Validation.isValidPassword(txtPassword.getText());
                             if(isValidPassword && !txtPassword.getText().equals(null)){
                                 //CHECK PASSWORD IS VALID AND IS THE VALID PASSWORD
 

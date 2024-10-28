@@ -2,6 +2,7 @@ package edu.ijse.gdse.libarymanagementsystem.controller;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
 import edu.ijse.gdse.libarymanagementsystem.model.UserModel;
+import edu.ijse.gdse.libarymanagementsystem.util.Validation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -121,14 +122,17 @@ public class HomePage implements Initializable {
     //SAVE BUTTON
     @FXML
     void saveNewDetails(ActionEvent event) throws SQLException, ClassNotFoundException{
-        boolean isValidName = txtNewUserName.getText().matches("^[A-Za-z ]+$");
+
+//        boolean isValidName = txtNewUserName.getText().matches("^[A-Za-z ]+$");
+        boolean isValidName = Validation.isValidName(txtNewUserName.getText());
         if(isValidName && !txtNewUserName.getText().equals(null)){
             //CHECK USERNAME IS VALID
 
             if(txtCurruntPassword.getText().equals(userDetails.getPassword())){
                 //CHECK IS OLD PASSWORD IS SAME
 
-                boolean isValidPassword = txtNewPassword.getText().matches("^[a-zA-Z0-9]{4,30}$");
+//                boolean isValidPassword = txtNewPassword.getText().matches("^[a-zA-Z0-9]{4,30}$");
+                boolean isValidPassword = Validation.isValidPassword(txtNewPassword.getText());
                 if(isValidPassword && !txtNewPassword.getText().equals(null)){
                     //CHECK IS PASSWORD IS VALID
 

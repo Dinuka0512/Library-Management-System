@@ -1,22 +1,25 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.dto.AuthorDto;
+import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
+import edu.ijse.gdse.libarymanagementsystem.dto.CategoryDto;
 import edu.ijse.gdse.libarymanagementsystem.model.AuthorModel;
+import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
 import edu.ijse.gdse.libarymanagementsystem.model.CategoryModel;
+import edu.ijse.gdse.libarymanagementsystem.model.ManabeBooksViewModel;
+import edu.ijse.gdse.libarymanagementsystem.util.Validation;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -53,9 +56,45 @@ public class ManageBooksVeiwContro implements Initializable {
     private TextField txtBookQty;
 
     @FXML
+    private Label lblCategoryName;
+
+    @FXML
+    private Label lblAuthorName;
+
+    @FXML
+    private AnchorPane anchorAddAuthor;
+
+    @FXML
+    private Label lblAuthorId;
+
+    @FXML
+    private TextField txtAuthorName;
+
+    @FXML
+    private TextField txtCategoryName;
+
+    @FXML
+    private Label lblCategoryId;
+
+    @FXML
+    private TextField txtAuthorAddress;
+
+    @FXML
+    private TextField txtAuthorContact;
+
+    @FXML
+    private TextField txtAuthorEmail;
+
+    @FXML
+    private AnchorPane anchorAddCategory;
+
+    @FXML
     private AnchorPane body;
-    private AuthorModel authorModel = new AuthorModel();
-    private CategoryModel categoryModel = new CategoryModel();
+    private final AuthorModel authorModel = new AuthorModel();
+    private final CategoryModel categoryModel = new CategoryModel();
+    private final BookModel bookModel = new BookModel();
+    private final ManabeBooksViewModel manabeBooksViewModel = new ManabeBooksViewModel();
+
     @FXML
     void loarDashboard(MouseEvent event) {
         try{
@@ -70,10 +109,87 @@ public class ManageBooksVeiwContro implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+//        loardTable();
+
+        //GENERATE THE IDS
+        loardNextBookId();
+        loardNextCategoryId();
+        loardNextAuthorId();
+
         loardAuthorIds();
-        loardColumnIds();
+        loardCategoryIds();
     }
 
+//    private void loardTable(){
+//        try{
+//            ArrayList<BookDto> res = bookModel.getAllBooks();
+//
+//        }catch (ClassNotFoundException e1){
+//            System.out.println("ClassNotFoundException");
+//            e1.printStackTrace();
+//        }catch (SQLException e2){
+//            System.out.println("SQLException");
+//            e2.printStackTrace();
+//        }
+//
+//    }
+
+    @FXML
+    void comboCategoryId(ActionEvent event) {
+        //WHEN WE SELECT CATEGORY ID FROM COMBO BOX PRINT NAME ON SCREEN
+        try{
+            if(comboCategoryId.getValue() != null){
+                String cateName = categoryModel.getCateName(comboCategoryId.getValue());
+                lblCategoryName.setText(comboCategoryId.getValue() + " | " + cateName);
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+    }
+
+    @FXML
+    void comboAuthorId(ActionEvent event) {
+        //WHEN WE SELECT AUTHOR ID FROM COMBO BOX PRINT NAME ON SCREEN
+        try{
+            if(comboAuthorId.getValue() != null){
+                String authorName = authorModel.getAuthorName(comboAuthorId.getValue());
+                lblAuthorName.setText(comboAuthorId.getValue() + " | " + authorName);
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+    }
+
+    @FXML
+    void openAddNewAuthor(ActionEvent event) {
+        anchorAddAuthor.setVisible(true);
+    }
+
+    @FXML
+    void openAddNewCategory(ActionEvent event) {
+        anchorAddCategory.setVisible(true);
+    }
+
+    @FXML
+    void closeAuthor(ActionEvent event) {
+        anchorAddAuthor.setVisible(false);
+    }
+
+    @FXML
+    void closeCategory(ActionEvent event) {
+        anchorAddCategory.setVisible(false);
+    }
+
+
+    //SET THE AUTHOR IDS TO COMBO BOX
     private void loardAuthorIds(){
         ArrayList<String> authorIds = authorModel.getAllAuthorIds();
         if(authorIds != null){
@@ -83,12 +199,263 @@ public class ManageBooksVeiwContro implements Initializable {
         }
     }
 
-    private void loardColumnIds(){
+    //SET THE CATEGORY IDS TO COMBO BOX
+    private void loardCategoryIds(){
         ArrayList<String> categoryId = categoryModel.getAllCategoryIds();
         if(categoryId != null){
             ObservableList<String> observableList = FXCollections.observableArrayList();
             observableList.addAll(categoryId);
             comboCategoryId.setItems(observableList);
         }
+    }
+
+
+
+
+    //LOARD IDS
+    private void loardNextBookId(){
+        try{
+            String newId = bookModel.getNextBookId();
+            lblBookId.setText(newId);
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+    }
+
+    private void loardNextAuthorId(){
+        try{
+            String newID = authorModel.genarateAuthorId();
+            lblAuthorId.setText(newID);
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+    }
+
+    private void loardNextCategoryId(){
+        try{
+            String newID = categoryModel.generateCategoryID();
+            lblCategoryId.setText(newID);
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+    }
+
+
+
+    //NEW AUTHOR SAVE HEAR
+    @FXML
+    void saveAuthor(ActionEvent event) {
+        isAuthorReadyToSave();
+    }
+
+    private void isAuthorReadyToSave(){
+        if(Validation.isValidName(txtAuthorName.getText()) && !txtAuthorName.getText().equals(null)){
+            //CHECK IS VALID NAME
+
+            if(Validation.isValidEmail(txtAuthorEmail.getText()) && !txtAuthorEmail.getText().equals(null)){
+                //CHECK IS IT VALID EMAIL
+
+                if(Validation.isValidName(txtAuthorAddress.getText()) && !txtAuthorAddress.getText().equals(null)){
+                    //CHECK IS IT VALID NAME
+
+                    if(Validation.isValidMobileNumber(txtAuthorContact.getText()) && !txtAuthorContact.getText().equals(null)){
+                        //CHECK IS IT VALID MOBILE NUMBER
+
+                        //ALL OK, NOW SAVE NEW AUTHOR ....
+                        saveNewAuthor();
+
+                    }else{
+                        new Alert(Alert.AlertType.CONFIRMATION,"Please Enter the Valid mobile Number!!").show();
+                    }
+                }else{
+                    new Alert(Alert.AlertType.CONFIRMATION,"CHECK ADDRESS!, Please Enter the valid City name!").show();
+                }
+            }else{
+                new Alert(Alert.AlertType.CONFIRMATION,"PLEASE ENTER VALID EMAIL!!!").show();
+            }
+        }else{
+            new Alert(Alert.AlertType.CONFIRMATION,"CHECK NAME!\nPlease Input valid name..\n(name only can have letters)").show();
+        }
+    }
+    private void saveNewAuthor(){
+        AuthorDto authorDto = new AuthorDto(
+                lblAuthorId.getText(),
+                txtAuthorName.getText(),
+                txtAuthorEmail.getText(),
+                txtAuthorAddress.getText(),
+                txtAuthorContact.getText()
+        );
+
+        try{
+            boolean res = authorModel.saveNewAuthor(authorDto);
+
+            if(res){
+                clearAuthorText();
+                loardAuthorIds(); //Loard Combo box author Ids
+                new Alert(Alert.AlertType.CONFIRMATION,"Author saved Sucsessfully!").show();
+                anchorAddAuthor.setVisible(false);
+            }else{
+                new Alert(Alert.AlertType.CONFIRMATION,"Failed").show();
+            }
+
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+    }
+
+    private void clearAuthorText(){
+        loardNextAuthorId();
+        txtAuthorName.setText("");
+        txtAuthorAddress.setText("");
+        txtAuthorContact.setText("");
+        txtAuthorEmail.setText("");
+    }
+
+
+    //CATEGORY SAVE HERE
+    @FXML
+    void categorySave(ActionEvent event) {
+        isReadyToSaveCategory();
+    }
+
+    private void isReadyToSaveCategory(){
+        if(Validation.isValidName(txtCategoryName.getText()) && !txtCategoryName.getText().equals(null)){
+            //CHECK NAME IS VALID
+            //ALL ARE OK NOW
+            saveCategory();
+        }
+    }
+
+    private void saveCategory(){
+        CategoryDto categoryDto = new CategoryDto(
+                lblCategoryId.getText(),
+                txtCategoryName.getText()
+        );
+
+        try{
+            boolean isSaved = categoryModel.saveNewCategory(categoryDto);
+            if(isSaved){
+                clearCategoryText();
+                loardNextCategoryId();
+                loardCategoryIds(); //CATEGORY IDS LOARD TO COMBO BOX
+                new Alert(Alert.AlertType.CONFIRMATION,"Category Successfuly saved").show();
+                anchorAddCategory.setVisible(false);
+            }
+        }catch(ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+    }
+
+    private void clearCategoryText(){
+        txtCategoryName.setText("");
+    }
+
+
+
+    //BOOK SAVE HEAR
+    @FXML
+    void saveMain(ActionEvent event) {
+        isReadyToSave();
+    }
+
+    private void isReadyToSave() {
+        if(Validation.isValidName(txtBookName.getText()) && !txtBookName.getText().equals(null)){
+            //CHECK THE BOOK NAME
+
+            if(!txtBookQty.getText().equals(null) && Validation.isValidInteger(txtBookQty.getText())){
+                //CHECK THE BOOK QTY
+
+                if(!txtBookPrice.getText().equals(null) && Validation.isValidDouble(txtBookPrice.getText())){
+                    //CHECK THE BOOK PRICE
+
+                    if(comboAuthorId.getValue() != null){
+                        //CHECK IS THE AUTHOR ID SELECTED!
+                        if(comboCategoryId.getValue() != null){
+                            //CHECK IS THE CATEGORY ID IS SELECTED!
+                            //ALL ARE OK NOW
+                            save();
+                        }else{
+                            new Alert(Alert.AlertType.CONFIRMATION,"Pleace select the Category Id").show();
+                        }
+                    }else{
+                        new Alert(Alert.AlertType.CONFIRMATION,"Pleace select the Author Id").show();
+                    }
+                }else{
+                    new Alert(Alert.AlertType.CONFIRMATION,"PLESE ENTER VALID PRICE \nEx - (1,2,3...) Numbers Can Only added").show();
+                }
+            }else{
+                new Alert(Alert.AlertType.CONFIRMATION,"PLESE ENTER VALID QUANTITY \nEx - (1,2,3...) Numbers Can Only added").show();
+            }
+        }else{
+            new Alert(Alert.AlertType.CONFIRMATION,"CHECK NAME!! \nPlease Enter valid name").show();
+        }
+    }
+    private void save() {
+        BookDto bookDto = new BookDto(
+          lblBookId.getText(),
+          txtBookName.getText(),
+          Integer.parseInt(txtBookQty.getText()),
+          Double.parseDouble(txtBookPrice.getText())
+        );
+
+        try{
+
+            String res = manabeBooksViewModel.saveNewBook(
+                    bookDto,
+                    comboAuthorId.getValue(),
+                    comboCategoryId.getValue()
+            );
+
+            if(res.equals("saved Successfully")){
+                clearAllTexts();
+            }
+            new Alert(Alert.AlertType.CONFIRMATION,res).show();
+            //SHOWING THE MASSAGE AS ALERT, WHAT CAME FROM MODEL CLASS
+
+        }catch (SQLException e1){
+            System.out.println("SQLException");
+            e1.printStackTrace();
+        }catch (ClassNotFoundException e2){
+            System.out.println("ClassNotFoundException");
+            e2.printStackTrace();
+        }
+    }
+
+    private void clearAllTexts(){
+        loardNextBookId();
+        txtBookName.setText("");
+        txtBookQty.setText("");
+        txtBookPrice.setText("");
+
+        //CATEGORY COMBO BOX
+        comboCategoryId.getSelectionModel().clearSelection();
+        comboCategoryId.setPromptText("Select Category...");
+
+        //AUTHOR COMBO BOX
+        comboAuthorId.getSelectionModel().clearSelection();
+        comboAuthorId.setPromptText("Select Author...");
+
+        lblAuthorName.setText("");
+        lblCategoryName.setText("");
     }
 }
