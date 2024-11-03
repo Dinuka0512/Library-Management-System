@@ -97,4 +97,13 @@ public class AuthorModel {
 
         return res;
     }
+
+    public String getAuthorIds(String name) throws  ClassNotFoundException, SQLException{
+        String sql = "select Author_Id from Author where  name = ?";
+        ResultSet res = CrudUtil.execute(sql, name);
+        if(res.next()){
+            return  res.getString("Author_Id");
+        }
+        return null;
+    }
 }

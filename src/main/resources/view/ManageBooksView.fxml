@@ -22,14 +22,14 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <TableView layoutX="17.0" layoutY="54.0" prefHeight="477.0" prefWidth="669.0">
+      <TableView fx:id="tableView" layoutX="17.0" layoutY="54.0" onMouseClicked="#onClick" prefHeight="477.0" prefWidth="669.0">
         <columns>
-          <TableColumn prefWidth="63.0" text="Book ID" />
-          <TableColumn prefWidth="162.0" text="Book Name" />
-            <TableColumn prefWidth="57.0" text="Qty" />
-            <TableColumn prefWidth="104.0" text="Price" />
-            <TableColumn minWidth="0.0" prefWidth="121.0" text="Category" />
-            <TableColumn prefWidth="161.0" text="Author Name" />
+          <TableColumn fx:id="columnBookId" prefWidth="63.0" text="Book ID" />
+          <TableColumn fx:id="columnBookName" prefWidth="162.0" text="Book Name" />
+            <TableColumn fx:id="columnQty" prefWidth="57.0" text="Qty" />
+            <TableColumn fx:id="columnPrice" prefWidth="104.0" text="Price" />
+            <TableColumn fx:id="columnCategory" minWidth="0.0" prefWidth="121.0" text="Category" />
+            <TableColumn fx:id="columnAuthor" prefWidth="161.0" text="Author" />
         </columns>
       </TableView>
       <AnchorPane layoutX="700.0" layoutY="16.0" prefHeight="515.0" prefWidth="341.0" style="-fx-background-color: #c9cbcd;">
@@ -57,19 +57,24 @@
                </font>
             </Label>
             <TextField fx:id="txtBookPrice" layoutX="118.0" layoutY="186.0" prefHeight="25.0" prefWidth="196.0" promptText="price" />
-            <Button fx:id="btnDelete" disable="true" layoutX="30.0" layoutY="362.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" style="-fx-background-color: #b30000;" text="Delete" textFill="WHITE">
+            <Button fx:id="btnDelete" disable="true" layoutX="30.0" layoutY="362.0" mnemonicParsing="false" onAction="#deleteBook" prefHeight="25.0" prefWidth="91.0" style="-fx-background-color: #b30000;" text="Delete" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnUpdate" disable="true" layoutX="130.0" layoutY="362.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" style="-fx-background-color: #003f5c;" text="Update" textFill="WHITE">
+            <Button fx:id="btnUpdate" disable="true" layoutX="130.0" layoutY="362.0" mnemonicParsing="false" onAction="#updateBook" prefHeight="25.0" prefWidth="91.0" style="-fx-background-color: #003f5c;" text="Update" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnSave" layoutX="229.0" layoutY="362.0" mnemonicParsing="false" onAction="#saveMain" prefHeight="25.0" prefWidth="82.0" style="-fx-background-color: #2a6f5b;" text="Save" textFill="WHITE">
+            <Button fx:id="btnSave" layoutX="230.0" layoutY="362.0" mnemonicParsing="false" onAction="#saveMain" prefHeight="25.0" prefWidth="82.0" style="-fx-background-color: #2a6f5b;" text="Save" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="30.0" layoutY="396.0" mnemonicParsing="false" onAction="#resetTxt" prefHeight="26.0" prefWidth="285.0" style="-fx-background-color: #919191;" text="Reset" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
                </font>
             </Button>
             <Label fx:id="lblBookId" layoutX="117.0" layoutY="63.0" text="B001" textFill="#3c3c3c">

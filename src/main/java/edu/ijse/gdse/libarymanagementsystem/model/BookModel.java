@@ -39,4 +39,10 @@ public class BookModel {
 
         return "B001";
     }
+
+    public boolean deleteBook(String book_Id) throws  SQLException, ClassNotFoundException{
+        String sql = "Delete from Book where Book_Id = ?";
+        boolean res = CrudUtil.execute(sql, book_Id);
+        return res;
+    }
 }

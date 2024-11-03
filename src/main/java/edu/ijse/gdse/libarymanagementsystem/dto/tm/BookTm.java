@@ -11,4 +11,6 @@ public class BookTm {
     private String name;
     private int qty;
     private double price;
+    private String categoryName;
+    private String authorName;
 }

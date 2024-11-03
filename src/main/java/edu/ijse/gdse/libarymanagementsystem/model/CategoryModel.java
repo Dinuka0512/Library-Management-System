@@ -67,4 +67,13 @@ public class CategoryModel {
 
         return isSaved;
     }
+
+    public String getCategoryId(String name) throws  ClassNotFoundException, SQLException{
+        String sql = "select Category_Id from Category where  name = ?";
+        ResultSet res = CrudUtil.execute(sql, name);
+        if(res.next()){
+            return  res.getString("Category_Id");
+        }
+        return null;
+    }
 }
