@@ -65,14 +65,18 @@ public class HomePage implements Initializable {
     @Setter
     private AnchorPane dashboardBody;
 
-
     private String userEmail;
+
+    private static String userName;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-//        getUserDetails();
-//        serPrivacyWindow();
+        if(DashBoardContro.isAdminLogin()){
+            lblWellcome.setText("Wellcome admin,");
+        }else {
+            lblWellcome.setText("Wellcome " + userName + ",");
+            currentUName.setText(userName);
+        }
     }
 
     public void setUserDetails(String email){
@@ -82,9 +86,11 @@ public class HomePage implements Initializable {
 
                 lblWellcome.setText("Wellcome admin,");
             }else{
+                this.userEmail = email;
                 //DTO IS NOT NULL... (user has login)
                 userDetails = userModel.getUserDetails(email);
                 lblWellcome.setText("Wellcome " + userDetails.getName() + ",");
+                this.userName = userDetails.getName();
                 currentUName.setText(userDetails.getName());
             }
 
