@@ -3,10 +3,8 @@ package edu.ijse.gdse.libarymanagementsystem.controller;
 import edu.ijse.gdse.libarymanagementsystem.dto.AuthorDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.CategoryDto;
-import edu.ijse.gdse.libarymanagementsystem.model.AuthorModel;
-import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
-import edu.ijse.gdse.libarymanagementsystem.model.CategoryModel;
-import edu.ijse.gdse.libarymanagementsystem.model.ManabeBooksViewModel;
+import edu.ijse.gdse.libarymanagementsystem.dto.tm.BookTm;
+import edu.ijse.gdse.libarymanagementsystem.model.*;
 import edu.ijse.gdse.libarymanagementsystem.util.Validation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -89,10 +88,33 @@ public class ManageBooksVeiwContro implements Initializable {
     private AnchorPane anchorAddCategory;
 
     @FXML
+    private TableColumn<BookTm, String> columnAuthor;
+
+    @FXML
+    private TableColumn<BookTm, String> columnBookId;
+
+    @FXML
+    private TableColumn<BookTm, String> columnBookName;
+
+    @FXML
+    private TableColumn<BookTm, String> columnCategory;
+
+    @FXML
+    private TableColumn<BookTm, Double> columnPrice;
+
+    @FXML
+    private TableColumn<BookTm, Integer> columnQty;
+
+    @FXML
+    private TableView<BookTm> tableView;
+
+    @FXML
     private AnchorPane body;
     private final AuthorModel authorModel = new AuthorModel();
     private final CategoryModel categoryModel = new CategoryModel();
     private final BookModel bookModel = new BookModel();
+    private final AuthorBookModel authorBookModel = new AuthorBookModel();
+    private final BookCategoryModel bookCategoryModel = new BookCategoryModel();
     private final ManabeBooksViewModel manabeBooksViewModel = new ManabeBooksViewModel();
 
     @FXML
@@ -109,30 +131,95 @@ public class ManageBooksVeiwContro implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        loardTable();
+        columnBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        columnBookName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        columnCategory.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
+        columnAuthor.setCellValueFactory(new PropertyValueFactory<>("authorName"));
+
+        pageReset();
+    }
+
+    private void pageReset(){
+        loardTable();
 
         //GENERATE THE IDS
         loardNextBookId();
         loardNextCategoryId();
         loardNextAuthorId();
 
+        //LOARD COMBO BOX DATA
         loardAuthorIds();
         loardCategoryIds();
     }
 
-//    private void loardTable(){
-//        try{
-//            ArrayList<BookDto> res = bookModel.getAllBooks();
-//
-//        }catch (ClassNotFoundException e1){
-//            System.out.println("ClassNotFoundException");
-//            e1.printStackTrace();
-//        }catch (SQLException e2){
-//            System.out.println("SQLException");
-//            e2.printStackTrace();
-//        }
-//
-//    }
+    private void loardTable(){
+        try{
+            //THIS ARRAYS LIST CREATE FOR GRAB THE ALL DATA NEED TO TABLE
+            ArrayList<BookTm> bookTms = new ArrayList<>();
+
+            ArrayList<BookDto> res = bookModel.getAllBooks();
+            //RUN THE FOR EACH LOOP FOR WHILE THE Book dtos...
+
+            for(BookDto dto : res){
+                //GET THE AUTHOR NAME
+                String authorId = authorBookModel.getAuthorId(dto.getBookId());
+
+                String authorName;
+                if(authorId != null){
+                    authorName = authorModel.getAuthorName(authorId);
+                }else{
+                    authorName = " - ";
+                }
+
+                //GET THE CATEGORY NAME
+                String categoryId = bookCategoryModel.getCategoryId(dto.getBookId());
+
+                String categoryName;
+                if(categoryId != null){
+                    categoryName = categoryModel.getCateName(categoryId);
+                }else{
+                    categoryName = " - ";
+                }
+
+                BookTm bookTm = new BookTm(
+                        dto.getBookId(),
+                        dto.getName(),
+                        dto.getQty(),
+                        dto.getPrice(),
+                        categoryName,
+                        authorName
+                );
+
+                bookTms.add(bookTm);
+            }
+
+            ObservableList<BookTm> observableBookTMS = FXCollections.observableArrayList();
+            for(BookTm dto : bookTms){
+                BookTm bookTm = new BookTm(
+                        dto.getBookId(),
+                        dto.getName(),
+                        dto.getQty(),
+                        dto.getPrice(),
+                        dto.getCategoryName(),
+                        dto.getAuthorName()
+                );
+
+                observableBookTMS.add(bookTm);
+            }
+
+            tableView.setItems(observableBookTMS);
+
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+
+    }
 
     @FXML
     void comboCategoryId(ActionEvent event) {
@@ -303,7 +390,7 @@ public class ManageBooksVeiwContro implements Initializable {
 
             if(res){
                 clearAuthorText();
-                loardAuthorIds(); //Loard Combo box author Ids
+                pageReset();
                 new Alert(Alert.AlertType.CONFIRMATION,"Author saved Sucsessfully!").show();
                 anchorAddAuthor.setVisible(false);
             }else{
@@ -352,8 +439,7 @@ public class ManageBooksVeiwContro implements Initializable {
             boolean isSaved = categoryModel.saveNewCategory(categoryDto);
             if(isSaved){
                 clearCategoryText();
-                loardNextCategoryId();
-                loardCategoryIds(); //CATEGORY IDS LOARD TO COMBO BOX
+                pageReset();
                 new Alert(Alert.AlertType.CONFIRMATION,"Category Successfuly saved").show();
                 anchorAddCategory.setVisible(false);
             }
@@ -428,6 +514,7 @@ public class ManageBooksVeiwContro implements Initializable {
 
             if(res.equals("saved Successfully")){
                 clearAllTexts();
+                pageReset();
             }
             new Alert(Alert.AlertType.CONFIRMATION,res).show();
             //SHOWING THE MASSAGE AS ALERT, WHAT CAME FROM MODEL CLASS

@@ -22,14 +22,14 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <TableView layoutX="17.0" layoutY="54.0" prefHeight="477.0" prefWidth="669.0">
+      <TableView fx:id="tableView" layoutX="17.0" layoutY="54.0" prefHeight="477.0" prefWidth="669.0">
         <columns>
-          <TableColumn prefWidth="63.0" text="Book ID" />
-          <TableColumn prefWidth="162.0" text="Book Name" />
-            <TableColumn prefWidth="57.0" text="Qty" />
-            <TableColumn prefWidth="104.0" text="Price" />
-            <TableColumn minWidth="0.0" prefWidth="121.0" text="Category" />
-            <TableColumn prefWidth="161.0" text="Author Name" />
+          <TableColumn fx:id="columnBookId" prefWidth="63.0" text="Book ID" />
+          <TableColumn fx:id="columnBookName" prefWidth="162.0" text="Book Name" />
+            <TableColumn fx:id="columnQty" prefWidth="57.0" text="Qty" />
+            <TableColumn fx:id="columnPrice" prefWidth="104.0" text="Price" />
+            <TableColumn fx:id="columnCategory" minWidth="0.0" prefWidth="121.0" text="Category" />
+            <TableColumn fx:id="columnAuthor" prefWidth="161.0" text="Author" />
         </columns>
       </TableView>
       <AnchorPane layoutX="700.0" layoutY="16.0" prefHeight="515.0" prefWidth="341.0" style="-fx-background-color: #c9cbcd;">
