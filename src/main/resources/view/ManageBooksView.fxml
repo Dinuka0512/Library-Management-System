@@ -69,7 +69,7 @@
             </Label>
             <ComboBox fx:id="comboBookShelfId" layoutX="116.0" layoutY="218.0" onAction="#comboBookShelfId" prefHeight="26.0" prefWidth="172.0" promptText="Select BookShelf..." />
             <Button layoutX="288.0" layoutY="217.0" mnemonicParsing="false" onAction="#addBookShelf" prefHeight="28.0" prefWidth="27.0" text="+" />
-            <Label fx:id="lblBookShelfId" layoutX="116.0" layoutY="247.0" prefHeight="18.0" prefWidth="196.0" textFill="#006948" />
+            <Label fx:id="lblBookShelfName" layoutX="116.0" layoutY="247.0" prefHeight="18.0" prefWidth="196.0" textFill="#006948" />
             <Line endX="177.4000244140625" layoutX="131.0" layoutY="272.0" startX="-100.0" stroke="#9c9c9c" />
             <Label layoutX="26.0" layoutY="277.0" text="Category ID">
                <font>
@@ -155,7 +155,7 @@
                   <Label layoutX="44.0" layoutY="90.0" text="Name" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="anchorBookShelf" layoutX="5.0" layoutY="249.0" prefHeight="259.0" prefWidth="326.0" style="-fx-background-color: #b5b5c0;" visible="false">
+            <AnchorPane fx:id="anchorBookShelf" layoutX="7.0" layoutY="215.0" prefHeight="316.0" prefWidth="330.0" style="-fx-background-color: #b5b5c0;" visible="false">
                <children>
                   <Label layoutX="107.0" layoutY="14.0" text="Add BookShelf">
                      <font>
@@ -163,19 +163,40 @@
                      </font>
                   </Label>
                   <Line endX="211.4000244140625" layoutX="115.0" layoutY="42.0" startX="-115.0" />
-                  <Label layoutX="44.0" layoutY="63.0" text="BookShelf ID" />
-                  <Label fx:id="lblShelfId" layoutX="127.0" layoutY="62.0" text="BS001" textFill="#5b5b5b">
+                  <Label layoutX="46.0" layoutY="77.0" text="BookShelf ID" />
+                  <Label fx:id="lblBookShelfId" layoutX="129.0" layoutY="76.0" text="BS001" textFill="#5b5b5b">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label layoutX="43.0" layoutY="84.0" text="Book Shelf Location" />
-                  <TextField fx:id="txtBookShelfLocation" layoutX="43.0" layoutY="102.0" prefHeight="26.0" prefWidth="240.0" />
-                  <Label layoutX="43.0" layoutY="137.0" text="Section ID" />
-                  <ComboBox fx:id="comboSectionId" layoutX="44.0" layoutY="155.0" onAction="#comboSectionId" prefHeight="26.0" prefWidth="240.0" />
-                  <Label fx:id="lblSectionName" layoutX="43.0" layoutY="181.0" prefHeight="18.0" prefWidth="240.0" text="Book Shelf Location" textFill="#006948" />
-                  <Button layoutX="33.0" layoutY="209.0" mnemonicParsing="false" onAction="#bookShelfExit" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #1b87f3;" text="Exit" textFill="WHITE" />
-                  <Button layoutX="165.0" layoutY="209.0" mnemonicParsing="false" onAction="#bookShelfSave" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #1b87f3;" text="Save" textFill="WHITE" />
+                  <Label layoutX="45.0" layoutY="98.0" text="Book Shelf Location" />
+                  <TextField fx:id="txtBookShelfLocation" layoutX="45.0" layoutY="116.0" prefHeight="26.0" prefWidth="240.0" promptText="location" />
+                  <Label layoutX="45.0" layoutY="151.0" text="Section ID" />
+                  <ComboBox fx:id="comboSectionId" layoutX="46.0" layoutY="169.0" onAction="#comboSectionId" prefHeight="26.0" prefWidth="210.0" promptText="select Section" />
+                  <Button layoutX="258.0" layoutY="169.0" mnemonicParsing="false" onAction="#addNewSection" text="+" />
+                  <Label fx:id="lblSectionName" layoutX="45.0" layoutY="195.0" prefHeight="18.0" prefWidth="240.0" textFill="#006948" />
+                  <Button layoutX="39.0" layoutY="226.0" mnemonicParsing="false" onAction="#bookShelfExit" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #1b87f3;" text="Exit" textFill="WHITE" />
+                  <Button layoutX="171.0" layoutY="226.0" mnemonicParsing="false" onAction="#bookShelfSave" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #1b87f3;" text="Save" textFill="WHITE" />
+                  <AnchorPane fx:id="anchorSection" layoutX="8.0" layoutY="154.0" prefHeight="129.0" prefWidth="314.0" style="-fx-background-color: #b5b5c1; -fx-border-color: #000000;" visible="false">
+                     <children>
+                        <Label layoutX="121.0" layoutY="3.0" text="Add Section">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Line endX="209.4000244140625" layoutX="101.0" layoutY="29.0" startX="-100.0" stroke="#7b7777" />
+                        <Label layoutX="41.0" layoutY="37.0" text="Section ID" />
+                        <Label fx:id="lblSectionId" layoutX="111.0" layoutY="37.0" text="S001" textFill="#6e6969">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="41.0" layoutY="59.0" text="name" />
+                        <TextField fx:id="txtSectionName" layoutX="81.0" layoutY="55.0" prefHeight="26.0" prefWidth="202.0" promptText="name" />
+                        <Button layoutX="42.0" layoutY="91.0" mnemonicParsing="false" onAction="#closeAddSection" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #4a95ff;" text="Exit" textFill="WHITE" />
+                        <Button layoutX="167.0" layoutY="90.0" mnemonicParsing="false" onAction="#saveSection" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: #4a95ff;" text="Save" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>
