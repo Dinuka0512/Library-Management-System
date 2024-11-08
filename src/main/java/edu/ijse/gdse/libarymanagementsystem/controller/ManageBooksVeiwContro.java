@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class ManageBooksVeiwContro implements Initializable {
 
     @FXML
     private ComboBox<String> comboAuthorId;
+
+    @FXML
+    private ComboBox<String> comboBookShelfId;
 
     @FXML
     private Button btnDelete;
@@ -77,6 +81,9 @@ public class ManageBooksVeiwContro implements Initializable {
     private Label lblCategoryId;
 
     @FXML
+    private Label lblBookShelfId;
+
+    @FXML
     private TextField txtAuthorAddress;
 
     @FXML
@@ -109,14 +116,47 @@ public class ManageBooksVeiwContro implements Initializable {
     @FXML
     private TableView<BookTm> tableView;
 
+
+    @FXML
+    private AnchorPane anchorBookShelf;
+
+    @FXML
+    private Label lblShelfId;
+
+    @FXML
+    private TextField txtBookShelfLocation;
+
+    @FXML
+    private ComboBox<String> comboSectionId;
+
+    @FXML
+    private Label lblSectionName;
+
     @FXML
     private AnchorPane body;
     private final AuthorModel authorModel = new AuthorModel();
     private final CategoryModel categoryModel = new CategoryModel();
+    private final BookShelfModel bookShelfModel = new BookShelfModel();
+    private final SectionModel sectionModel = new SectionModel();
     private final BookModel bookModel = new BookModel();
     private final AuthorBookModel authorBookModel = new AuthorBookModel();
     private final BookCategoryModel bookCategoryModel = new BookCategoryModel();
     private final ManabeBooksViewModel manabeBooksViewModel = new ManabeBooksViewModel();
+
+    @FXML
+    void bookShelfExit(ActionEvent event) {
+        anchorBookShelf.setVisible(false);
+    }
+
+    @FXML
+    void bookShelfSave(ActionEvent event) {
+
+    }
+
+    @FXML
+    void addBookShelf(ActionEvent event) {
+        anchorBookShelf.setVisible(true);
+    }
 
     @FXML
     void loarDashboard(MouseEvent event) {
@@ -124,7 +164,7 @@ public class ManageBooksVeiwContro implements Initializable {
             body.getChildren().clear();
             AnchorPane load = FXMLLoader.load(getClass().getResource("/view/HomePage.fxml"));
             body.getChildren().add(load);
-        }catch(Exception e){
+        }catch(IOException e){
             System.out.println("Unable to loard DashBoard on Manage Books");
             e.printStackTrace();
         }
@@ -161,6 +201,7 @@ public class ManageBooksVeiwContro implements Initializable {
             try{
                 String categoryId = categoryModel.getCategoryId(bookTm.getCategoryName());
                 String authorId = authorModel.getAuthorIds(bookTm.getAuthorName());
+                String bookShelfId = bookModel.getBookShelfId(bookTm.getBookId());
 
                 if(categoryId != null){
                     comboCategoryId.setValue(categoryId);
@@ -172,6 +213,12 @@ public class ManageBooksVeiwContro implements Initializable {
                     comboAuthorId.setValue(authorId);
                 }else{
                     comboAuthorId.setValue("AUTHOR ID NOT FOUND");
+                }
+
+                if(bookShelfId != null){
+                    comboBookShelfId.setValue(bookShelfId);
+                }else{
+                    comboBookShelfId.setValue("BOOK SHELF IS NOT FOUND");
                 }
 
             }catch (ClassNotFoundException e1){
@@ -199,6 +246,8 @@ public class ManageBooksVeiwContro implements Initializable {
         //LOARD COMBO BOX DATA
         loardAuthorIds();
         loardCategoryIds();
+        loardBookShelfIds();
+        loadSectionId();
 
         btnDelete.setDisable(true);
         btnUpdate.setDisable(true);
@@ -272,6 +321,8 @@ public class ManageBooksVeiwContro implements Initializable {
 
     }
 
+
+
     @FXML
     void comboCategoryId(ActionEvent event) {
         //WHEN WE SELECT CATEGORY ID FROM COMBO BOX PRINT NAME ON SCREEN
@@ -305,6 +356,42 @@ public class ManageBooksVeiwContro implements Initializable {
             e2.printStackTrace();
         }
     }
+
+    @FXML
+    void comboBookShelfId(ActionEvent event) {
+        //WHEN WE SELECT BookShelf ID FROM COMBO BOX PRINT NAME ON SCREEN
+        try{
+            if(comboBookShelfId.getValue() != null){
+                String bookShelfLocation = bookShelfModel.getBookShelfLocation(comboBookShelfId.getValue());
+                lblBookShelfId.setText(comboBookShelfId.getValue() + " | " + bookShelfLocation);
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+    }
+
+    @FXML
+    void comboSectionId(ActionEvent event) {
+        //WHEN WE SELECT SectionId ID FROM COMBO BOX PRINT NAME ON SCREEN
+        try{
+            if(comboSectionId.getValue() != null){
+                String sectionName = sectionModel.getSectionName(comboSectionId.getValue());
+                lblSectionName.setText(comboSectionId.getValue() + " | " + sectionName);
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
+    }
+
+
 
     @FXML
     void openAddNewAuthor(ActionEvent event) {
@@ -347,8 +434,23 @@ public class ManageBooksVeiwContro implements Initializable {
         }
     }
 
+    private void loardBookShelfIds(){
+        ArrayList<String> bookshelfId = bookShelfModel.getAllBookShelfIds();
+        if(bookshelfId != null){
+            ObservableList<String> observableList = FXCollections.observableArrayList();
+            observableList.addAll(bookshelfId);
+            comboBookShelfId.setItems(observableList);
+        }
+    }
 
-
+    private void loadSectionId(){
+        ArrayList<String> sectionIds = sectionModel.getAllSectionIds();
+        if(sectionIds != null){
+            ObservableList<String> observableList = FXCollections.observableArrayList();
+            observableList.addAll(sectionIds);
+            comboSectionId.setItems(observableList);
+        }
+    }
 
     //LOARD IDS
     private void loardNextBookId(){
@@ -415,16 +517,16 @@ public class ManageBooksVeiwContro implements Initializable {
                         saveNewAuthor();
 
                     }else{
-                        new Alert(Alert.AlertType.CONFIRMATION,"Please Enter the Valid mobile Number!!").show();
+                        new Alert(Alert.AlertType.WARNING,"Please Enter the Valid mobile Number!!").show();
                     }
                 }else{
-                    new Alert(Alert.AlertType.CONFIRMATION,"CHECK ADDRESS!, Please Enter the valid City name!").show();
+                    new Alert(Alert.AlertType.WARNING,"CHECK ADDRESS!, Please Enter the valid City name!").show();
                 }
             }else{
-                new Alert(Alert.AlertType.CONFIRMATION,"PLEASE ENTER VALID EMAIL!!!").show();
+                new Alert(Alert.AlertType.WARNING,"PLEASE ENTER VALID EMAIL!!!").show();
             }
         }else{
-            new Alert(Alert.AlertType.CONFIRMATION,"CHECK NAME!\nPlease Input valid name..\n(name only can have letters)").show();
+            new Alert(Alert.AlertType.WARNING,"CHECK NAME!\nPlease Input valid name..\n(name only can have letters)").show();
         }
     }
     private void saveNewAuthor(){
@@ -445,7 +547,7 @@ public class ManageBooksVeiwContro implements Initializable {
                 new Alert(Alert.AlertType.CONFIRMATION,"Author saved Sucsessfully!").show();
                 anchorAddAuthor.setVisible(false);
             }else{
-                new Alert(Alert.AlertType.CONFIRMATION,"Failed").show();
+                new Alert(Alert.AlertType.ERROR,"Author Saving Failed").show();
             }
 
         }catch (ClassNotFoundException e1){
@@ -493,6 +595,8 @@ public class ManageBooksVeiwContro implements Initializable {
                 pageReset();
                 new Alert(Alert.AlertType.CONFIRMATION,"Category Successfuly saved").show();
                 anchorAddCategory.setVisible(false);
+            }else{
+                new Alert(Alert.AlertType.ERROR,"Category Saving Failed").show();
             }
         }catch(ClassNotFoundException e1){
             System.out.println("ClassNotFoundException");
@@ -530,35 +634,43 @@ public class ManageBooksVeiwContro implements Initializable {
                         //CHECK IS THE AUTHOR ID SELECTED!
                         if(comboCategoryId.getValue() != null){
                             //CHECK IS THE CATEGORY ID IS SELECTED!
-                            //ALL ARE OK NOW
-                            return true;
+                            if(comboBookShelfId.getValue() != null){
+                                //CHECK IS THE BOOKSHELF ID SELECTED!
+                                //ALL ARE OK NOW
+                                return true;
+
+                            }else{
+                                new Alert(Alert.AlertType.WARNING,"Pleace select the BookShelf Id").show();
+                                return false;
+                            }
                         }else{
-                            new Alert(Alert.AlertType.CONFIRMATION,"Pleace select the Category Id").show();
+                            new Alert(Alert.AlertType.WARNING,"Pleace select the Category Id").show();
                             return false;
                         }
                     }else{
-                        new Alert(Alert.AlertType.CONFIRMATION,"Pleace select the Author Id").show();
+                        new Alert(Alert.AlertType.WARNING,"Pleace select the Author Id").show();
                         return false;
                     }
                 }else{
-                    new Alert(Alert.AlertType.CONFIRMATION,"PLESE ENTER VALID PRICE \nEx - (1,2,3...) Numbers Can Only added").show();
+                    new Alert(Alert.AlertType.WARNING,"PLESE ENTER VALID PRICE \nEx - (1,2,3...) Numbers Can Only added").show();
                     return false;
                 }
             }else{
-                new Alert(Alert.AlertType.CONFIRMATION,"PLESE ENTER VALID QUANTITY \nEx - (1,2,3...) Numbers Can Only added").show();
+                new Alert(Alert.AlertType.WARNING,"PLESE ENTER VALID QUANTITY \nEx - (1,2,3...) Numbers Can Only added").show();
                 return false;
             }
         }else{
-            new Alert(Alert.AlertType.CONFIRMATION,"CHECK NAME!! \nPlease Enter valid name").show();
+            new Alert(Alert.AlertType.WARNING,"CHECK NAME!! \nPlease Enter valid name").show();
             return false;
         }
     }
     private void save() {
         BookDto bookDto = new BookDto(
-          lblBookId.getText(),
-          txtBookName.getText(),
-          Integer.parseInt(txtBookQty.getText()),
-          Double.parseDouble(txtBookPrice.getText())
+            lblBookId.getText(),
+            txtBookName.getText(),
+            Integer.parseInt(txtBookQty.getText()),
+            Double.parseDouble(txtBookPrice.getText()),
+            comboBookShelfId.getValue()
         );
 
         try{
@@ -591,6 +703,10 @@ public class ManageBooksVeiwContro implements Initializable {
         txtBookQty.setText("");
         txtBookPrice.setText("");
 
+        txtBookName.setPromptText("name");
+        txtBookQty.setPromptText("qty");
+        txtBookPrice.setPromptText("price");
+
         //CATEGORY COMBO BOX
         comboCategoryId.getSelectionModel().clearSelection();
         comboCategoryId.setPromptText("Select Category...");
@@ -599,14 +715,18 @@ public class ManageBooksVeiwContro implements Initializable {
         comboAuthorId.getSelectionModel().clearSelection();
         comboAuthorId.setPromptText("Select Author...");
 
+        comboBookShelfId.getSelectionModel().clearSelection();
+        comboBookShelfId.setPromptText("Select BookShelf...");
+
         lblAuthorName.setText("");
         lblCategoryName.setText("");
+        lblBookShelfId.setText("");
     }
 
     @FXML
     void deleteBook(ActionEvent event) {
         //BOOK DELETE HERE
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete, Are you sure?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Do you want to delete, Are you sure?", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> optionalButtonType = alert.showAndWait();
 
         if (optionalButtonType.isPresent() && optionalButtonType.get() == ButtonType.YES) {
@@ -653,11 +773,13 @@ public class ManageBooksVeiwContro implements Initializable {
         );
 
         try{
-            boolean isUpdate = manabeBooksViewModel.updateBook(dto, comboCategoryId.getValue(), comboAuthorId.getValue());
+            boolean isUpdate = manabeBooksViewModel.updateBook(dto,comboBookShelfId.getValue(), comboCategoryId.getValue(), comboAuthorId.getValue());
             if(isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Updated Successfully..!").show();
                 clearAllTexts();
                 pageReset();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Updating Failed").show();
             }
         }catch (ClassNotFoundException e1){
             System.out.println("Class not Found Exception");

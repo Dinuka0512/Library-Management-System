@@ -38,8 +38,8 @@ public class CreateAccountContro implements Initializable {
     }
 
     //create object create Account Modek
-    private CreateAccountModel cAccountModel = new CreateAccountModel();
-    private BranchModel branchModel = new BranchModel();
+    private final CreateAccountModel cAccountModel = new CreateAccountModel();
+    private final BranchModel branchModel = new BranchModel();
 
     @FXML
     private Button btnCreate;
@@ -71,12 +71,26 @@ public class CreateAccountContro implements Initializable {
     @FXML
     private AnchorPane body;
 
+    @FXML
+    private Label lblBranchName;
+
     private void loardBranchIds() throws ClassNotFoundException, SQLException{
         ArrayList<String> branchIds = branchModel.getAllBranchId();
         // Convert ArrayList to ObservableList
         ObservableList<String> observableBranchIds = FXCollections.observableArrayList(branchIds);
         comboBoxBranchId.setItems(observableBranchIds);
     }
+
+
+    @FXML
+    void getselectedBranch(ActionEvent event) {
+        //HERE WE GET THE SELECTED ITEM IN COMBO BOX
+        if(comboBoxBranchId.getValue() != null){
+            String sectionName = branchModel.getSelectedBranchName(comboBoxBranchId.getValue());
+            lblBranchName.setText(comboBoxBranchId.getValue() + " | " + sectionName);
+        }
+    }
+
 
     @FXML
     void createAccount(ActionEvent event) throws ClassNotFoundException, SQLException {

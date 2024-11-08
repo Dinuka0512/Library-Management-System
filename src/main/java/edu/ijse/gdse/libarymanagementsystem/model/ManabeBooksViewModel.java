@@ -17,13 +17,14 @@ public class ManabeBooksViewModel {
         //TRANSACTION PART
         try{
             con.setAutoCommit(false);
-            String bookSql = "insert into Book values (?,?,?,?)";
+            String bookSql = "insert into Book values (?,?,?,?,?)";
             boolean bookRes = CrudUtil.execute(
                     bookSql,
                     bookDto.getBookId(),
                     bookDto.getName(),
                     bookDto.getQty(),
-                    bookDto.getPrice()
+                    bookDto.getPrice(),
+                    bookDto.getBookShelfId()
             );
 
             boolean isBookSaved = bookRes;
@@ -76,18 +77,19 @@ public class ManabeBooksViewModel {
         }
     }
 
-    public boolean updateBook(BookTm dto, String categoryId , String authorId) throws SQLException, ClassNotFoundException{
+    public boolean updateBook(BookTm dto,String bookShelfId, String categoryId , String authorId) throws SQLException, ClassNotFoundException{
         Connection con = DBConnection.getInstance().getConnection();
 
         //TRANSACTION PART
         try{
             con.setAutoCommit(false);
-            String bookSql = "update Book set name = ?, qty = ? , price = ? where Book_Id = ? ";
+            String bookSql = "update Book set name = ?, qty = ? , price = ?, bookshelf_Id = ? where Book_Id = ? ";
             boolean bookRes = CrudUtil.execute(
                     bookSql,
                     dto.getName(),
                     dto.getQty(),
                     dto.getPrice(),
+                    bookShelfId,
                     dto.getBookId()
             );
 

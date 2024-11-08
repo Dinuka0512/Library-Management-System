@@ -18,7 +18,8 @@ public class BookModel {
                     res.getString("Book_Id"),
                     res.getString("name"),
                     res.getInt("qty"),
-                    res.getDouble("price")
+                    res.getDouble("price"),
+                    res.getString("bookshelf_Id")
             );
 
             dtos.add(dto);
@@ -44,5 +45,14 @@ public class BookModel {
         String sql = "Delete from Book where Book_Id = ?";
         boolean res = CrudUtil.execute(sql, book_Id);
         return res;
+    }
+
+    public String getBookShelfId(String bookId) throws SQLException, ClassNotFoundException{
+        String sql = "select bookshelf_Id from book where book_Id = ?";
+        ResultSet res = CrudUtil.execute(sql,bookId);
+        if(res.next()){
+            return res.getString("bookshelf_Id");
+        }
+        return null;
     }
 }

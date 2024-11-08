@@ -2,7 +2,7 @@ package edu.ijse.gdse.libarymanagementsystem.util;
 
 public class Validation {
     public static boolean isValidName(String name){
-        return name.matches("^[A-Z][a-zA-Z '.-]*[A-Za-z][^-]$");
+        return name.matches("^[A-Z a-z][a-zA-Z '.-]*[A-Za-z][^-]$");
     }
 
     public static boolean isValidEmail(String email){
