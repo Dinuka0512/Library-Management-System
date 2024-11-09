@@ -24,6 +24,16 @@ import java.util.ResourceBundle;
 
 public class ManageMemberViewContro implements Initializable {
 
+    //GETTING REPORTS
+    @FXML
+    private Button btnGetMemActivityReport;
+    @FXML
+    private Button btnGetMemDetails;
+    @FXML
+    private Button btnGetAllReports;
+
+
+
     @FXML
     private Button btnDelete;
 
@@ -96,6 +106,8 @@ public class ManageMemberViewContro implements Initializable {
         btnRestart.setDisable(true);
         btnUpdate.setDisable(true);
         btnDelete.setDisable(true);
+        btnGetMemActivityReport.setDisable(true);
+        btnGetMemDetails.setDisable(true);
     }
 
 
@@ -246,7 +258,7 @@ public class ManageMemberViewContro implements Initializable {
 
     @FXML
     void onClick(MouseEvent event) {
-        //WHEN CLICK THE TABLE
+        //WHEN CLICK THE (GET TABLE VALUES)
         MemberTm memberTm = memberTable.getSelectionModel().getSelectedItem();
         if(memberTm != null){
             lblMemId.setText(memberTm.getMemberId());
@@ -259,6 +271,8 @@ public class ManageMemberViewContro implements Initializable {
             btnUpdate.setDisable(false);
             btnRestart.setDisable(false);
             btnSave.setDisable(true);
+            btnGetMemDetails.setDisable(false);
+            btnGetMemActivityReport.setDisable(false);
         }
     }
 
@@ -368,5 +382,24 @@ public class ManageMemberViewContro implements Initializable {
             System.out.println("Class not found Exception");
             e2.printStackTrace();
         }
+    }
+
+
+
+
+    //REPORTS GENERATING
+    @FXML
+    void getMemActivityReport(ActionEvent event) {
+        //HERE WE CAN GET THE MEMBER BARROW BOOKS AND RETURNS
+    }
+
+    @FXML
+    void getAllReports(ActionEvent event) {
+        //HERE WE CAN GET ALL MEMBERS DETAILS
+    }
+
+    @FXML
+    void getMemDetails(ActionEvent event) {
+        //HERE WE CAN GET MEMBER WHAT WE HAVE SELECTED PERSON DETAILS TO REPORT
     }
 }
