@@ -1,5 +1,6 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.db.DBConnection;
 import edu.ijse.gdse.libarymanagementsystem.dto.MemberDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.MemberTm;
 import edu.ijse.gdse.libarymanagementsystem.model.MemberModel;
@@ -14,9 +15,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -396,6 +400,32 @@ public class ManageMemberViewContro implements Initializable {
     @FXML
     void getAllReports(ActionEvent event) {
         //HERE WE CAN GET ALL MEMBERS DETAILS
+        try {
+            JasperReport jasperReport = JasperCompileManager.compileReport(
+                    getClass()
+                            .getResourceAsStream("/Reports/AllMembersDetailsReport.jrxml"
+                            ));
+
+            Connection connection = DBConnection.getInstance().getConnection();
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    jasperReport,
+                    null,
+                    connection
+            );
+
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (JRException e) {
+            new Alert(Alert.AlertType.ERROR, "Fail to generate report...!").show();
+            System.out.println("JRException");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("SQL Exception");
+            e.printStackTrace();
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class not foound Exception");
+            e1.printStackTrace();
+        }
     }
 
     @FXML

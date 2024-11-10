@@ -3,6 +3,7 @@ module edu.ijse.gdse.libarymanagementsystem {
     requires javafx.fxml;
     requires java.sql;
     requires lombok;
+    requires net.sf.jasperreports.core;
 
     opens edu.ijse.gdse.libarymanagementsystem.dto.tm to javafx.base;
     opens edu.ijse.gdse.libarymanagementsystem.controller to javafx.fxml;

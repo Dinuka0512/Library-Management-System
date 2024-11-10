@@ -8,7 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -19,6 +21,7 @@ import lombok.Setter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DashBoardContro implements Initializable  {
@@ -217,7 +220,7 @@ public class DashBoardContro implements Initializable  {
 
 
 
-    //SECTIONS
+    //BOOK ISSUES
     @FXML
     void showNameSec(MouseEvent event) {
         sectAnch.setVisible(true);
@@ -228,6 +231,29 @@ public class DashBoardContro implements Initializable  {
         sectAnch.setVisible(false);
     }
 
+    @FXML
+    void openBookIssues(MouseEvent event) {
+        if(isAdminLogin()){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "HEY ADMIN \nyou Cannot Issue the Books...\nDo you want to Issue the Books Please Login with \n\"user Account\" \nDo you want to log out", ButtonType.OK , ButtonType.CLOSE);
+            Optional<ButtonType> optionalButtonType = alert.showAndWait();
+
+            if(optionalButtonType.isPresent() && optionalButtonType.get() == ButtonType.OK){
+                logout();
+            }
+        }else{
+            //IF USER LOG IN---->
+            try{
+                //OPEN THE ISSUE BOOKS PAGE
+                body.getChildren().clear();
+                AnchorPane load = FXMLLoader.load(getClass().getResource("/view/ManageBookIssueView.fxml"));
+                body.getChildren().add(load);
+
+            }catch (IOException e1){
+                System.out.println("IOException");
+                e1.printStackTrace();
+            }
+        }
+    }
 
 
 

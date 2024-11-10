@@ -46,7 +46,7 @@
                   <Image url="@../images/author.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="sectionsImg" fitHeight="45.0" fitWidth="45.0" layoutX="24.0" layoutY="223.0" onMouseEntered="#showNameSec" onMouseExited="#closeNameSec" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="sectionsImg" fitHeight="45.0" fitWidth="45.0" layoutX="24.0" layoutY="223.0" onMouseClicked="#openBookIssues" onMouseEntered="#showNameSec" onMouseExited="#closeNameSec" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/sectionManage.png" />
                </image>
@@ -95,7 +95,7 @@
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label layoutX="21.0" layoutY="231.0" text="Manage Sections" textFill="#d0d0d0">
+            <Label layoutX="21.0" layoutY="231.0" text="Manage Book Issues" textFill="#d0d0d0">
                <font>
                   <Font size="21.0" />
                </font>
@@ -160,7 +160,7 @@
             <Label layoutX="25.0" layoutY="6.0" text="Manage Books " textFill="WHITE" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="membAnch" layoutX="259.0" layoutY="196.0" prefHeight="0.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" />
+      <AnchorPane fx:id="membAnch" layoutX="259.0" layoutY="196.0" prefHeight="0.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false" />
       <AnchorPane fx:id="memAnch" layoutX="104.0" layoutY="181.0" prefHeight="31.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
          <children>
             <Label layoutX="22.0" layoutY="6.0" text="Manage Members " textFill="WHITE" />
@@ -171,9 +171,9 @@
             <Label layoutX="22.0" layoutY="6.0" text="Manage Authors" textFill="WHITE" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="sectAnch" layoutX="107.0" layoutY="313.0" prefHeight="31.0" prefWidth="147.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
+      <AnchorPane fx:id="sectAnch" layoutX="107.0" layoutY="313.0" prefHeight="31.0" prefWidth="154.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">
          <children>
-            <Label layoutX="22.0" layoutY="6.0" text="Manage Sections" textFill="WHITE" />
+            <Label layoutX="22.0" layoutY="6.0" text="Manage Book Issues" textFill="WHITE" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="supAnch" layoutX="106.0" layoutY="388.0" prefHeight="31.0" prefWidth="158.0" style="-fx-background-radius: 27; -fx-background-color: #818181;" visible="false">

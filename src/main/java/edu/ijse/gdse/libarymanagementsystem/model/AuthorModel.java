@@ -146,4 +146,24 @@ public class AuthorModel {
         }
         return false;
     }
+
+    public boolean updateAuthor(AuthorDto dto) throws ClassNotFoundException, SQLException{
+        String sql = " update author set name = ?, Email = ?, address = ?, contact = ? where Author_Id = ?";
+        boolean isUpdate = CrudUtil.execute(
+                sql,
+                dto.getName(),
+                dto.getEmail(),
+                dto.getAddress(),
+                dto.getContract(),
+                dto.getAuhorId()
+        );
+
+        return isUpdate;
+    }
+
+    public boolean deleteAuthor(String authorId) throws SQLException, ClassNotFoundException{
+        String sql = "delete from Author where Author_Id = ?";
+        boolean isDelete = CrudUtil.execute(sql,authorId);
+        return isDelete;
+    }
 }

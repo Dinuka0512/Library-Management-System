@@ -8,16 +8,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ManageAuthorViewContro implements Initializable {
+
+    @FXML
+    private AnchorPane body;
 
     @FXML
     private TextField txtAddress;
@@ -90,6 +99,22 @@ public class ManageAuthorViewContro implements Initializable {
 
         //LOAD AUTHOR ID HERE
         loardNextAuthorId();
+
+        //HERE CLEAR ALL TEXT
+        clearTexts();
+
+        //HERE RESET THE ALL BUTTONS
+        buttonReset();
+    }
+
+    private void buttonReset(){
+        btnSave.setDisable(false);
+        btnDelete.setDisable(true);
+        btnUpdate.setDisable(true);
+        btnReset.setDisable(true);
+
+        btnGetAuthorRepo.setDisable(true);
+        btnGetAuthorBookDetailRepo.setDisable(true);
     }
 
     private void loardTable(){
@@ -145,9 +170,8 @@ public class ManageAuthorViewContro implements Initializable {
 
     @FXML
     void saveAuthor(ActionEvent event) {
-        System.out.println("hi");
         //HERE SAVE THE AUTHOR
-        if(isEnterTheCorrectDetails()){
+        if(isEnterTheCorrectDetails() && isvalidEmail()){
             AuthorDto dto = new AuthorDto(
                     lblAuthorId.getText(),
                     txtName.getText(),
@@ -181,21 +205,15 @@ public class ManageAuthorViewContro implements Initializable {
                 //IN THERE WE CHECK THE IS EMAIL IS OK OR NOT
                 //IS EMAIL IS OK WE NEED TO CHECK IS THE EMAIL
                 // IS ALREADY HAVE OR NOT?....
-
-                if(authorModel.isEmailIsValid(txtEmail.getText())){
-                    if(Validation.isValidName(txtAddress.getText()) && !txtAddress.getText().equals("")){
-                        if(Validation.isValidMobileNumber(txtContact.getText()) && !txtContact.getText().equals("")){
-                            return true;
-                        }else{
-                            new Alert(Alert.AlertType.WARNING,"PLEASE ENTER THE VALID CONTCT NUMBER").show();
-                            return false;
-                        }
-                    }else {
-                        new Alert(Alert.AlertType.WARNING, "PLEASE CHECK THE ADDRESS \n* The address cannot be null").show();
+                if(Validation.isValidName(txtAddress.getText()) && !txtAddress.getText().equals("")){
+                    if(Validation.isValidMobileNumber(txtContact.getText()) && !txtContact.getText().equals("")){
+                        return true;
+                    }else{
+                        new Alert(Alert.AlertType.WARNING,"PLEASE ENTER THE VALID CONTCT NUMBER").show();
                         return false;
                     }
-                }else{
-                    new Alert(Alert.AlertType.ERROR,"THIS EMAIL IS ALREADY HAVE \nSomething went wrong...").show();
+                }else {
+                    new Alert(Alert.AlertType.WARNING, "PLEASE CHECK THE ADDRESS \n* The address cannot be null").show();
                     return false;
                 }
             }else{
@@ -204,6 +222,25 @@ public class ManageAuthorViewContro implements Initializable {
             }
         }else{
             new Alert(Alert.AlertType.WARNING, "PLEASE ENTER THE VALID NAME \n* The name cannot have the numbers\n* The names cannot be null!!").show();
+            return false;
+        }
+    }
+
+    private boolean isvalidEmail(){
+        if(authorModel.isEmailIsValid(txtEmail.getText())){
+            return true;
+        }else{
+            new Alert(Alert.AlertType.ERROR,"THIS EMAIL IS ALREADY HAVE \nSomething went wrong...").show();
+            return false;
+        }
+    }
+
+    private boolean isvalidEmailForUpdate(){
+        if(authorModel.isEmailIsValid(txtEmail.getText())){
+            return true;
+        }else{
+            //IS EMAIL IS ALL READY HAVE -----> False kiyala enne author model eken
+            new Alert(Alert.AlertType.ERROR,"THIS EMAIL IS ALREADY HAVE \nSomething went wrong...").show();
             return false;
         }
     }
@@ -220,5 +257,108 @@ public class ManageAuthorViewContro implements Initializable {
 
         txtEmail.setText("");
         txtEmail.setPromptText("email");
+    }
+
+
+
+    @FXML
+    void getTableData(MouseEvent event) {
+        //HERE GET THE TABLE DATA
+        AuthorTm dto = tableAuthor.getSelectionModel().getSelectedItem();
+
+        if(dto != null){
+            lblAuthorId.setText(dto.getAuhorId());
+            txtName.setText(dto.getName());
+            txtEmail.setText(dto.getEmail());
+            txtAddress.setText(dto.getAddress());
+            txtContact.setText(dto.getContract());
+
+            buttonFormat();
+        }
+    }
+
+    private void buttonFormat(){
+        btnSave.setDisable(true);
+        btnDelete.setDisable(false);
+        btnUpdate.setDisable(false);
+        btnReset.setDisable(false);
+
+        btnGetAuthorRepo.setDisable(false);
+        btnGetAuthorBookDetailRepo.setDisable(false);
+    }
+
+    @FXML
+    void resetButtonOnAction(ActionEvent event) {
+        //HERE RESET BUTTON ACTION
+        pageReset();
+    }
+
+    @FXML
+    void UpdaeButtonOnAction(ActionEvent event) {
+        //HERE UPDATE BUTTON ON ACTION
+        try{
+            System.out.println(isvalidEmailForUpdate());
+            System.out.println(isEnterTheCorrectDetails());
+            if(isEnterTheCorrectDetails() && isvalidEmailForUpdate()){
+                AuthorDto dto = new AuthorDto(
+                        lblAuthorId.getText(),
+                        txtName.getText(),
+                        txtEmail.getText(),
+                        txtAddress.getText(),
+                        txtContact.getText()
+                );
+
+                boolean isUpdate = authorModel.updateAuthor(dto);
+                if(isUpdate){
+                    pageReset();
+                    new Alert(Alert.AlertType.CONFIRMATION,"Author Updated!!").show();
+                }else{
+                    new Alert(Alert.AlertType.ERROR,"Update Failed,\nSomething Went Wrong..!!!").show();
+                }
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
+        }
+    }
+
+    @FXML
+    void deleteButtonAction(ActionEvent event) {
+        try{
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Do you want to delete, Are you sure?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> optionalButtonType = alert.showAndWait();
+
+            if (optionalButtonType.isPresent() && optionalButtonType.get() == ButtonType.YES) {
+                boolean isDelete = authorModel.deleteAuthor(lblAuthorId.getText());
+                if(isDelete){
+                    new Alert(Alert.AlertType.CONFIRMATION, "Delete Author").show();
+                    pageReset();
+                }else{
+                    new Alert(Alert.AlertType.ERROR, "Delete Failed\n Something Went wrong !!").show();
+                }
+            }
+
+        }catch (SQLException e1){
+            System.out.println("SQLException");
+            e1.printStackTrace();
+        }catch (ClassNotFoundException e2){
+            System.out.println("Class Not Found Exception");
+            e2.printStackTrace();
+        }
+    }
+
+    @FXML
+    void goToHomePage(MouseEvent event) {
+        try{
+            body.getChildren().clear();
+            AnchorPane load = FXMLLoader.load(getClass().getResource("/view/HomePage.fxml"));
+            body.getChildren().add(load);
+        }catch (IOException e1){
+            System.out.println("IOException\nUnable to load the Home page");
+            e1.printStackTrace();
+        }
     }
 }

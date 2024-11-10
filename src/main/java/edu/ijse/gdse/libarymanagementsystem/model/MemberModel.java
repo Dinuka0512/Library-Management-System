@@ -105,4 +105,16 @@ public class MemberModel {
         }
         return false;
     }
+
+    public ArrayList<String> getAllMemberIds() throws SQLException, ClassNotFoundException{
+        String sql = "select member_Id from Member";
+        ArrayList<String> dto = new ArrayList<>();
+        ResultSet res = CrudUtil.execute(sql);
+        while (res.next()){
+            String id = res.getString("member_Id");
+            dto.add(id);
+        }
+
+        return dto;
+    }
 }
