@@ -201,6 +201,19 @@ public class DashBoardContro implements Initializable  {
         authorAnch.setVisible(false);
     }
 
+    @FXML
+    void OpenMamageAuthorView(MouseEvent event) {
+        try{
+            body.getChildren().clear();
+            AnchorPane load = FXMLLoader.load(getClass().getResource("/view/ManageAuthorView.fxml"));
+            body.getChildren().add(load);
+        }catch (IOException e1){
+            System.out.println("IOException \nUnable to load Manage Author View");
+            e1.printStackTrace();
+        }
+    }
+
+
 
 
 

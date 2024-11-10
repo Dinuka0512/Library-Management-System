@@ -106,4 +106,44 @@ public class AuthorModel {
         }
         return null;
     }
+
+    public ArrayList<AuthorDto> getAllAuthorDetails() throws ClassNotFoundException, SQLException{
+        String sql = "select * from Author";
+        ResultSet res = CrudUtil.execute(sql);
+
+        ArrayList<AuthorDto> authorDtos = new ArrayList<>();
+        while(res.next()){
+            AuthorDto dto = new AuthorDto(
+                    res.getString("Author_Id"),
+                    res.getString("name"),
+                    res.getString("Email"),
+                    res.getString("address"),
+                    res.getString("Contact")
+            );
+            authorDtos.add(dto);
+        }
+
+        return authorDtos;
+    }
+
+    public boolean isEmailIsValid(String email){
+        try{
+            String sql = "select Author_Id from Author where Email = ?";
+            ResultSet res = CrudUtil.execute(sql, email);
+            if(res.next()){
+                //EMAIL IS HAVE
+                return false;
+            }else{
+                //EMAIL IS UNIQUE
+                return true;
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not Found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
+        }
+        return false;
+    }
 }
