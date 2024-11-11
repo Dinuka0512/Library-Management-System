@@ -145,13 +145,13 @@
                </image>
             </ImageView>
             <Circle fill="#1f93ff00" layoutX="1100.0" layoutY="42.0" radius="28.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label fx:id="userGmail" alignment="CENTER_RIGHT" layoutX="678.0" layoutY="25.0" prefHeight="18.0" prefWidth="386.0" text="Sample@gmail.com" />
+            <Label fx:id="userGmail" alignment="CENTER_RIGHT" layoutX="678.0" layoutY="25.0" prefHeight="18.0" prefWidth="386.0" text="admin@gmail.com" />
             <Label fx:id="lblLogout" layoutX="1015.0" layoutY="43.0" onMouseClicked="#loardLoginPage" text="Log out" textAlignment="RIGHT" textFill="#026c86">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <Button fx:id="btnAddNewUser" layoutX="877.0" layoutY="26.0" mnemonicParsing="false" onAction="#addNewUser" prefHeight="31.0" prefWidth="131.0" style="-fx-background-color: #2a6f5b;" text="Add new User" textFill="WHITE" visible="false" />
+            <Button fx:id="btnAddNewUser" layoutX="818.0" layoutY="26.0" mnemonicParsing="false" onAction="#addNewUser" prefHeight="31.0" prefWidth="131.0" style="-fx-background-color: #2a6f5b;" text="Add new User" textFill="WHITE" />
          </children>
       </Pane>
       <Line endX="-100.0" endY="556.0" layoutX="194.0" layoutY="189.0" startX="-100.0" startY="-104.0" stroke="WHITE" />

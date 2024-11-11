@@ -1,5 +1,6 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
 import edu.ijse.gdse.libarymanagementsystem.model.LogInModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,28 +43,34 @@ public class LoginContro {
     @FXML
     private AnchorPane body;
 
+    public static UserDto dto;
+
     @FXML
     void UserLogIn(ActionEvent event)throws ClassNotFoundException, SQLException , IOException{
-        boolean checkEmail = logInModel.checkEmail(txtEmail.getText());
-        if (checkEmail || txtEmail.getText().equals("admin")) {
-            boolean checkPassword = logInModel.checkPassword(txtEmail.getText(), txtPassword.getText());
-            if (checkPassword || txtPassword.getText().equals("admin123")) {
-                String email = txtEmail.getText();
-                if(email.equals("admin")){
-                    DashBoardContro.setIsAdminLogin(true);
-                }else{
+        dto = logInModel.checkEmail(txtEmail.getText());
+        if(dto != null){
+            //HAVE THE USER
+            if(dto.getEmail().equals(txtEmail.getText())){
+                //EMAIL IS CORRECT
+                if(dto.getPassword().equals(txtPassword.getText())){
+                    //EMAIL AND PASSWORD CORRECT HERE
                     DashBoardContro.setIsAdminLogin(false);
-                    DashBoardContro.setUserEmail(email);
-                }
+                    DashBoardContro.setUserEmail(dto.getEmail());
 
-                clearText();
-                //here we need to open the Dashboard page... (On this stage)
-                openDashboard();
+                    //CLEAR THE TEXTS
+                    clearText();
+
+                    //HERE OPEN DASHBOARD
+                    openDashboard();
+
+                }else{
+                    labelError.setText("Invalid Password, Please Try again...!");
+                }
             }else{
-                labelError.setText("Try Again, Invalid Email or Password!");
+                labelError.setText("Something Went Wrong");
             }
         }else{
-            labelError.setText("Try again, Invalid Email!");
+            labelError.setText("Try Again, Invalid Email!");
         }
     }
 

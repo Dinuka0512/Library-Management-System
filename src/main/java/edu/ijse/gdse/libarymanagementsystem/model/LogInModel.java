@@ -10,15 +10,20 @@ import java.sql.SQLException;
 import java.sql.Connection;
 
 public class LogInModel {
-    public boolean checkEmail(String email) throws SQLException, ClassNotFoundException {
+    public UserDto checkEmail(String email) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM user WHERE email = ?";
         ResultSet res = CrudUtil.execute(sql,email);
-        return res.next()? true : false;
-    }
+        if(res.next()){
+            UserDto dto = new UserDto(
+                    res.getString("User_Id"),
+                    res.getString("name"),
+                    res.getString("address"),
+                    res.getString("password"),
+                    res.getString("email")
+            );
 
-    public boolean checkPassword(String email, String password) throws SQLException, ClassNotFoundException {
-        String sql = "select * from user where email = ? and password = ?";
-        ResultSet res = CrudUtil.execute(sql,email,password);
-        return res.next()? true : false;
+            return dto;
+        }
+        return null;
     }
 }

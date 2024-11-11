@@ -25,8 +25,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DashBoardContro implements Initializable  {
-
-    public UserDto dto;
+    @Getter
+    public static UserDto dto;
     //CAN GET ALL USERS DETAILS
 
 
@@ -233,25 +233,15 @@ public class DashBoardContro implements Initializable  {
 
     @FXML
     void openBookIssues(MouseEvent event) {
-        if(isAdminLogin()){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "HEY ADMIN \nyou Cannot Issue the Books...\nDo you want to Issue the Books Please Login with \n\"user Account\" \nDo you want to log out", ButtonType.OK , ButtonType.CLOSE);
-            Optional<ButtonType> optionalButtonType = alert.showAndWait();
+        try{
+            //OPEN THE ISSUE BOOKS PAGE
+            body.getChildren().clear();
+            AnchorPane load = FXMLLoader.load(getClass().getResource("/view/ManageBookIssueView.fxml"));
+            body.getChildren().add(load);
 
-            if(optionalButtonType.isPresent() && optionalButtonType.get() == ButtonType.OK){
-                logout();
-            }
-        }else{
-            //IF USER LOG IN---->
-            try{
-                //OPEN THE ISSUE BOOKS PAGE
-                body.getChildren().clear();
-                AnchorPane load = FXMLLoader.load(getClass().getResource("/view/ManageBookIssueView.fxml"));
-                body.getChildren().add(load);
-
-            }catch (IOException e1){
-                System.out.println("IOException");
-                e1.printStackTrace();
-            }
+        }catch (IOException e1){
+            System.out.println("IOException");
+            e1.printStackTrace();
         }
     }
 
@@ -357,14 +347,14 @@ public class DashBoardContro implements Initializable  {
 
     public void getUserDetailsAndSetGmail(){
         try{
-            if(DashBoardContro.isAdminLogin()){
-                //DTO IS NULL ...(admin has log in)
-                userGmail.setText("admin");
+            dto = userModel.getUserDetails(userEmail);
+            userGmail.setText(dto.getEmail());
+
+            if(userEmail.equals("admin@gmail.com")){
+                //IS THE ADMIN LOGIN
                 btnAddNewUser.setVisible(true);
             }else{
-                //DTO IS NOT NULL... (user has login)
-                dto = userModel.getUserDetails(userEmail);
-                userGmail.setText(dto.getEmail());
+                //IS THE USER LOGIN
                 btnAddNewUser.setVisible(false);
             }
 
@@ -383,10 +373,9 @@ public class DashBoardContro implements Initializable  {
             body.getChildren().clear();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/HomePage.fxml"));
             AnchorPane load = fxmlLoader.load();
-
-            HomePage homepageContro = fxmlLoader.getController();
-            homepageContro.setUserDetails(userEmail);
-
+//
+//            HomePage homepageContro = fxmlLoader.getController();
+//            homepageContro.setUserDetails(userEmail);
             body.getChildren().add(load);
         }catch(Exception e){
             System.out.println("Unable to loard DashBoard on Dashboard conto");

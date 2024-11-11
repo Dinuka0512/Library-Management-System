@@ -71,42 +71,16 @@ public class HomePage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(DashBoardContro.isAdminLogin()){
-            lblWellcome.setText("Wellcome admin,");
-        }else {
-            lblWellcome.setText("Wellcome " + userName + ",");
-            currentUName.setText(userName);
-        }
+        userDetails = DashBoardContro.getDto();
+
+        //SET THE DATA
+        userName = userDetails.getName();
+        userEmail = userDetails.getEmail();
+
+        lblWellcome.setText("Wellcome " + userName + ",");
+        currentUName.setText(userName);
     }
 
-    public void setUserDetails(String email){
-        try{
-            if(DashBoardContro.isAdminLogin()){
-                //DTO IS NULL ...(admin has log in)
-
-                lblWellcome.setText("Wellcome admin,");
-            }else{
-                this.userEmail = email;
-                //DTO IS NOT NULL... (user has login)
-                userDetails = userModel.getUserDetails(email);
-                lblWellcome.setText("Wellcome " + userDetails.getName() + ",");
-                this.userName = userDetails.getName();
-                currentUName.setText(userDetails.getName());
-            }
-
-//            if(!DashBoardContro.isAdminLogin()){
-//                currentUName.setText(userDetails.getName());
-//            }
-        }catch (ClassNotFoundException e1){
-            System.out.println("class not Found");
-            e1.printStackTrace();
-        } catch (SQLException e2){
-            System.out.println("Sql queree error");
-            e2.printStackTrace();
-        } catch (Exception e3){
-            e3.printStackTrace();
-        }
-    }
 
     //EXIT BUTTON
     @FXML
