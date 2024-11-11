@@ -22,9 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.util.*;
 
 public class ManageMemberViewContro implements Initializable {
 
@@ -407,6 +406,9 @@ public class ManageMemberViewContro implements Initializable {
                             ));
 
             Connection connection = DBConnection.getInstance().getConnection();
+
+//            Map<String, Object> paramerers = new HashMap<>();
+//            paramerers.put("P_Date", LocalDate.now());
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(
                     jasperReport,

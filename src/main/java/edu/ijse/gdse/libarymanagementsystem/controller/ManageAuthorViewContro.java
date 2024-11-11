@@ -1,5 +1,6 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.db.DBConnection;
 import edu.ijse.gdse.libarymanagementsystem.dto.AuthorDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.AuthorTm;
 import edu.ijse.gdse.libarymanagementsystem.model.AuthorModel;
@@ -14,14 +15,18 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.jar.JarException;
 
 public class ManageAuthorViewContro implements Initializable {
 
@@ -359,6 +364,41 @@ public class ManageAuthorViewContro implements Initializable {
         }catch (IOException e1){
             System.out.println("IOException\nUnable to load the Home page");
             e1.printStackTrace();
+        }
+    }
+
+    @FXML
+    void getAll(MouseEvent event) {
+        //HERE GENERATE THE ALL MEMBER DETAILS REPORT
+        try{
+            //HERE GET CONNECTION
+            Connection con = DBConnection.getInstance().getConnection();
+
+            //LOAD THE JASPER REPORT
+            /*
+            * AT IN THERE THE JASPER REPORT COMPILER
+            * ----> CONVERT THE JRXML FILES TO JASPER REPORTS
+            *
+            *    JASPER COMPILER IS ==
+            *    JRXML ------(CONVERT TO)-----> JASPER REPORTS
+            * */
+            JasperReport jasperReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("/Reports/AllAuthorDetailsReport.jrxml"));
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    jasperReport,null,con
+            );
+
+            JasperViewer.viewReport(jasperPrint);
+        }catch (SQLException e1){
+            System.out.println("SQL Exception");
+            e1.printStackTrace();
+        }catch (ClassNotFoundException e2){
+            System.out.println("Class Not Found Exception ");
+            e2.printStackTrace();
+        }catch (JRException e3){
+            new Alert(Alert.AlertType.ERROR,"Failed to load report").show();
+            System.out.println("JRException");
+            e3.printStackTrace();
         }
     }
 }

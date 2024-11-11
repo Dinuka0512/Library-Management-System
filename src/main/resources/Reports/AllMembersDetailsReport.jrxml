@@ -33,10 +33,29 @@
 	</variable>
 	<background splitType="Stretch"/>
 	<title height="79" splitType="Stretch">
-		<element kind="staticText" uuid="aa5cc680-ceaa-4d58-b7aa-7b8176a18773" x="0" y="17" width="550" height="45" fontName="Poppins Medium" fontSize="18.0" bold="true" underline="true" hTextAlign="Center" vTextAlign="Middle">
-			<text><![CDATA[All Member Details Report]]></text>
+		<element kind="staticText" uuid="ea1a953c-cfe6-4822-85c3-64e80b6f845d" x="73" y="40" width="205" height="15">
+			<text><![CDATA[Bandaragama Rd, Bandaragama. 12530]]></text>
+		</element>
+		<element kind="staticText" uuid="e174b27e-5467-48f0-85fe-745cff3bd1c2" x="73" y="25" width="205" height="15">
+			<text><![CDATA[Public Library]]></text>
+		</element>
+		<element kind="staticText" uuid="b965b3d4-2ef2-486d-a2e0-0131244c5ba3" x="73" y="55" width="205" height="15">
+			<text><![CDATA[Contact :  0382 289 975]]></text>
+		</element>
+		<element kind="staticText" uuid="f2c15294-0692-4228-97ac-b85b5132aae4" x="73" y="0" width="210" height="25" fontSize="19.0" bold="true">
+			<text><![CDATA[GnanaPradeepa]]></text>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
 	</title>
+	<pageHeader height="43">
+		<element kind="staticText" uuid="aa5cc680-ceaa-4d58-b7aa-7b8176a18773" x="0" y="0" width="555" height="35" fontName="Poppins Medium" fontSize="18.0" bold="true" underline="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[All Member Details Report]]></text>
+			<box>
+				<pen lineWidth="0.25" lineStyle="Dashed"/>
+			</box>
+		</element>
+	</pageHeader>
 	<columnHeader height="30" splitType="Stretch">
 		<element kind="staticText" uuid="751a7a3f-63d8-4e22-bfe7-57c37f2a9411" x="0" y="0" width="111" height="30" fontName="Poppins SemiBold" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[Member_Id]]></text>
@@ -114,17 +133,19 @@
 		</band>
 	</detail>
 	<columnFooter height="5" splitType="Stretch"/>
-	<pageFooter height="42" splitType="Stretch">
-		<element kind="staticText" uuid="3e86fa87-410d-4af2-b438-0f7c2f2f88d9" x="0" y="0" width="90" height="30" fontName="Poppins SemiBold" bold="false" hTextAlign="Left" vTextAlign="Middle">
-			<text><![CDATA[Member Count :]]></text>
+	<lastPageFooter height="30">
+		<element kind="staticText" uuid="3e86fa87-410d-4af2-b438-0f7c2f2f88d9" x="0" y="0" width="120" height="30" fontName="Poppins SemiBold" bold="false" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Total Member Count :]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="45407142-3d56-4947-b1e6-a6e32279d4c9"/>
 			<box>
-				<pen lineWidth="0.0"/>
+				<pen lineWidth="0.75"/>
 			</box>
 		</element>
-		<element kind="textField" uuid="8db27dbf-6c8e-4fdc-8501-417007746029" x="90" y="0" width="80" height="30" hTextAlign="Left" vTextAlign="Middle">
+		<element kind="textField" uuid="8db27dbf-6c8e-4fdc-8501-417007746029" x="120" y="0" width="60" height="30" hTextAlign="Center" vTextAlign="Middle">
 			<expression><![CDATA[$V{Member_Id1}]]></expression>
+			<box>
+				<pen lineWidth="0.75"/>
+			</box>
 		</element>
-	</pageFooter>
-	<summary height="42" splitType="Stretch"/>
+	</lastPageFooter>
 </jasperReport>
