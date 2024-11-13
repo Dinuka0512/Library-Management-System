@@ -232,7 +232,7 @@ public class ManageAuthorViewContro implements Initializable {
     }
 
     private boolean isvalidEmail(){
-        if(authorModel.isEmailIsValid(txtEmail.getText())){
+        if(authorModel.isEmailUnique(txtEmail.getText())){
             return true;
         }else{
             new Alert(Alert.AlertType.ERROR,"THIS EMAIL IS ALREADY HAVE \nSomething went wrong...").show();
@@ -241,10 +241,10 @@ public class ManageAuthorViewContro implements Initializable {
     }
 
     private boolean isvalidEmailForUpdate(){
-        if(authorModel.isEmailIsValid(txtEmail.getText())){
+        if(authorModel.isEmailUnique(txtEmail.getText())){
+            //OWN EMAIL---> false
             return true;
         }else{
-            //IS EMAIL IS ALL READY HAVE -----> False kiyala enne author model eken
             new Alert(Alert.AlertType.ERROR,"THIS EMAIL IS ALREADY HAVE \nSomething went wrong...").show();
             return false;
         }
@@ -302,8 +302,6 @@ public class ManageAuthorViewContro implements Initializable {
     void UpdaeButtonOnAction(ActionEvent event) {
         //HERE UPDATE BUTTON ON ACTION
         try{
-            System.out.println(isvalidEmailForUpdate());
-            System.out.println(isEnterTheCorrectDetails());
             if(isEnterTheCorrectDetails() && isvalidEmailForUpdate()){
                 AuthorDto dto = new AuthorDto(
                         lblAuthorId.getText(),

@@ -5,11 +5,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane fx:id="body" prefHeight="553.0" prefWidth="1059.0" style="-fx-background-color: #DCDCDC;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.gdse.libarymanagementsystem.controller.ManageBookIssueView">
    <children>
@@ -43,42 +41,47 @@
                   <TableColumn minWidth="4.0" prefWidth="109.5999755859375" text="Qty" />
               </columns>
             </TableView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1b3b4" height="172.0" layoutX="649.0" layoutY="14.0" stroke="#ffffff00" strokeType="INSIDE" width="276.0" />
-            <Label layoutX="666.0" layoutY="30.0" text="Issue ID">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1b3b4" height="152.0" layoutX="644.0" layoutY="25.0" stroke="#ffffff00" strokeType="INSIDE" width="276.0" />
+            <Label layoutX="661.0" layoutY="41.0" text="Issue ID">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="719.0" layoutY="30.0" text="I001">
+            <Label layoutX="716.0" layoutY="41.0" text="I001">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <Label layoutX="9.0" layoutY="8.0" text="-CART TABLE-" />
-            <Label layoutX="666.0" layoutY="65.0" text="Book ID">
+            <Label layoutX="660.0" layoutY="77.0" text="Book ID">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="comboBookId" layoutX="726.0" layoutY="62.0" prefHeight="26.0" prefWidth="184.0" promptText="Select Book" />
-            <Label layoutX="666.0" layoutY="107.0" text="Book Qty">
+            <ComboBox fx:id="comboBookId" layoutX="720.0" layoutY="74.0" onAction="#comboBookNameLoad" prefHeight="26.0" prefWidth="184.0" promptText="Select Book" />
+            <Label fx:id="lblBookName" layoutX="720.0" layoutY="102.0" prefHeight="18.0" prefWidth="184.0" text="B001 | Sample Book" textFill="#006e33" />
+            <Label layoutX="776.0" layoutY="41.0" text="Book Qty">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="726.0" layoutY="104.0" prefHeight="10.0" prefWidth="184.0" promptText="Qty" />
-            <Button layoutX="663.0" layoutY="141.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" style="-fx-background-color: #2a6f5b;" text="Add" textFill="WHITE" />
-            <Button layoutX="750.0" layoutY="141.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" style="-fx-background-color: #b30000;" text="Remove" textFill="WHITE" />
-            <Button layoutX="836.0" layoutY="141.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #003f5c;" text="Update" textFill="WHITE" />
+            <Button layoutX="658.0" layoutY="129.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" style="-fx-background-color: #2a6f5b;" text="Add" textFill="WHITE" />
+            <Button layoutX="745.0" layoutY="129.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" style="-fx-background-color: #b30000;" text="Remove" textFill="WHITE" />
+            <Button layoutX="831.0" layoutY="129.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #003f5c;" text="Update" textFill="WHITE" />
             <Button layoutX="929.0" layoutY="14.0" mnemonicParsing="false" prefHeight="234.0" prefWidth="82.0" style="-fx-background-color: #2a6f5b;" text="ISSUE NOW" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
             </Button>
-            <Label layoutX="656.0" layoutY="201.0" text="Member ID" />
-            <ComboBox fx:id="comboMemberId" layoutX="721.0" layoutY="196.0" prefHeight="26.0" prefWidth="161.0" promptText="Select Member" />
-            <Label layoutX="723.0" layoutY="223.0" prefHeight="18.0" prefWidth="191.0" text="M001 | Kamal" textFill="#006e33" />
-            <Button layoutX="883.0" layoutY="196.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="29.0" text="+" />
+            <Label layoutX="648.0" layoutY="192.0" text="Member ID" />
+            <ComboBox fx:id="comboMemberId" layoutX="713.0" layoutY="187.0" onAction="#comboMemberNameLoad" prefHeight="26.0" prefWidth="161.0" promptText="Select Member" />
+            <Label fx:id="lblMemName" layoutX="715.0" layoutY="214.0" prefHeight="18.0" prefWidth="191.0" text="M001 | Kamal" textFill="#006e33" />
+            <Button layoutX="875.0" layoutY="187.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="29.0" text="+" />
+            <Label layoutX="839.0" layoutY="42.0" text="1">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

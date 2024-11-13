@@ -54,12 +54,13 @@ public class ManabeBooksViewModel {
                     if(!authorRes){
                         isAuthorSaved = false;
                     }
+
                     if(isAuthorSaved){
                         con.commit();
                         return "saved Successfully";
                     }else{
                         con.rollback();
-                        return "Suthor saving error";
+                        return "Author saving error";
                     }
                 }else{
                     con.rollback();
@@ -120,18 +121,22 @@ public class ManabeBooksViewModel {
                     if(!authorRes){
                         isAuthorUpdate = false;
                     }
+
                     if(isAuthorUpdate){
-                        con.commit();
-                        return true;
+                            con.commit();
+                            return true;
                     }else{
+                        //THE AUTHOR IS NOT SAVED
                         con.rollback();
                         return false;
                     }
                 }else{
+                    //CATEGORY IS NOT SAVED
                     con.rollback();
                     return false;
                 }
             }else{
+                //BOOK IS NOT SAVED
                 con.rollback();
                 return false;
             }

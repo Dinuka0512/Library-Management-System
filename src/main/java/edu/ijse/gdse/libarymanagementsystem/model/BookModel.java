@@ -55,4 +55,31 @@ public class BookModel {
         }
         return null;
     }
+
+    public ArrayList<String> getAllBookIds() throws ClassNotFoundException, SQLException{
+        String sql = "select book_Id from Book";
+        ResultSet res = CrudUtil.execute(sql);
+
+        ArrayList<String> ids = new ArrayList<>();
+        while(res.next()){
+            String id = res.getString("book_Id");
+            ids.add(id);
+        }
+
+        return ids;
+    }
+
+    public String getBookName(String bookId) throws ClassNotFoundException, SQLException{
+        String sql = "select name from Book where Book_Id = ?";
+        ResultSet res = CrudUtil.execute(
+                sql,
+                bookId
+        );
+
+        if(res.next()){
+            String name = res.getString("name");
+            return name;
+        }
+        return null;
+    }
 }
