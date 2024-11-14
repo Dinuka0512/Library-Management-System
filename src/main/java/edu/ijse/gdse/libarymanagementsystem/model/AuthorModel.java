@@ -126,18 +126,13 @@ public class AuthorModel {
         return authorDtos;
     }
 
-    public boolean isEmailUnique(String email){
+    public boolean isEmailUnique(String email, String id){
         try{
-            String sql = "select email from Author where Email = ?";
-            ResultSet res = CrudUtil.execute(sql, email);
+            String sql = "select email FROM Author WHERE Email = ? AND Author_Id != ?";
+            ResultSet res = CrudUtil.execute(sql, email,id);
             if(res.next()){
                 //EMAIL IS UNIQUE
-                if(res.getString("email").equals(email)){
-                    //OWN EMAIL
-                    return false;
-                }else{
-                    return true;
-                }
+                return false;
             }
             return true;
         }catch (ClassNotFoundException e1){

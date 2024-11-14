@@ -232,7 +232,7 @@ public class ManageAuthorViewContro implements Initializable {
     }
 
     private boolean isvalidEmail(){
-        if(authorModel.isEmailUnique(txtEmail.getText())){
+        if(authorModel.isEmailUnique(txtEmail.getText(),lblAuthorId.getText())){
             return true;
         }else{
             new Alert(Alert.AlertType.ERROR,"THIS EMAIL IS ALREADY HAVE \nSomething went wrong...").show();
@@ -241,7 +241,7 @@ public class ManageAuthorViewContro implements Initializable {
     }
 
     private boolean isvalidEmailForUpdate(){
-        if(authorModel.isEmailUnique(txtEmail.getText())){
+        if(authorModel.isEmailUnique(txtEmail.getText(), lblAuthorId.getText())){
             //OWN EMAIL---> false
             return true;
         }else{

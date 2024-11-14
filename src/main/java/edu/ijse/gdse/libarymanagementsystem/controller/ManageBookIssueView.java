@@ -1,5 +1,6 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.dto.tm.TempBookIssueTm;
 import edu.ijse.gdse.libarymanagementsystem.model.BookIssueModel;
 import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
 import edu.ijse.gdse.libarymanagementsystem.model.MemberModel;
@@ -9,8 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -38,9 +38,33 @@ public class ManageBookIssueView implements Initializable {
     @FXML
     private ComboBox<String> comboMemberId;
 
+    @FXML
+    private TableColumn<?, ?> columnBookId;
+
+    @FXML
+    private TableColumn<?, ?> columnBookName;
+
+    @FXML
+    private TableColumn<?, ?> columnIssueId;
+
+    @FXML
+    private TableColumn<?, ?> columnQty;
+
+    @FXML
+    private TableView<?> tableTempIssue;
+
+    @FXML
+    private Label lblBookQty;
+
+    @FXML
+    private Label lblIssueId;
+
     private final MemberModel memberModel = new MemberModel();
     private final BookModel bookModel = new BookModel();
     private final BookIssueModel bookIssueModel = new BookIssueModel();
+
+    private String bookName;
+    private ArrayList<TempBookIssueTm> tempBookIssuesArrayList = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -112,8 +136,8 @@ public class ManageBookIssueView implements Initializable {
         //HERE LOAD THE BOOK NAME TO LABEL
         try{
             String bookId = comboBookId.getValue();
-            String name = bookModel.getBookName(bookId);
-            lblBookName.setText(bookId + " | " + name);
+            bookName = bookModel.getBookName(bookId);
+            lblBookName.setText(bookId + " | " + bookName);
         }catch (SQLException e1){
             System.out.println("SQL EXCeption");
             e1.printStackTrace();
@@ -151,5 +175,45 @@ public class ManageBookIssueView implements Initializable {
             System.out.println("IOException \nUnable to load home page");
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void addNewBookToIssueTable(ActionEvent event) {
+        if(comboBookId.getValue() != null){
+            //HERE GET THE BOOK NAME
+
+            for(TempBookIssueTm temp : tempBookIssuesArrayList){
+                //HERE GOING TO CHECK IS THERE HAVE GET THE SAME BOOK?
+                //IN THE ONE ISSUE ID CANNOT HAVE THE SAME TWO BOOKS
+
+                if(temp.getBookId().equals(comboBookId.getValue())){
+                    //IS THERE HAVE SAME NEED TO STOP THIS ISSUEING
+                    new Alert(Alert.AlertType.ERROR, "THERE ALLREADY HAVE THIS BOOK!!").show();
+                    return;
+                }
+            }
+
+            TempBookIssueTm tempIssue = new TempBookIssueTm(
+                    lblIssueId.getText(),
+                    comboBookId.getValue(),
+                    bookName,
+                    Integer.parseInt(lblBookQty.getText())
+            );
+
+            tempBookIssuesArrayList.add(tempIssue);
+            refresh();
+        }else{
+            //IS NULL
+            new Alert(Alert.AlertType.WARNING,"Please select the book Id!!!").show();
+        }
+    }
+
+    private void refresh(){
+        loardThetempIssueTable();
+
+    }
+
+    private void loardThetempIssueTable(){
+        System.out.println(tempBookIssuesArrayList);
     }
 }
