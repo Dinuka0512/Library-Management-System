@@ -66,6 +66,7 @@ public class ManageBookIssueView implements Initializable {
 
     private String bookName;
     private ArrayList<TempBookIssueTm> tempBookIssuesArrayList = new ArrayList<>();
+    private final int bookQtyCanGet = 3;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -199,15 +200,21 @@ public class ManageBookIssueView implements Initializable {
                 }
             }
 
-            TempBookIssueTm tempIssue = new TempBookIssueTm(
-                    lblIssueId.getText(),
-                    comboBookId.getValue(),
-                    bookName,
-                    Integer.parseInt(lblBookQty.getText())
-            );
+            System.out.println(tempBookIssuesArrayList.size());
+            if((tempBookIssuesArrayList.size() + 1) <= bookQtyCanGet){
+                TempBookIssueTm tempIssue = new TempBookIssueTm(
+                        lblIssueId.getText(),
+                        comboBookId.getValue(),
+                        bookName,
+                        Integer.parseInt(lblBookQty.getText())
+                );
 
-            tempBookIssuesArrayList.add(tempIssue);
-            refresh();
+                tempBookIssuesArrayList.add(tempIssue);
+                refresh();
+            }else{
+                new Alert(Alert.AlertType.CONFIRMATION,"Sorry You have reached to the limit! \nThe Member Can Only get the " + bookQtyCanGet + " Books For at one Time...").show();
+                return;
+            }
         }else{
             //IS NULL
             new Alert(Alert.AlertType.WARNING,"Please select the book Id!!!").show();
@@ -216,7 +223,7 @@ public class ManageBookIssueView implements Initializable {
 
     private void refresh(){
         loardThetempIssueTable();
-
+        clearTextIntempArea();
     }
 
     private void loardThetempIssueTable(){
@@ -233,5 +240,28 @@ public class ManageBookIssueView implements Initializable {
         }
 
         tableTempIssue.setItems(observableList);
+    }
+
+
+    private void clearTextIntempArea(){
+        comboBookId.setValue("");
+        comboBookId.setPromptText("Select Book...");
+    }
+
+    @FXML
+    void getTempTableValues(MouseEvent event) {
+        TempBookIssueTm tempBookIssueTm = tableTempIssue.getSelectionModel().getSelectedItem();
+
+        if(tempBookIssueTm != null){
+            lblIssueId.setText(tempBookIssueTm.getIssueId());
+            comboBookId.setValue(tempBookIssueTm.getBookId());
+            lblBookQty.setText(Integer.toString(tempBookIssueTm.getQty()));
+        }
+    }
+
+
+    @FXML
+    void btnRemoveTemp(ActionEvent event) {
+
     }
 }
