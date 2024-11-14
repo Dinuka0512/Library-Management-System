@@ -69,16 +69,22 @@ public class BookModel {
         return ids;
     }
 
-    public String getBookName(String bookId) throws ClassNotFoundException, SQLException{
-        String sql = "select name from Book where Book_Id = ?";
+    public BookDto getBookName(String bookId) throws ClassNotFoundException, SQLException{
+        String sql = "select * from Book where Book_Id = ?";
         ResultSet res = CrudUtil.execute(
                 sql,
                 bookId
         );
 
         if(res.next()){
-            String name = res.getString("name");
-            return name;
+            BookDto dto = new BookDto(
+                    res.getString("Book_Id"),
+                    res.getString("name"),
+                    res.getInt("qty"),
+                    res.getDouble("price"),
+                    res.getString("bookshelf_Id")
+            );
+            return dto;
         }
         return null;
     }

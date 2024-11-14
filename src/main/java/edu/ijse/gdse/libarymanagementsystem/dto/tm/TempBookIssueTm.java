@@ -1,4 +1,5 @@
 package edu.ijse.gdse.libarymanagementsystem.dto.tm;
+import javafx.scene.control.Button;
 import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,4 +11,5 @@ public class TempBookIssueTm {
     private String bookId;
     private String name;
     private int qty;
+    private Button btnRemove;
 }

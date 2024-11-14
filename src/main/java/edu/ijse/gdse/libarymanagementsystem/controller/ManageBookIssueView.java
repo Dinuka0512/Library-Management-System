@@ -1,5 +1,6 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.TempBookIssueTm;
 import edu.ijse.gdse.libarymanagementsystem.model.BookIssueModel;
 import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
@@ -28,12 +29,6 @@ public class ManageBookIssueView implements Initializable {
     private AnchorPane body;
 
     @FXML
-    private Label lblBookName;
-
-    @FXML
-    private Label lblMemName;
-
-    @FXML
     private ComboBox<String> comboBookId;
 
     @FXML
@@ -55,16 +50,28 @@ public class ManageBookIssueView implements Initializable {
     private TableView<TempBookIssueTm> tableTempIssue;
 
     @FXML
-    private Label lblBookQty;
+    private Label lblBookIdAndName;
+
+    @FXML
+    private Label lblBookNameload;
+
+    @FXML
+    private Label lblBookQtyLoad;
+
+    @FXML
+    private Label lblBookqty;
 
     @FXML
     private Label lblIssueId;
+
+    @FXML
+    private Label lblMemName;
 
     private final MemberModel memberModel = new MemberModel();
     private final BookModel bookModel = new BookModel();
     private final BookIssueModel bookIssueModel = new BookIssueModel();
 
-    private String bookName;
+    private BookDto bookDetail;
     private ArrayList<TempBookIssueTm> tempBookIssuesArrayList = new ArrayList<>();
     private final int bookQtyCanGet = 3;
 
@@ -143,8 +150,13 @@ public class ManageBookIssueView implements Initializable {
         //HERE LOAD THE BOOK NAME TO LABEL
         try{
             String bookId = comboBookId.getValue();
-            bookName = bookModel.getBookName(bookId);
-            lblBookName.setText(bookId + " | " + bookName);
+            bookDetail = bookModel.getBookName(bookId);
+            lblBookIdAndName.setText(bookId + " | " + bookDetail.getName());
+
+            //HERE LOAD THE SAMPLE DATA
+            lblBookNameload.setText(bookDetail.getName());
+            lblBookQtyLoad.setText(Integer.toString(bookDetail.getQty()));
+
         }catch (SQLException e1){
             System.out.println("SQL EXCeption");
             e1.printStackTrace();
@@ -200,13 +212,14 @@ public class ManageBookIssueView implements Initializable {
                 }
             }
 
-            System.out.println(tempBookIssuesArrayList.size());
             if((tempBookIssuesArrayList.size() + 1) <= bookQtyCanGet){
+                Button btn = new Button("Remove");
                 TempBookIssueTm tempIssue = new TempBookIssueTm(
                         lblIssueId.getText(),
                         comboBookId.getValue(),
-                        bookName,
-                        Integer.parseInt(lblBookQty.getText())
+                        bookDetail.getName(),
+                        Integer.parseInt(lblBookqty.getText()),
+                        btn
                 );
 
                 tempBookIssuesArrayList.add(tempIssue);
@@ -233,7 +246,8 @@ public class ManageBookIssueView implements Initializable {
                    temp.getIssueId(),
                    temp.getBookId(),
                    temp.getName(),
-                   temp.getQty()
+                   temp.getQty(),
+                   temp.getBtnRemove()
            );
 
            observableList.add(tempBookIssueTm);
@@ -255,7 +269,7 @@ public class ManageBookIssueView implements Initializable {
         if(tempBookIssueTm != null){
             lblIssueId.setText(tempBookIssueTm.getIssueId());
             comboBookId.setValue(tempBookIssueTm.getBookId());
-            lblBookQty.setText(Integer.toString(tempBookIssueTm.getQty()));
+            lblBookqty.setText(Integer.toString(tempBookIssueTm.getQty()));
         }
     }
 
