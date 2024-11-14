@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -39,19 +40,19 @@ public class ManageBookIssueView implements Initializable {
     private ComboBox<String> comboMemberId;
 
     @FXML
-    private TableColumn<?, ?> columnBookId;
+    private TableColumn<TempBookIssueTm, String> columnBookId;
 
     @FXML
-    private TableColumn<?, ?> columnBookName;
+    private TableColumn<TempBookIssueTm, String> columnBookName;
 
     @FXML
-    private TableColumn<?, ?> columnIssueId;
+    private TableColumn<TempBookIssueTm, String> columnIssueId;
 
     @FXML
-    private TableColumn<?, ?> columnQty;
+    private TableColumn<TempBookIssueTm, Integer> columnQty;
 
     @FXML
-    private TableView<?> tableTempIssue;
+    private TableView<TempBookIssueTm> tableTempIssue;
 
     @FXML
     private Label lblBookQty;
@@ -68,6 +69,11 @@ public class ManageBookIssueView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        columnIssueId.setCellValueFactory(new PropertyValueFactory<>("issueId"));
+        columnBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        columnBookName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+
         pageReload();
     }
 
@@ -214,6 +220,18 @@ public class ManageBookIssueView implements Initializable {
     }
 
     private void loardThetempIssueTable(){
-        System.out.println(tempBookIssuesArrayList);
+        ObservableList<TempBookIssueTm> observableList = FXCollections.observableArrayList();
+        for(TempBookIssueTm temp : tempBookIssuesArrayList){
+           TempBookIssueTm tempBookIssueTm = new TempBookIssueTm(
+                   temp.getIssueId(),
+                   temp.getBookId(),
+                   temp.getName(),
+                   temp.getQty()
+           );
+
+           observableList.add(tempBookIssueTm);
+        }
+
+        tableTempIssue.setItems(observableList);
     }
 }
