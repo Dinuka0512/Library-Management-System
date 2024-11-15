@@ -1,5 +1,6 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.db.DBConnection;
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.IssueTableDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.MemberDto;
@@ -16,9 +17,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -30,6 +34,15 @@ public class ManageBookIssueView implements Initializable {
 
     @FXML
     private AnchorPane body;
+
+    @FXML
+    private AnchorPane anchorIssueTable;
+
+    @FXML
+    private Button open;
+
+    @FXML
+    private Button btnBack;
 
     @FXML
     private ComboBox<String> comboBookId;
@@ -137,6 +150,58 @@ public class ManageBookIssueView implements Initializable {
 
         //LOAD NEXT IDS
         generateIssueId();
+
+        //LOAD TABLE DATA
+        loadIssueTable();
+    }
+
+    //LOAD ISSUE TABLE HERE
+    private void loadIssueTable(){
+        try{
+            ArrayList<IssueTableDto> dtos = issueModel.getAllData();
+            //CREATE THE TABLE MODEL TYPE ARRAY
+            ArrayList<IssueTableTm> issueTableTms = new ArrayList<>();
+
+            for(IssueTableDto dto: dtos){
+                //GET EACH MEMBER ID
+                String memberId = dto.getMemId();
+                MemberDto newMemberDetails = memberModel.getMemberDetails(memberId);
+
+                IssueTableTm issueTableTm = new IssueTableTm(
+                        dto.getIssueId(),
+                        dto.getMemId(),
+                        newMemberDetails.getEmail(),
+                        dto.getDate(),
+                        dto.getTime(),
+                        dto.getUserId()
+                );
+
+                issueTableTms.add(issueTableTm);
+            }
+            //ADDING VALUES TO OBSERVABLE ARRAY LIST
+            ObservableList<IssueTableTm> observableList = FXCollections.observableArrayList();
+            for(IssueTableTm dto: issueTableTms){
+                IssueTableTm issueTableTm = new IssueTableTm(
+                        dto.getIssueId(),
+                        dto.getMemId(),
+                        dto.getMemEmail(),
+                        dto.getDate(),
+                        dto.getTime(),
+                        dto.getUserId()
+                );
+
+                observableList.add(issueTableTm);
+            }
+
+            tableIssue.setItems(observableList);
+
+        }catch (ClassNotFoundException e1){
+            System.out.println("ClassNotFoundException");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQLException");
+            e2.printStackTrace();
+        }
     }
 
     //GENERATE NEXT IDS
@@ -275,24 +340,53 @@ public class ManageBookIssueView implements Initializable {
                 //CREATE THE BUTTON AND WE CAN ACCESS IT WITH btn REFERENCE
                 Button btn = new Button("Remove");
 
-                TempBookIssueTm tempIssue = new TempBookIssueTm(
-                        lblIssueId.getText(),
-                        comboBookId.getValue(),
-                        bookDetail.getName(),
-                        Integer.parseInt(lblBookqty.getText()),
-                        btn
-                );
+                if(bookDetail != null){
 
-                btn.setOnAction(actionEvent -> {
-                    //HERE REMOVE THIS FORM ARRAY LIST
-                    tempBookIssuesArrayList.remove(tempIssue);
-                    tableTempIssue.refresh();
-                    //HERE LOAD THE TABLE AFTER CHANGES
-                    loardThetempIssueTable();
-                });
+                    if(bookDetail.getQty() == 0){
+                        //OUT OF STOCK
+                        new Alert(Alert.AlertType.ERROR,"SORRY!,\nThis "+ bookDetail.getName() + " book order is currently out of stock.").show();
+                        return;
+                    }
 
-                tempBookIssuesArrayList.add(tempIssue);
-                refresh();
+                    if(bookDetail.getQty() >= Integer.parseInt(lblBookqty.getText())){
+                        /*
+                        * IN THERE CHECK IS THE BOOK QTY IS
+                        * GRATER THAN THE ISSUE QTY
+                        * */
+
+                        if(Integer.parseInt(lblBookqty.getText()) == 0){
+                            //ORDER THE 0 BOOKS -----> SO WE DON'T NEED TO ADD IT ON CART
+                            //BECAUSE THERE HAVE NOT ANY BOOK...
+                            new Alert(Alert.AlertType.WARNING, "Please the quantity you have added 0 books...???").show();
+                            return;
+                        }
+
+                        TempBookIssueTm tempIssue = new TempBookIssueTm(
+                                lblIssueId.getText(),
+                                comboBookId.getValue(),
+                                bookDetail.getName(),
+                                Integer.parseInt(lblBookqty.getText()),
+                                btn
+                        );
+
+                        btn.setOnAction(actionEvent -> {
+                            //HERE REMOVE THIS FORM ARRAY LIST
+                            tempBookIssuesArrayList.remove(tempIssue);
+                            tableTempIssue.refresh();
+                            //HERE LOAD THE TABLE AFTER CHANGES
+                            loardThetempIssueTable();
+                        });
+
+                        tempBookIssuesArrayList.add(tempIssue);
+                        refresh();
+                    }else{
+                        new Alert(Alert.AlertType.ERROR,"Book Have Only " + bookDetail.getQty() + "! You can not get the " + lblBookqty.getText() + " Books..").show();
+                    }
+
+                }else{
+                    new Alert(Alert.AlertType.WARNING,"The Cart Is Empty..").show();
+                }
+
             }else{
                 new Alert(Alert.AlertType.CONFIRMATION,"Sorry You have reached to the limit! \nThe Member Can Only get the " + bookQtyCanGet + " Books For at one Time...").show();
                 return;
@@ -409,6 +503,48 @@ public class ManageBookIssueView implements Initializable {
         }catch (SQLException e2){
             System.out.println("SQL Exception");
             e2.printStackTrace();
+        }
+    }
+
+    @FXML
+    void btnOpenBookIssueTable(ActionEvent event) {
+        loadIssueTable(); //HERE CAN GET NEW ADDED VALUES
+        anchorIssueTable.setVisible(true);
+        btnBack.setVisible(true);
+        open.setVisible(false);
+    }
+
+
+    @FXML
+    void close(ActionEvent event) {
+        anchorIssueTable.setVisible(false);
+        btnBack.setVisible(false);
+        open.setVisible(true);
+    }
+
+
+    @FXML
+    void generateIssueReport(ActionEvent event) {
+        try{
+            //LOAD THE REPORT
+            Connection con = DBConnection.getInstance().getConnection();
+            JasperReport jasperReport = JasperCompileManager.compileReport(getClass().getResourceAsStream("/Reports/AllBookIssues.jrxml"));
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    jasperReport,null,con
+            );
+
+            JasperViewer.viewReport(jasperPrint,false);
+        }catch (SQLException e1){
+            System.out.println("SQL Exception");
+            e1.printStackTrace();
+        }catch (ClassNotFoundException e2){
+            System.out.println("Class Not Found Exception ");
+            e2.printStackTrace();
+        }catch (JRException e3){
+            new Alert(Alert.AlertType.ERROR,"Failed to load report").show();
+            System.out.println("JRException");
+            e3.printStackTrace();
         }
     }
 }

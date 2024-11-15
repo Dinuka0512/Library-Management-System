@@ -12,5 +12,5 @@ public class IssueTableTm {
     private String memEmail;
     private String date;
     private String time;
-    private boolean userId;
+    private String userId;
 }

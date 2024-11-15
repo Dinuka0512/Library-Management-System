@@ -1,9 +1,11 @@
 package edu.ijse.gdse.libarymanagementsystem.model;
 
+import edu.ijse.gdse.libarymanagementsystem.dto.IssueTableDto;
 import edu.ijse.gdse.libarymanagementsystem.util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class IssueModel {
     public String getNextIssueId() throws SQLException, ClassNotFoundException{
@@ -18,6 +20,25 @@ public class IssueModel {
         }
 
         return "I001";
+    }
+
+    public ArrayList<IssueTableDto> getAllData() throws SQLException, ClassNotFoundException{
+        String sql = "select * from Issue";
+        ResultSet res = CrudUtil.execute(sql);
+        ArrayList<IssueTableDto> dtos = new ArrayList<>();
+        while(res.next()){
+            IssueTableDto dto =new IssueTableDto(
+                    res.getString("Issue_Id"),
+                    res.getString("Member_Id"),
+                    res.getString("User_Id"),
+                    res.getString("Date"),
+                    res.getString("Time"),
+                    res.getBoolean("isCompleted")
+            );
+
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
 }

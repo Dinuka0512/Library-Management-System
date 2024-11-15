@@ -21,6 +21,13 @@
       <version>7.0.1</version>
     </dependency>
 
+<!--      &lt;!&ndash; https://mvnrepository.com/artifact/com.sun.mail/javax.mail ->-->
+    <dependency>
+	  <groupId>com.sun.mail</groupId>
+	  <artifactId>javax.mail</artifactId>
+	  <version>1.6.2</version>
+    </dependency>
+
     <dependency>
       <groupId>net.sf.jasperreports</groupId>
       <artifactId>jasperreports-fonts</artifactId>
