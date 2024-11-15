@@ -1,6 +1,7 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
+import edu.ijse.gdse.libarymanagementsystem.dto.MemberDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.TempBookIssueTm;
 import edu.ijse.gdse.libarymanagementsystem.model.BookIssueModel;
 import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
@@ -47,6 +48,9 @@ public class ManageBookIssueView implements Initializable {
     private TableColumn<TempBookIssueTm, Integer> columnQty;
 
     @FXML
+    private TableColumn<TempBookIssueTm, Button> columnButton;
+
+    @FXML
     private TableView<TempBookIssueTm> tableTempIssue;
 
     @FXML
@@ -67,11 +71,15 @@ public class ManageBookIssueView implements Initializable {
     @FXML
     private Label lblMemName;
 
+    @FXML
+    private Label lblMemberNameload;
+
     private final MemberModel memberModel = new MemberModel();
     private final BookModel bookModel = new BookModel();
     private final BookIssueModel bookIssueModel = new BookIssueModel();
 
     private BookDto bookDetail;
+    private MemberDto memberDetails;
     private ArrayList<TempBookIssueTm> tempBookIssuesArrayList = new ArrayList<>();
     private final int bookQtyCanGet = 3;
 
@@ -81,7 +89,7 @@ public class ManageBookIssueView implements Initializable {
         columnBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
         columnBookName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
-
+        columnButton.setCellValueFactory(new PropertyValueFactory<>("btnRemove"));
         pageReload();
     }
 
@@ -150,7 +158,9 @@ public class ManageBookIssueView implements Initializable {
         //HERE LOAD THE BOOK NAME TO LABEL
         try{
             String bookId = comboBookId.getValue();
-            bookDetail = bookModel.getBookName(bookId);
+            bookDetail = bookModel.getBookDetails(bookId);
+            System.out.println(bookDetail);
+            System.out.println(bookDetail.getName());
             lblBookIdAndName.setText(bookId + " | " + bookDetail.getName());
 
             //HERE LOAD THE SAMPLE DATA
@@ -171,8 +181,9 @@ public class ManageBookIssueView implements Initializable {
         //HERE LOAD THE MEMBER NAME TO LABEL
         try{
             String memId = comboMemberId.getValue();
-            String name = memberModel.getMemberName(memId);
-            lblMemName.setText(memId + " | " + name);
+            memberDetails = memberModel.getMemberDetails(memId);
+            lblMemName.setText(memId + " | " + memberDetails.getName());
+            lblMemberNameload.setText("Mr/Miss. " + memberDetails.getName());
         }catch (SQLException e1){
             System.out.println("SQL EXCeption");
             e1.printStackTrace();
@@ -206,14 +217,16 @@ public class ManageBookIssueView implements Initializable {
                 //IN THE ONE ISSUE ID CANNOT HAVE THE SAME TWO BOOKS
 
                 if(temp.getBookId().equals(comboBookId.getValue())){
-                    //IS THERE HAVE SAME NEED TO STOP THIS ISSUEING
-                    new Alert(Alert.AlertType.ERROR, "THERE ALLREADY HAVE THIS BOOK!!").show();
+                    //IS THERE HAVE SAME NEED TO STOP THIS ISSUING
+                    new Alert(Alert.AlertType.ERROR, "THERE ALL READY HAVE THIS BOOK!!").show();
                     return;
                 }
             }
 
             if((tempBookIssuesArrayList.size() + 1) <= bookQtyCanGet){
+                //CREATE THE BUTTON AND WE CAN ACCESS IT WITH btn REFERENCE
                 Button btn = new Button("Remove");
+
                 TempBookIssueTm tempIssue = new TempBookIssueTm(
                         lblIssueId.getText(),
                         comboBookId.getValue(),
@@ -221,6 +234,14 @@ public class ManageBookIssueView implements Initializable {
                         Integer.parseInt(lblBookqty.getText()),
                         btn
                 );
+
+                btn.setOnAction(actionEvent -> {
+                    //HERE REMOVE THIS FORM ARRAY LIST
+                    tempBookIssuesArrayList.remove(tempIssue);
+                    tableTempIssue.refresh();
+                    //HERE LOAD THE TABLE AFTER CHANGES
+                    loardThetempIssueTable();
+                });
 
                 tempBookIssuesArrayList.add(tempIssue);
                 refresh();
@@ -236,7 +257,7 @@ public class ManageBookIssueView implements Initializable {
 
     private void refresh(){
         loardThetempIssueTable();
-        clearTextIntempArea();
+//        clearTextIntempArea();
     }
 
     private void loardThetempIssueTable(){
@@ -271,11 +292,5 @@ public class ManageBookIssueView implements Initializable {
             comboBookId.setValue(tempBookIssueTm.getBookId());
             lblBookqty.setText(Integer.toString(tempBookIssueTm.getQty()));
         }
-    }
-
-
-    @FXML
-    void btnRemoveTemp(ActionEvent event) {
-
     }
 }

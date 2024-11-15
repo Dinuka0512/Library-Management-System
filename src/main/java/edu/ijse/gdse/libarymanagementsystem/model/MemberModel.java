@@ -118,16 +118,23 @@ public class MemberModel {
         return dto;
     }
 
-    public String getMemberName(String memId) throws SQLException, ClassNotFoundException{
-        String sql = "select name from Member where member_Id = ? ";
+    public MemberDto getMemberDetails(String memId) throws SQLException, ClassNotFoundException{
+        String sql = "select * from Member where member_Id = ? ";
         ResultSet res = CrudUtil.execute(
                 sql,
                 memId
         );
 
         if(res.next()){
-            String name = res.getString("name");
-            return name;
+            MemberDto memberDto = new MemberDto(
+                    res.getString("Member_Id"),
+                    res.getString("name"),
+                    res.getString("adress"),
+                    res.getString("email"),
+                    res.getString("contact_No")
+            );
+
+            return memberDto;
         }
         return null;
     }

@@ -69,7 +69,7 @@ public class BookModel {
         return ids;
     }
 
-    public BookDto getBookName(String bookId) throws ClassNotFoundException, SQLException{
+    public BookDto getBookDetails(String bookId) throws ClassNotFoundException, SQLException{
         String sql = "select * from Book where Book_Id = ?";
         ResultSet res = CrudUtil.execute(
                 sql,
