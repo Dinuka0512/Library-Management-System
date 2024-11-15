@@ -26,17 +26,17 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <TableView layoutX="20.0" layoutY="344.0" prefHeight="195.0" prefWidth="1023.0">
+      <TableView fx:id="tableIssue" layoutX="20.0" layoutY="344.0" prefHeight="195.0" prefWidth="1023.0" visible="false">
          <columns>
-            <TableColumn prefWidth="126.39999008178711" text="Issue ID" />
-            <TableColumn prefWidth="132.00001525878906" text="Member ID" />
-            <TableColumn prefWidth="158.39996337890625" text="UserID" />
-            <TableColumn prefWidth="197.60003662109375" text="User Email" />
-            <TableColumn prefWidth="149.5999755859375" text="Date" />
-            <TableColumn prefWidth="207.199951171875" text="Time" />
+            <TableColumn fx:id="columnIssueIssueId" prefWidth="106.0" text="Issue ID" />
+            <TableColumn fx:id="columnIssueMemId" prefWidth="122.0" text="Member ID" />
+            <TableColumn fx:id="columnIssueMemEmail" prefWidth="290.0" text="Member Email" />
+            <TableColumn fx:id="columnIssueDate" prefWidth="195.0" text="Date" />
+            <TableColumn fx:id="columnIssueTime" prefWidth="157.0" text="Time" />
+            <TableColumn fx:id="columnIssueUserId" prefWidth="151.0" text="UserID" />
          </columns>
       </TableView>
-      <AnchorPane layoutX="20.0" layoutY="47.0" prefHeight="278.0" prefWidth="1023.0" style="-fx-background-color: #c9cbcd; -fx-background-radius: 7;">
+      <AnchorPane layoutX="18.0" layoutY="130.0" prefHeight="293.0" prefWidth="1023.0" style="-fx-background-color: #c9cbcd; -fx-background-radius: 7;">
          <children>
             <TableView fx:id="tableTempIssue" layoutX="14.0" layoutY="26.0" onMouseClicked="#getTempTableValues" prefHeight="203.0" prefWidth="530.0">
               <columns>
@@ -72,15 +72,14 @@
                </font>
             </Label>
             <Button layoutX="841.0" layoutY="135.0" mnemonicParsing="false" onAction="#addNewBookToIssueTable" prefHeight="26.0" prefWidth="138.0" style="-fx-background-color: #3967ff;" text="Add to Cart" textFill="WHITE" />
-            <Button layoutX="503.0" layoutY="236.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="503.0" style="-fx-background-color: #2a6f5b;" text="ISSUE NOW" textFill="WHITE">
+            <Button layoutX="503.0" layoutY="246.0" mnemonicParsing="false" onAction="#bookIssueNow" prefHeight="28.0" prefWidth="503.0" style="-fx-background-color: #2a6f5b;" text="ISSUE NOW" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
             </Button>
             <Label layoutX="553.0" layoutY="189.0" text="Member ID" />
-            <ComboBox fx:id="comboMemberId" layoutX="618.0" layoutY="184.0" onAction="#comboMemberNameLoad" prefHeight="26.0" prefWidth="161.0" promptText="Select Member" />
-            <Label fx:id="lblMemName" layoutX="620.0" layoutY="211.0" prefHeight="18.0" prefWidth="191.0" text="M001 | Kamal" textFill="#909492" />
-            <Button layoutX="780.0" layoutY="184.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="29.0" text="+" />
+            <ComboBox fx:id="comboMemberId" layoutX="618.0" layoutY="184.0" onAction="#comboMemberNameLoad" prefHeight="31.0" prefWidth="191.0" promptText="Select Member" />
+            <Label fx:id="lblMemName" layoutX="620.0" layoutY="214.0" prefHeight="18.0" prefWidth="191.0" text="M001 | Kamal" textFill="#909492" />
             <Label fx:id="lblBookqty" layoutX="749.0" layoutY="45.0" text="1">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -106,7 +105,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="817.0" layoutY="187.0" text="Mem.Name">
+            <Label layoutX="817.0" layoutY="187.0" text="Member Name">
                <font>
                   <Font size="14.0" />
                </font>
@@ -116,7 +115,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button layoutX="18.0" layoutY="237.0" mnemonicParsing="false" onAction="#addNewBookToIssueTable" prefHeight="26.0" prefWidth="474.0" style="-fx-background-color: #b70000;" text="Reset " textFill="WHITE">
+            <Button layoutX="18.0" layoutY="247.0" mnemonicParsing="false" onAction="#resetTable" prefHeight="26.0" prefWidth="474.0" style="-fx-background-color: #b70000;" text="Reset " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

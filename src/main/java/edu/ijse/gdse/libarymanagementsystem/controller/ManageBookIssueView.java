@@ -1,11 +1,11 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
+import edu.ijse.gdse.libarymanagementsystem.dto.IssueTableDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.MemberDto;
+import edu.ijse.gdse.libarymanagementsystem.dto.tm.IssueTableTm;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.TempBookIssueTm;
-import edu.ijse.gdse.libarymanagementsystem.model.BookIssueModel;
-import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
-import edu.ijse.gdse.libarymanagementsystem.model.MemberModel;
+import edu.ijse.gdse.libarymanagementsystem.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,8 +20,10 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ManageBookIssueView implements Initializable {
@@ -76,20 +78,56 @@ public class ManageBookIssueView implements Initializable {
 
     private final MemberModel memberModel = new MemberModel();
     private final BookModel bookModel = new BookModel();
-    private final BookIssueModel bookIssueModel = new BookIssueModel();
+    private final IssueModel issueModel = new IssueModel();
+    private final UserModel userModel = new UserModel();
+    private final ManageBookIssueModel manageBookIssueModel = new ManageBookIssueModel();
 
-    private BookDto bookDetail;
-    private MemberDto memberDetails;
+    private BookDto bookDetail = null;
+    private MemberDto memberDetails = null;
     private ArrayList<TempBookIssueTm> tempBookIssuesArrayList = new ArrayList<>();
-    private final int bookQtyCanGet = 3;
+    private final int bookQtyCanGet = 5;
+
+
+    //ISSUE TABLE
+    @FXML
+    private TableColumn<IssueTableTm, String> columnIssueIssueId;
+
+    @FXML
+    private TableColumn<IssueTableTm, String> columnIssueMemEmail;
+
+    @FXML
+    private TableColumn<IssueTableTm, String> columnIssueMemId;
+
+    @FXML
+    private TableColumn<IssueTableTm, String> columnIssueDate;
+
+    @FXML
+    private TableColumn<IssueTableTm, String> columnIssueTime;
+
+    @FXML
+    private TableColumn<IssueTableTm, String> columnIssueUserId;
+
+    @FXML
+    private TableView<IssueTableTm> tableIssue;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //TEMP TABLE COLUMN INITIALIZING.....
         columnIssueId.setCellValueFactory(new PropertyValueFactory<>("issueId"));
         columnBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
         columnBookName.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
         columnButton.setCellValueFactory(new PropertyValueFactory<>("btnRemove"));
+
+
+        //ISSUE TABLE COLUMN INITIALIZING.....
+        columnIssueIssueId.setCellValueFactory(new PropertyValueFactory<>("issueId"));
+        columnIssueMemId.setCellValueFactory(new PropertyValueFactory<>("memId"));
+        columnIssueMemEmail.setCellValueFactory(new PropertyValueFactory<>("memEmail"));
+        columnIssueDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        columnIssueTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        columnIssueUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+
         pageReload();
     }
 
@@ -104,8 +142,8 @@ public class ManageBookIssueView implements Initializable {
     //GENERATE NEXT IDS
     private void generateIssueId(){
         try{
-            String nextId = bookIssueModel.getNextIssueId();
-            System.out.println(nextId);
+            String nextId = issueModel.getNextIssueId();
+            lblIssueId.setText(nextId);
         }catch (SQLException e1){
             System.out.println("SQL EXCeption");
             e1.printStackTrace();
@@ -157,16 +195,20 @@ public class ManageBookIssueView implements Initializable {
     void comboBookNameLoad(ActionEvent event) {
         //HERE LOAD THE BOOK NAME TO LABEL
         try{
-            String bookId = comboBookId.getValue();
-            bookDetail = bookModel.getBookDetails(bookId);
-            System.out.println(bookDetail);
-            System.out.println(bookDetail.getName());
-            lblBookIdAndName.setText(bookId + " | " + bookDetail.getName());
+                String bookId = comboBookId.getValue();
+                bookDetail = bookModel.getBookDetails(bookId);
+            if(bookDetail != null){
+                lblBookIdAndName.setText(bookId + " | " + bookDetail.getName());
 
-            //HERE LOAD THE SAMPLE DATA
-            lblBookNameload.setText(bookDetail.getName());
-            lblBookQtyLoad.setText(Integer.toString(bookDetail.getQty()));
-
+                //HERE LOAD THE SAMPLE DATA
+                lblBookNameload.setText(bookDetail.getName());
+                lblBookQtyLoad.setText(Integer.toString(bookDetail.getQty()));
+            }else{
+                lblBookIdAndName.setText(" ");
+                //HERE LOAD THE SAMPLE DATA
+                lblBookNameload.setText(" ");
+                lblBookQtyLoad.setText(" ");
+            }
         }catch (SQLException e1){
             System.out.println("SQL EXCeption");
             e1.printStackTrace();
@@ -182,8 +224,14 @@ public class ManageBookIssueView implements Initializable {
         try{
             String memId = comboMemberId.getValue();
             memberDetails = memberModel.getMemberDetails(memId);
-            lblMemName.setText(memId + " | " + memberDetails.getName());
-            lblMemberNameload.setText("Mr/Miss. " + memberDetails.getName());
+            if(memberDetails != null){
+                lblMemName.setText(memId + " | " + memberDetails.getName());
+                lblMemberNameload.setText("Mr/Miss. " + memberDetails.getName());
+            }else{
+                lblMemName.setText("");
+                lblMemberNameload.setText("");
+
+            }
         }catch (SQLException e1){
             System.out.println("SQL EXCeption");
             e1.printStackTrace();
@@ -257,7 +305,7 @@ public class ManageBookIssueView implements Initializable {
 
     private void refresh(){
         loardThetempIssueTable();
-//        clearTextIntempArea();
+        clearTextIntempArea();
     }
 
     private void loardThetempIssueTable(){
@@ -291,6 +339,76 @@ public class ManageBookIssueView implements Initializable {
             lblIssueId.setText(tempBookIssueTm.getIssueId());
             comboBookId.setValue(tempBookIssueTm.getBookId());
             lblBookqty.setText(Integer.toString(tempBookIssueTm.getQty()));
+        }
+    }
+
+    @FXML
+    void resetTable(ActionEvent event) {
+        tempBookIssuesArrayList.clear();
+        refresh();
+    }
+
+    @FXML
+    void bookIssueNow(ActionEvent event) {
+        //HERE ISSUE THE BOOK
+        /*
+         * TO CHECK THE ARRAY LIST IS ARRAY LIST IS EMPTY
+         * WE USE THE .isEmpty() METHOD...
+         * */
+        if(!tempBookIssuesArrayList.isEmpty()){
+            if(memberDetails != null){
+                bookIssuingProcess();
+            }else{
+                new Alert(Alert.AlertType.WARNING,"Please Select the Member").show();
+            }
+        }else{
+            new Alert(Alert.AlertType.WARNING,"Please select the books first\nMUST ADD BOOK INTO THE CART").show();
+        }
+    }
+
+
+    private void bookIssuingProcess(){
+        String userId = userModel.getUserId(DashBoardContro.getUserEmail());
+        //HERE GET THE DATE ....
+        String date = String.valueOf(LocalDate.now());
+
+        //HERE GET THE PRESENT TIME...
+        //AND FORMAT IT TO MORE READABLE TYPE
+        LocalTime time = LocalTime.now(); //----> EX - 10.14.20.9900975
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mma"); // HERE FORMAT THAT
+        String formattedTime = time.format(formatter).toLowerCase();
+
+        //HERE CREATING THE ISSUE TABLE DTO
+        IssueTableDto issueTableDto = new IssueTableDto(
+                lblIssueId.getText(),
+                memberDetails.getMemberId(),
+                userId,
+                date,
+                formattedTime,
+                false
+        );
+
+        try{
+            boolean isIssueCompleted = manageBookIssueModel.issueNow(
+                    issueTableDto,
+                    tempBookIssuesArrayList
+            );
+
+            if(isIssueCompleted){
+                pageReload();
+                tempBookIssuesArrayList.clear();
+                loardThetempIssueTable();
+                new Alert(Alert.AlertType.CONFIRMATION, "Book Issue Successfuly!").show();
+            }else{
+                new Alert(Alert.AlertType.ERROR,"Book Issuing problem\nSomething went wrong..!!").show();
+            }
+
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
         }
     }
 }
