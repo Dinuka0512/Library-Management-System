@@ -560,11 +560,18 @@ public class ManageBookIssueView implements Initializable {
     @FXML
     void openBookReturning(ActionEvent event) {
         btnBookReturning.setVisible(false);
+        btnBookIssuing.setVisible(true);
+
+        //ANCHOR SET VISIBLE OFF..
 
     }
 
     @FXML
     void openBookIssuing(ActionEvent event) {
+        btnBookIssuing.setVisible(false);
+        btnBookReturning.setVisible(true);
 
+        //ANCHOR SET VISIBLE OFF..
+        anchorBookIssue.setVisible(false);
     }
 }
