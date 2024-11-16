@@ -36,6 +36,9 @@ public class ManageBookIssueView implements Initializable {
     private AnchorPane body;
 
     @FXML
+    private AnchorPane anchorBookIssue;
+
+    @FXML
     private AnchorPane anchorIssueTable;
 
     @FXML
@@ -88,6 +91,12 @@ public class ManageBookIssueView implements Initializable {
 
     @FXML
     private Label lblMemberNameload;
+
+    @FXML
+    private Button btnBookIssuing;
+
+    @FXML
+    private Button btnBookReturning;
 
     private final MemberModel memberModel = new MemberModel();
     private final BookModel bookModel = new BookModel();
@@ -546,5 +555,16 @@ public class ManageBookIssueView implements Initializable {
             System.out.println("JRException");
             e3.printStackTrace();
         }
+    }
+
+    @FXML
+    void openBookReturning(ActionEvent event) {
+        btnBookReturning.setVisible(false);
+
+    }
+
+    @FXML
+    void openBookIssuing(ActionEvent event) {
+
     }
 }

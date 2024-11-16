@@ -26,95 +26,104 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="18.0" layoutY="53.0" prefHeight="331.0" prefWidth="1023.0" style="-fx-background-color: #c9cbcd; -fx-background-radius: 7;">
+      <AnchorPane fx:id="anchorBookIssue" layoutX="18.0" layoutY="53.0" prefHeight="478.0" prefWidth="1023.0" style="-fx-background-color: #c9cbcd; -fx-background-radius: 7;">
          <children>
-            <TableView fx:id="tableTempIssue" layoutX="14.0" layoutY="31.0" onMouseClicked="#getTempTableValues" prefHeight="203.0" prefWidth="530.0">
-              <columns>
-                <TableColumn fx:id="columnIssueId" prefWidth="62.400020599365234" text="Issue ID" />
-                <TableColumn fx:id="columnBookId" prefWidth="71.20001220703125" text="Book ID" />
-                  <TableColumn fx:id="columnBookName" prefWidth="228.79998779296875" text="Name" />
-                  <TableColumn fx:id="columnQty" minWidth="3.20001220703125" prefWidth="58.39996337890625" text="Qty" />
-                  <TableColumn fx:id="columnButton" minWidth="3.20001220703125" prefWidth="109.60003662109375" text="Action" />
-              </columns>
-            </TableView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b1b3b4" height="152.0" layoutX="553.0" layoutY="31.0" stroke="#ffffff00" strokeType="INSIDE" width="441.0" />
-            <Label layoutX="573.0" layoutY="48.0" text="Issue ID">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a4a4a491" height="196.0" layoutX="23.0" layoutY="32.0" stroke="TRANSPARENT" strokeType="INSIDE" width="981.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dadada" height="180.0" layoutX="30.0" layoutY="40.0" stroke="#73737300" strokeType="INSIDE" width="500.0" />
+            <Label layoutX="48.0" layoutY="71.0" text="Issue ID">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="lblIssueId" layoutX="628.0" layoutY="48.0" text="I001">
+            <Label fx:id="lblIssueId" layoutX="116.0" layoutY="71.0" text="I001">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="9.0" layoutY="8.0" text="-CART TABLE-" />
-            <Label layoutX="573.0" layoutY="93.0" text="Book ID">
+            <Label layoutX="48.0" layoutY="119.0" text="Book ID">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <ComboBox fx:id="comboBookId" layoutX="633.0" layoutY="90.0" onAction="#comboBookNameLoad" prefHeight="26.0" prefWidth="138.0" promptText="Select Book" />
-            <Label fx:id="lblBookIdAndName" layoutX="633.0" layoutY="118.0" prefHeight="18.0" prefWidth="138.0" text="B001 | Sample Book" textFill="#909492" />
-            <Label layoutX="686.0" layoutY="49.0" text="Book Qty">
+            <ComboBox fx:id="comboBookId" layoutX="108.0" layoutY="111.0" onAction="#comboBookNameLoad" prefHeight="31.0" prefWidth="207.0" promptText="Select Book" />
+            <Label fx:id="lblBookIdAndName" layoutX="108.0" layoutY="141.0" prefHeight="25.0" prefWidth="207.0" textFill="#034632">
                <font>
                   <Font size="14.0" />
+               </font></Label>
+            <Label layoutX="335.0" layoutY="73.0" text="Book Qty">
+               <font>
+                  <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Button layoutX="841.0" layoutY="140.0" mnemonicParsing="false" onAction="#addNewBookToIssueTable" prefHeight="26.0" prefWidth="138.0" style="-fx-background-color: #3967ff;" text="Add to Cart" textFill="WHITE" />
-            <Button layoutX="503.0" layoutY="246.0" mnemonicParsing="false" onAction="#bookIssueNow" prefHeight="28.0" prefWidth="503.0" style="-fx-background-color: #2a6f5b;" text="ISSUE NOW" textFill="WHITE">
+            <Button layoutX="333.0" layoutY="162.0" mnemonicParsing="false" onAction="#addNewBookToIssueTable" prefHeight="31.0" prefWidth="168.0" style="-fx-background-color: #2a6f5b;" text="Add to Cart" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Button>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dadada" height="137.0" layoutX="534.0" layoutY="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="463.0" />
+            <Button layoutX="828.0" layoutY="132.0" mnemonicParsing="false" onAction="#bookIssueNow" prefHeight="28.0" prefWidth="156.0" style="-fx-background-color: #2a6f5b;" text="ISSUE NOW" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
             </Button>
-            <Label layoutX="553.0" layoutY="194.0" text="Member ID" />
-            <ComboBox fx:id="comboMemberId" layoutX="618.0" layoutY="189.0" onAction="#comboMemberNameLoad" prefHeight="31.0" prefWidth="191.0" promptText="Select Member" />
-            <Label fx:id="lblMemName" layoutX="620.0" layoutY="219.0" prefHeight="18.0" prefWidth="191.0" text="M001 | Kamal" textFill="#909492" />
-            <Label fx:id="lblBookqty" layoutX="749.0" layoutY="50.0" text="1">
+            <Label layoutX="550.0" layoutY="69.0" text="Member ID">
                <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="800.0" layoutY="94.0" text="Qty On Hand">
+                  <Font name="System Bold" size="16.0" />
+               </font></Label>
+            <ComboBox fx:id="comboMemberId" layoutX="548.0" layoutY="90.0" onAction="#comboMemberNameLoad" prefHeight="31.0" prefWidth="243.0" promptText="Select Member" />
+            <Label fx:id="lblMemName" layoutX="550.0" layoutY="121.0" prefHeight="25.0" prefWidth="236.0" textFill="#034632">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="lblBookqty" layoutX="415.0" layoutY="74.0" text="1" textFill="#515151">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblBookQtyLoad" layoutX="893.0" layoutY="93.0" prefHeight="20.0" prefWidth="82.0" textFill="#9c8532">
+            <Label layoutX="334.0" layoutY="114.0" text="Qty On Hand">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblBookQtyLoad" layoutX="336.0" layoutY="134.0" prefHeight="20.0" prefWidth="168.0" textFill="#515151">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="573.0" layoutY="142.0" text="Book Name">
+            <Label layoutX="48.0" layoutY="171.0" text="Book Name">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblBookNameload" layoutX="139.0" layoutY="171.0" prefHeight="20.0" prefWidth="191.0" textFill="#515151">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblBookNameload" layoutX="652.0" layoutY="143.0" prefHeight="20.0" prefWidth="168.0" textFill="#9c8532">
+            <Label layoutX="800.0" layoutY="74.0" text="Member Name">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMemberNameload" layoutX="799.0" layoutY="92.0" prefHeight="21.0" prefWidth="183.0" textFill="#515151">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="817.0" layoutY="192.0" text="Member Name">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblMemberNameload" layoutX="820.0" layoutY="210.0" prefHeight="20.0" prefWidth="175.0" textFill="#9c8532">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Button layoutX="18.0" layoutY="247.0" mnemonicParsing="false" onAction="#resetTable" prefHeight="26.0" prefWidth="474.0" style="-fx-background-color: #b70000;" text="Reset " textFill="WHITE">
+            <TableView fx:id="tableTempIssue" layoutX="20.0" layoutY="237.0" onMouseClicked="#getTempTableValues" prefHeight="196.0" prefWidth="981.0">
+              <columns>
+                <TableColumn fx:id="columnIssueId" prefWidth="125.0" text="Issue ID" />
+                <TableColumn fx:id="columnBookId" prefWidth="176.0" text="Book ID" />
+                  <TableColumn fx:id="columnBookName" prefWidth="455.0" text="Name" />
+                  <TableColumn fx:id="columnQty" minWidth="3.20001220703125" prefWidth="130.0" text="Qty" />
+                  <TableColumn fx:id="columnButton" minWidth="3.20001220703125" prefWidth="94.0" text="Action" />
+              </columns>
+            </TableView>
+            <Button layoutX="23.0" layoutY="441.0" mnemonicParsing="false" onAction="#resetTable" prefHeight="26.0" prefWidth="974.0" style="-fx-background-color: #b70000;" text="Reset " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button layoutX="18.0" layoutY="282.0" mnemonicParsing="false" onAction="#generateIssueReport" prefHeight="20.0" prefWidth="990.0" text="Genarate Issue Report" textFill="#b58907">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
+            <Label layoutX="25.0" layoutY="12.0" text="~BOOK ISSUING~" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="anchorIssueTable" layoutX="13.0" layoutY="50.0" prefHeight="487.0" prefWidth="1034.0" style="-fx-background-color: #c9cbcd; -fx-background-radius: 10;" visible="false">
@@ -133,5 +142,12 @@
       </AnchorPane>
       <Button fx:id="open" layoutX="821.0" layoutY="13.0" mnemonicParsing="false" onAction="#btnOpenBookIssueTable" prefHeight="31.0" prefWidth="225.0" style="-fx-background-color: #7c7c7c;" text="Show Previous Book Issues" textFill="WHITE" />
       <Button fx:id="btnBack" layoutX="821.0" layoutY="13.0" mnemonicParsing="false" onAction="#close" prefHeight="31.0" prefWidth="225.0" style="-fx-background-color: #7c7c7c;" text="&lt; Back" textFill="WHITE" visible="false" />
+      <Button layoutX="616.0" layoutY="13.0" mnemonicParsing="false" onAction="#generateIssueReport" prefHeight="31.0" prefWidth="191.0" text="Genarate Issue Report" textFill="#b58907">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnBookReturning" layoutX="422.0" layoutY="13.0" mnemonicParsing="false" onAction="#openBookReturning" prefHeight="31.0" prefWidth="183.0" text="Book Returning" textFill="#2b1c69" />
+      <Button fx:id="btnBookIssuing" layoutX="422.0" layoutY="13.0" mnemonicParsing="false" onAction="#openBookIssuing" prefHeight="31.0" prefWidth="183.0" text="Book Issuing" textFill="#2b1c69" visible="false" />
    </children>
 </AnchorPane>
