@@ -48,6 +48,9 @@ public class ManageBookIssueView implements Initializable {
     private Button btnBack;
 
     @FXML
+    private AnchorPane anchorBookReturning;
+
+    @FXML
     private ComboBox<String> comboBookId;
 
     @FXML
@@ -562,8 +565,8 @@ public class ManageBookIssueView implements Initializable {
         btnBookReturning.setVisible(false);
         btnBookIssuing.setVisible(true);
 
-        //ANCHOR SET VISIBLE OFF..
-
+        //NOW THERE OPEN THE BOOK ISSUING
+        anchorBookReturning.setVisible(true);
     }
 
     @FXML
@@ -571,7 +574,12 @@ public class ManageBookIssueView implements Initializable {
         btnBookIssuing.setVisible(false);
         btnBookReturning.setVisible(true);
 
-        //ANCHOR SET VISIBLE OFF..
-        anchorBookIssue.setVisible(false);
+        //NOW THERE HAVE OPEN THE BOOK RETURNING
+        anchorBookReturning.setVisible(false);
+        anchorBookIssue.setVisible(true);
     }
+
+
+    //-------> BOOK RETURNING
+
 }
