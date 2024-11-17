@@ -585,7 +585,4 @@ public class ManageBookIssueView implements Initializable {
 
 
     }
-
-    //-------> BOOK RETURNING
-
 }

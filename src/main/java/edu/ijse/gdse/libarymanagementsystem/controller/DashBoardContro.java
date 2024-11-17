@@ -264,7 +264,17 @@ public class DashBoardContro implements Initializable  {
         supAnch.setVisible(false);
     }
 
-
+    @FXML
+    void openSupplierManage(MouseEvent event) {
+        try{
+            body.getChildren().clear();
+            AnchorPane load =FXMLLoader.load(getClass().getResource("/view/manageSuppliersView.fxml"));
+            body.getChildren().add(load);
+        }catch (IOException e1){
+            System.out.println("IOException");
+            e1.printStackTrace();
+        }
+    }
 
 
     //CUPBOARD

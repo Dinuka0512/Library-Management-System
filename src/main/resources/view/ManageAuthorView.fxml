@@ -74,18 +74,18 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#78787863" height="85.0" layoutX="32.0" layoutY="357.0" stroke="#696969" strokeType="INSIDE" width="282.0" />
-            <Button fx:id="btnGetAllAuthorDetailsRepo" layoutX="40.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#getAll" prefHeight="26.0" prefWidth="267.0" style="-fx-background-color: #f4d05a;" text="Genarate All Author's Details Report" textFill="WHITE">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#8a8c8f" height="78.0" layoutX="32.0" layoutY="349.0" stroke="#69696900" strokeType="INSIDE" width="282.0" />
+            <Button fx:id="btnGetAllAuthorDetailsRepo" layoutX="40.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#getAll" prefHeight="26.0" prefWidth="267.0" style="-fx-background-color: #627398;" text="Genarate All Author's Details Report" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnGetAuthorRepo" disable="true" layoutX="40.0" layoutY="400.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" style="-fx-background-color: #f4d05a;" text="Author details Report" textFill="WHITE">
+            <Button fx:id="btnGetAuthorRepo" disable="true" layoutX="40.0" layoutY="392.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" style="-fx-background-color: #627398;" text="Author details Report" textFill="WHITE">
                <font>
                   <Font size="10.0" />
                </font>
             </Button>
-            <Button fx:id="btnGetAuthorBookDetailRepo" disable="true" layoutX="181.0" layoutY="400.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="124.0" style="-fx-background-color: #f4d05a;" text="Author's Books details" textFill="WHITE">
+            <Button fx:id="btnGetAuthorBookDetailRepo" disable="true" layoutX="181.0" layoutY="392.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="124.0" style="-fx-background-color: #627398;" text="Author's Books details" textFill="WHITE">
                <font>
                   <Font size="10.0" />
                </font>

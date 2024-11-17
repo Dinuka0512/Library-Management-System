@@ -367,15 +367,6 @@ public class ManageBooksVeiwContro implements Initializable {
                     comboBookShelfId.setValue("BOOK SHELF IS NOT FOUND");
                 }
 
-//                if(supplyDto != null){
-//                    comboSupplierId.setValue(supplyDto.getSupplier_Id());
-//                    currentSupplierId = supplyDto.getSupplier_Id();
-//                    //SET TEXT TO txtSuppliedQty
-//                    txtSuppliedQty.setText(Integer.toString(supplyDto.getQty()));
-//                }else {
-//                    comboSupplierId.setValue("SUPPLIER IS NOT FOUND");
-//                }
-
             }catch (ClassNotFoundException e1){
                 System.out.println("Class Not Found ");
                 e1.printStackTrace();
@@ -406,14 +397,12 @@ public class ManageBooksVeiwContro implements Initializable {
         loardNextAuthorId();
         loardNextBookShelfId();
         loardNextSectionId();
-//        loardNextSupplierIds();
 
         //LOARD COMBO BOX DATA
         loardAuthorIds();
         loardCategoryIds();
         loardBookShelfIds();
         loadSectionId();
-//        loardSupplierIds();
 
         btnDelete.setDisable(true);
         btnUpdate.setDisable(true);
@@ -618,24 +607,6 @@ public class ManageBooksVeiwContro implements Initializable {
         }
     }
 
-//    private void loardSupplierIds(){
-//        try{
-//            ArrayList<String> dtos = supplierModel.getAllSupplierIds();
-//            if(dtos != null){
-//                ObservableList<String> observableList = FXCollections.observableArrayList();
-//                observableList.addAll(dtos);
-//                comboSupplierId.setItems(observableList);
-//            }
-//        }catch (ClassNotFoundException e1){
-//            System.out.println("Class Not found Exception");
-//            e1.printStackTrace();
-//        }catch (SQLException e2){
-//            System.out.println("SQL Exception");
-//            e2.printStackTrace();
-//        }
-//    }
-
-
 
 
     //LOARD IDS
@@ -703,21 +674,6 @@ public class ManageBooksVeiwContro implements Initializable {
             e2.printStackTrace();
         }
     }
-
-//    private void loardNextSupplierIds(){
-//        //HERE LOAD THE NEXT SUPPLIER IDS
-//        try{
-//            String newId = supplierModel.loardNextSupplierId();
-//            lblSupplierId.setText(newId);
-//        }catch (ClassNotFoundException e1){
-//            System.out.println("Class Not Found Exception");
-//            e1.printStackTrace();
-//        }catch (SQLException e2){
-//            System.out.println("SQL Exception");
-//            e2.printStackTrace();
-//        }
-//    }
-
 
 
     //NEW AUTHOR SAVE HEAR
@@ -905,8 +861,6 @@ public class ManageBooksVeiwContro implements Initializable {
                     bookDto,
                     comboAuthorId.getValue(),
                     comboCategoryId.getValue()
-//                    comboSupplierId.getValue(),
-//                    Integer.parseInt(txtSuppliedQty.getText())
             );
 
             if(res.equals("saved Successfully")){
@@ -1019,94 +973,4 @@ public class ManageBooksVeiwContro implements Initializable {
             e2.printStackTrace();
         }
     }
-
-//    private boolean isReadyToSaveSupplier(){
-//        if(Validation.isValidName(txtSuplierName.getText())){
-//            //CHECK SUPPLIER NAME
-//            if(Validation.isValidMobileNumber(txtSupplierContact.getText())){
-//                //CHECK SUPPLIER CONTACT
-//                if(Validation.isValidName(txtSupplierAddress.getText())){
-//                    //CHECK SUPPLIER ADDRESS
-//                    if(Validation.isValidEmail(txtSupplierEmail.getText())){
-//                        //CHECK SUPPLIER EMAIL
-//                        if(isEmailIsUnique()){
-//                            //HERE CHECK THE EMAIL IS IT UNIQUE
-//                            if(Validation.isValidInteger(txtSuppliedQty.getText())){
-//                                //CHECK THE IS IT INTEGER ?
-//                                return true;
-//                            }else{
-//                                new Alert(Alert.AlertType.WARNING, "You must add the numbers \nyou can't add the letters..\nExample - (1 - 9) \n*Can not be Zero (0)*").show();
-//                                return false;
-//                            }
-//                        }else{
-//                            new Alert(Alert.AlertType.ERROR,"This Email is All ready Have...").show();
-//                            return false;
-//                        }
-//                    }else{
-//                        new Alert(Alert.AlertType.WARNING,"Please Enter the Valid Email \nEmail canot be null").show();
-//                        return false;
-//                    }
-//                }else{
-//                    new Alert(Alert.AlertType.WARNING, "Please check the City name, \nAddress Canot be Null").show();
-//                    return false;
-//                }
-//            }else {
-//                new Alert(Alert.AlertType.WARNING, "Please Enter Valid Contact").show();
-//                return false;
-//            }
-//        }else{
-//            new Alert(Alert.AlertType.WARNING, "Please Enter Valid Name \nNames Only can have letters \nEx - (A-z").show();
-//            return false;
-//        }
-//    }
-//
-//    private boolean isEmailIsUnique(){
-//        try{
-//            boolean isEmailUnique = supplierModel.isEmailUnique(txtSupplierEmail.getText());
-//            if(isEmailUnique){
-//                //true - Unique
-//                return true;
-//            }
-//            //false - AllReady Have
-//            return false;
-//        }catch (ClassNotFoundException e1){
-//            System.out.println("Class Not found Exception");
-//            e1.printStackTrace();
-//        }catch (SQLException e2){
-//            System.out.println("Sql Exception");
-//            e2.printStackTrace();
-//        }
-//        return false;
-//    }
-//
-//    @FXML
-//    void btnSaveSupplier(ActionEvent event) {
-//        if(isReadyToSaveSupplier()){
-//            SupplierDto dto = new SupplierDto(
-//                    lblSupplierId.getText(),
-//                    txtSuplierName.getText(),
-//                    txtSupplierContact.getText(),
-//                    txtSupplierAddress.getText(),
-//                    txtSupplierEmail.getText()
-//            );
-//
-//            try{
-//                boolean isSaved = supplierModel.saveSupplier(dto);
-//                if(isSaved){
-//                    pageReset();
-//                    clearTextSupplier();
-//                    anchorSupplier.setVisible(false);
-//                    new Alert(Alert.AlertType.CONFIRMATION,"Supplier Saved").show();
-//                }else{
-//                    new Alert(Alert.AlertType.ERROR,"Supplier Saving failed \nSomething Went wrong...").show();
-//                }
-//            }catch (ClassNotFoundException e1){
-//                System.out.println("Class Not Found Exception");
-//                e1.printStackTrace();
-//            }catch (SQLException e2){
-//                System.out.println("SQL Exception");
-//                e2.printStackTrace();
-//            }
-//        }
-//    }
 }

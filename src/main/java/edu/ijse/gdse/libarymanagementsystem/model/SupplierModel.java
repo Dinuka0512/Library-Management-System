@@ -68,4 +68,23 @@ public class SupplierModel {
         }
         return null;
     }
+
+    public ArrayList<SupplierDto> getAllSuppliers() throws ClassNotFoundException, SQLException{
+        String sql = "select * from supplier";
+        ResultSet res = CrudUtil.execute(sql);
+        ArrayList<SupplierDto> dtos = new ArrayList<>();
+        while(res.next()){
+            SupplierDto dto = new SupplierDto(
+                    res.getString("Supplier_Id"),
+                    res.getString("name"),
+                    res.getString("contact"),
+                    res.getString("contact"),
+                    res.getString("Email")
+            );
+
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
 }
