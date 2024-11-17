@@ -561,25 +561,6 @@ public class ManageBookIssueView implements Initializable {
         }
     }
 
-    @FXML
-    void openBookReturning(ActionEvent event) {
-        btnBookReturning.setVisible(false);
-        btnBookIssuing.setVisible(true);
-
-        //NOW THERE OPEN THE BOOK ISSUING
-        anchorBookReturning.setVisible(true);
-    }
-
-    @FXML
-    void openBookIssuing(ActionEvent event) {
-        btnBookIssuing.setVisible(false);
-        btnBookReturning.setVisible(true);
-
-        //NOW THERE HAVE OPEN THE BOOK RETURNING
-        anchorBookReturning.setVisible(false);
-        anchorBookIssue.setVisible(true);
-    }
-
     //-----<<<<HERE SEND THE EMAILS>>>>-----//
     private void sendEmails(String from, String to, String subject, String body){
         //THE USERNAME MUST BE THE aipkey...

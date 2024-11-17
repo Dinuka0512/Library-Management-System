@@ -127,12 +127,12 @@ public class DashBoardContro implements Initializable  {
 
     //SIDE NAME BAR SHOWINGS -----------
     @FXML
-    void navigateToWhere(MouseEvent event) {
+    void openNavigationNames(MouseEvent event) {
         btnNamesAnchor.setVisible(true);
     }
 
     @FXML
-    void navigateExit(MouseEvent event) {
+    void closeNavigationNames(MouseEvent event) {
         btnNamesAnchor.setVisible(false);
     }
     //---------
@@ -143,6 +143,7 @@ public class DashBoardContro implements Initializable  {
     //BOOK MANAGE -------
     @FXML
     void showName(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
         bookAnch.setVisible(true);
     }
 
@@ -170,6 +171,7 @@ public class DashBoardContro implements Initializable  {
     //MEMBER
     @FXML
     void closeNameMem(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
         memAnch.setVisible(false);
     }
 
@@ -195,6 +197,7 @@ public class DashBoardContro implements Initializable  {
     //AUTHORS
     @FXML
     void showNameAuth(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
         authorAnch.setVisible(true);
     }
 
@@ -223,6 +226,7 @@ public class DashBoardContro implements Initializable  {
     //BOOK ISSUES
     @FXML
     void showNameSec(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
         sectAnch.setVisible(true);
     }
 
@@ -250,6 +254,7 @@ public class DashBoardContro implements Initializable  {
     //SUPPLIERS
     @FXML
     void showNameSup(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
         supAnch.setVisible(true);
     }
 
@@ -265,6 +270,7 @@ public class DashBoardContro implements Initializable  {
     //CUPBOARD
     @FXML
     void showNameCup(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
         cupAnch.setVisible(true);
     }
 
@@ -280,6 +286,7 @@ public class DashBoardContro implements Initializable  {
     //PAYMENTS
     @FXML
     void showNamePay(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
         payAnch.setVisible(true);
     }
 
@@ -295,6 +302,7 @@ public class DashBoardContro implements Initializable  {
     //DAMAGE
     @FXML
     void showNameDama(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
         damAnch.setVisible(true);
     }
 
@@ -309,6 +317,7 @@ public class DashBoardContro implements Initializable  {
     //EMPLOYEE
     @FXML
     void showNameEmp(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
         empAnch.setVisible(true);
     }
 
