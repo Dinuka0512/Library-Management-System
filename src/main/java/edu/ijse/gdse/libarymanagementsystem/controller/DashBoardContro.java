@@ -382,4 +382,16 @@ public class DashBoardContro implements Initializable  {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void goToHome(MouseEvent event) {
+        try {
+            body.getChildren().clear();
+            AnchorPane load = FXMLLoader.load(getClass().getResource("/view/HomePage.fxml"));
+            body.getChildren().add(load);
+        }catch (IOException e1){
+            System.out.printf("IOException");
+            e1.printStackTrace();
+        }
+    }
 }

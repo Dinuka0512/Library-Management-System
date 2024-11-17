@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class ManageBookIssueView implements Initializable {
@@ -579,6 +580,30 @@ public class ManageBookIssueView implements Initializable {
         anchorBookIssue.setVisible(true);
     }
 
+    //-----<<<<HERE SEND THE EMAILS>>>>-----//
+    private void sendEmails(String from, String to, String subject, String body){
+        //THE USERNAME MUST BE THE aipkey...
+        final String userName = "apikey";
+        final String password = "avfc bvka girm bwkc";
+
+        /*
+        *    SMTP server ->
+        *    SIMPLE MAIL TRANSFER PROTOCOL..
+        *    (Sending emails)
+        *
+        *    IMAP ->
+        *    INTERNET MAIL ACCESS PROTOCOL..
+        *    (Receive the mails)
+        * */
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.sendgrid.net");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.trust", "smtp.sendgrid.net");
+
+
+    }
 
     //-------> BOOK RETURNING
 
