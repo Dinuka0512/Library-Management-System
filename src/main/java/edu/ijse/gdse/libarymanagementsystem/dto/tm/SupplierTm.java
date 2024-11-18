@@ -10,5 +10,5 @@ public class SupplierTm {
     private String name;
     private String contact;
     private String address;
-    private String emial;
+    private String email;
 }

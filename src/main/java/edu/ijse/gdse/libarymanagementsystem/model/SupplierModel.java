@@ -1,8 +1,10 @@
 package edu.ijse.gdse.libarymanagementsystem.model;
 
+import edu.ijse.gdse.libarymanagementsystem.db.DBConnection;
 import edu.ijse.gdse.libarymanagementsystem.dto.SupplierDto;
 import edu.ijse.gdse.libarymanagementsystem.util.CrudUtil;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -78,7 +80,7 @@ public class SupplierModel {
                     res.getString("Supplier_Id"),
                     res.getString("name"),
                     res.getString("contact"),
-                    res.getString("contact"),
+                    res.getString("address"),
                     res.getString("Email")
             );
 
@@ -93,4 +95,31 @@ public class SupplierModel {
         boolean isDeleted = CrudUtil.execute(sql,supId);
         return isDeleted;
     }
+
+    public boolean isEmailUniqueToUpdate(String supplierId, String email) {
+        try{
+            String sql = "select * from supplier where email = ? And Supplier_Id != ?";
+            ResultSet res = CrudUtil.execute(
+                    sql,
+                    email,
+                    supplierId
+            );
+
+            if(res.next()){
+                return false;
+            }else{
+                return true;
+            }
+
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not Found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2) {
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
+        }
+        return false;
+    }
+
+
 }

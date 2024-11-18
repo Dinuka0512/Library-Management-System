@@ -90,4 +90,77 @@ public class ManageSupplierModel {
             con.setAutoCommit(true);
         }
     }
+
+
+    public boolean updateSupplier(SupplierDto dto, ArrayList<TempBookTM> arr) throws SQLException , ClassNotFoundException{
+        Connection con = DBConnection.getInstance().getConnection();
+        try{
+            con.setAutoCommit(false);
+
+            //HERE UPDATE THE SUPPLIER
+            String sql = "update supplier set name = ?, contact = ?, address = ?, email = ? where supplier_Id = ?";
+            boolean isUpdate = CrudUtil.execute(
+                    sql,
+                    dto.getName(),
+                    dto.getContact(),
+                    dto.getAddress(),
+                    dto.getEmail(),
+                    dto.getSupplierId()
+            );
+
+            if(isUpdate){
+                //HERE UPDATE THE SUPPLIER BOOKS
+                //FRIST DELETE ALL ....
+                String sqlDeleteBooks = "delete from book_Supply where Supplier_Id = ?";
+                boolean isDeleted = CrudUtil.execute(
+                        sqlDeleteBooks,
+                        dto.getSupplierId()
+                );
+
+                if(isDeleted){
+                    //NOW ADDING THE BOOKS WHAT WE HAVE UPDATED..
+                    //HERE TRY TO SAVE BOOK SUPPLY TABLE
+                    String saveBookSupplySql = "insert into book_Supply values (?,?,?)";
+                    boolean isSavedCorrectly = true;
+
+                    for(TempBookTM temp : arr){
+                        boolean isSavedBookSupply = CrudUtil.execute(
+                                saveBookSupplySql,
+                                temp.getBookId(),
+                                dto.getSupplierId(),
+                                temp.getQty()
+                        );
+
+                        if(!isSavedBookSupply){
+                            isSavedCorrectly = false;
+                        }
+                    }
+
+                    if(isSavedCorrectly){
+                        con.commit();
+                        return true;
+                    }else{
+                        //BOOK SUPPLY SAVING ERROR
+                        con.rollback();
+                        return false;
+                    }
+                }else{
+                    //DELETING BOOK SUPPLY ERROR
+                    con.rollback();
+                    return false;
+                }
+            }else{
+                //SUPPLIER UPDATING ERROR
+                con.rollback();
+                return false;
+            }
+
+        }catch (Exception e1){
+            System.out.println("EXCEPTION UPDATING");
+            e1.printStackTrace();
+        }finally {
+            con.setAutoCommit(true);
+        }
+        return false;
+    }
 }

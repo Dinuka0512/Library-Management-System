@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -111,9 +112,9 @@ public class ManageSuppliersView implements Initializable {
         //HERE INITIALIZE THE TABLE COLUMNS
         columnSupplierId.setCellValueFactory(new PropertyValueFactory<>("suppierId"));
         columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        columnContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
         columnAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        columnEmail.setCellValueFactory(new PropertyValueFactory<>("emial"));
+        columnContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         //TEMP BOOK TABLE INITIALIZE
         columnTempBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
@@ -254,18 +255,20 @@ public class ManageSuppliersView implements Initializable {
         tempBookTable.setItems(null);
     }
 
-    public void getDataOnClick(javafx.scene.input.MouseEvent mouseEvent) {
+    @FXML
+    void getDataOnClick(MouseEvent event) {
         SupplierTm dto = tableSupplier.getSelectionModel().getSelectedItem();
         if(dto != null){
             lblSupplierId.setText(dto.getSuppierId());
             txtName.setText(dto.getName());
             txtAddress.setText(dto.getAddress());
             txtContact.setText(dto.getContact());
-            txtEmail.setText(dto.getEmial());
+            txtEmail.setText(dto.getEmail());
             getSupplierBooks();
             changePageFormat();
         }
     }
+
 
     private void getSupplierBooks(){
         //WHEN ClICK THE SUPPLIER TABLE COLUMN THERE LORD THE SUPPLIER SUPPLYING BOOKS ON TO THE TEMP TABLE
@@ -339,7 +342,7 @@ public class ManageSuppliersView implements Initializable {
     }
 
     @FXML
-    void gotoHomepage(ActionEvent event) {
+    void gotoHomepage(MouseEvent event) {
         try{
             body.getChildren().clear();
             AnchorPane load = FXMLLoader.load(getClass().getResource("/view/HomePage.fxml"));
@@ -416,7 +419,7 @@ public class ManageSuppliersView implements Initializable {
             if(tempBookTMSArrayList.isEmpty()){
                 new Alert(Alert.AlertType.WARNING, "Supplier Cannot have Without Supply Books").show();
             }else{
-                save();
+                update();
             }
         }
     }
@@ -461,7 +464,10 @@ public class ManageSuppliersView implements Initializable {
                     if(isUpdate){
                         //------->>>>> UPDATING HERE
                         if(isEmailUniqueOrSame()){
-
+                            //HERE CHECK THE EMAIL IS IT UNIQUE TO UPDATE
+                        }else{
+                            new Alert(Alert.AlertType.ERROR,"This Email is All ready Have...").show();
+                            return false;
                         }
                     }else{
                         //------->>>>> SAVING HERE
@@ -475,6 +481,7 @@ public class ManageSuppliersView implements Initializable {
 
                     if(Validation.isValidMobileNumber(txtContact.getText())){
                         //CHECK SUPPLIER EMAIL
+                        //ALL ARE OK
                         return true;
                     }else{
                         new Alert(Alert.AlertType.WARNING, "Please Enter Valid Contact").show();
@@ -515,21 +522,26 @@ public class ManageSuppliersView implements Initializable {
     }
 
 
-    private void isEmailUniqueOrSame(){
-
+    private boolean isEmailUniqueOrSame(){
+        boolean isEmailReadyToUpdate = supplierModel.isEmailUniqueToUpdate(lblSupplierId.getText(), txtEmail.getText());
+        if(isEmailReadyToUpdate){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private void save() {
 
-        SupplierDto dto = new SupplierDto(
-                lblSupplierId.getText(),
-                txtName.getText(),
-                txtContact.getText(),
-                txtAddress.getText(),
-                txtEmail.getText()
-        );
-
         try{
+            SupplierDto dto = new SupplierDto(
+                    lblSupplierId.getText(),
+                    txtName.getText(),
+                    txtContact.getText(),
+                    txtAddress.getText(),
+                    txtEmail.getText()
+            );
+
             boolean isSaved = manageSupplierModel.save(dto,tempBookTMSArrayList);
             if(isSaved){
                 resetPage();
@@ -539,6 +551,34 @@ public class ManageSuppliersView implements Initializable {
                 new Alert(Alert.AlertType.ERROR,"Supplier Saving failed \nSomething Went wrong...").show();
             }
 
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not Found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
+        }
+    }
+
+    private void update(){
+        try{
+            SupplierDto dto = new SupplierDto(
+                    lblSupplierId.getText(),
+                    txtName.getText(),
+                    txtContact.getText(),
+                    txtAddress.getText(),
+                    txtEmail.getText()
+            );
+
+            boolean isUpdate = manageSupplierModel.updateSupplier(dto, tempBookTMSArrayList);
+            if(isUpdate){
+                pageLoad();
+                clearTempTable();
+                resetPage();
+                new Alert(Alert.AlertType.CONFIRMATION, "Supplier updated Successfully").show();
+            }else{
+                new Alert(Alert.AlertType.ERROR, "Supplier Updating Problem").show();
+            }
         }catch (ClassNotFoundException e1){
             System.out.println("Class Not Found Exception");
             e1.printStackTrace();
