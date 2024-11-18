@@ -87,4 +87,10 @@ public class SupplierModel {
 
         return dtos;
     }
+
+    public boolean deleteSupplier(String supId) throws SQLException, ClassNotFoundException{
+        String sql = "delete from supplier where Supplier_Id = ?";
+        boolean isDeleted = CrudUtil.execute(sql,supId);
+        return isDeleted;
+    }
 }

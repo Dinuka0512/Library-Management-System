@@ -2,25 +2,34 @@ package edu.ijse.gdse.libarymanagementsystem.controller;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.SupplierDto;
-import edu.ijse.gdse.libarymanagementsystem.dto.tm.BookTm;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.SupplierTm;
+import edu.ijse.gdse.libarymanagementsystem.dto.tm.TempBookTM;
 import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
+import edu.ijse.gdse.libarymanagementsystem.model.ManageSupplierModel;
 import edu.ijse.gdse.libarymanagementsystem.model.SupplierModel;
+import edu.ijse.gdse.libarymanagementsystem.util.Validation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.w3c.dom.events.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ManageSuppliersView implements Initializable {
+
+
+    @FXML
+    private AnchorPane body;
 
     @FXML
     private ComboBox<String> comboBookId;
@@ -59,9 +68,44 @@ public class ManageSuppliersView implements Initializable {
     private TextField txtName;
 
     @FXML
+    private Button btnDelete;
+
+    @FXML
+    private Button btnSave;
+
+    @FXML
+    private Button btnUpdate;
+
+    @FXML
+    private Button btnReset;
+
+    @FXML
+    private TableColumn<TempBookTM, Button> columnTempAction;
+
+    @FXML
+    private TableColumn<TempBookTM, String> columnTempBookId;
+
+    @FXML
+    private TableColumn<TempBookTM, String> columnTempBookShelf;
+
+    @FXML
+    private TableColumn<TempBookTM, String> columnTempName;
+
+    @FXML
+    private TableColumn<TempBookTM, Double> columnTempPrice;
+
+    @FXML
+    private TableColumn<TempBookTM, Integer> columnTempQty;
+
+    @FXML
+    private TableView<TempBookTM> tempBookTable;
+
+    @FXML
     private TableView<SupplierTm> tableSupplier;
+    private ArrayList<TempBookTM> tempBookTMSArrayList = new ArrayList<>();
     private final SupplierModel supplierModel = new SupplierModel();
     private final BookModel bookModel = new BookModel();
+    private final ManageSupplierModel manageSupplierModel = new ManageSupplierModel();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //HERE INITIALIZE THE TABLE COLUMNS
@@ -70,6 +114,14 @@ public class ManageSuppliersView implements Initializable {
         columnContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
         columnAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         columnEmail.setCellValueFactory(new PropertyValueFactory<>("emial"));
+
+        //TEMP BOOK TABLE INITIALIZE
+        columnTempBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        columnTempName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnTempQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        columnTempPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        columnTempBookShelf.setCellValueFactory(new PropertyValueFactory<>("bookShelfId"));
+        columnTempAction.setCellValueFactory(new PropertyValueFactory<>("remove"));
 
         pageLoad();
     }
@@ -166,19 +218,6 @@ public class ManageSuppliersView implements Initializable {
     }
 
 
-    @FXML
-    void getDataOnClick(MouseEvent event) {
-        SupplierTm dto = tableSupplier.getSelectionModel().getSelectedItem();
-        if(dto != null){
-            lblSupplierId.setText(dto.getSuppierId());
-            txtName.setText(dto.getName());
-            txtAddress.setText(dto.getAddress());
-            txtContact.setText(dto.getContact());
-            txtEmail.setText(dto.getEmial());
-        }
-    }
-
-
     private void pageRefresh(){
         //CLEAR THE ALL TEXT
         loardNextSupplierIds();
@@ -200,102 +239,312 @@ public class ManageSuppliersView implements Initializable {
 
     @FXML
     void resetthePage(ActionEvent event) {
+        resetPage();
+    }
+
+    private void resetPage(){
         loadTable();
         pageRefresh();
+        pageReforMat();
+        clearTempTable();
+    }
+
+    private void clearTempTable(){
+        tempBookTMSArrayList.clear();
+        tempBookTable.setItems(null);
     }
 
     public void getDataOnClick(javafx.scene.input.MouseEvent mouseEvent) {
+        SupplierTm dto = tableSupplier.getSelectionModel().getSelectedItem();
+        if(dto != null){
+            lblSupplierId.setText(dto.getSuppierId());
+            txtName.setText(dto.getName());
+            txtAddress.setText(dto.getAddress());
+            txtContact.setText(dto.getContact());
+            txtEmail.setText(dto.getEmial());
+            getSupplierBooks();
+            changePageFormat();
+        }
+    }
 
+    private void getSupplierBooks(){
+        //WHEN ClICK THE SUPPLIER TABLE COLUMN THERE LORD THE SUPPLIER SUPPLYING BOOKS ON TO THE TEMP TABLE
+        try{
+            ArrayList<BookDto> dtos = manageSupplierModel.getAllBooks(lblSupplierId.getText());
+            ObservableList<TempBookTM> observableList = FXCollections.observableArrayList();
+            for(BookDto dto : dtos){
+                Button btn = new Button("Remove");
+                TempBookTM tempBookTM = new TempBookTM(
+                        dto.getBookId(),
+                        dto.getName(),
+                        dto.getQty(),
+                        dto.getPrice(),
+                        dto.getBookShelfId(),
+                        btn
+                );
+
+                btn.setOnAction(actionEvent -> {
+                    //HERE REMOVE THIS FORM ARRAY LIST
+                    tempBookTMSArrayList.remove(tempBookTM);
+                    tempBookTable.refresh();
+                    //HERE LOAD THE TABLE AFTER CHANGES
+                    loadTempTable();
+                });
+
+                tempBookTMSArrayList.add(tempBookTM);
+                observableList.add(tempBookTM);
+            }
+            tempBookTable.setItems(observableList);
+
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not Found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
+        }
+    }
+
+    private void loadTempTable(){
+        ObservableList<TempBookTM> observableList = FXCollections.observableArrayList();
+        for(TempBookTM tempBookTM : tempBookTMSArrayList){
+            observableList.add(tempBookTM);
+        }
+        tempBookTable.setItems(observableList);
+    }
+
+    private void changePageFormat(){
+        btnDelete.setDisable(false);
+        btnUpdate.setDisable(false);
+        btnReset.setDisable(false);
+        btnSave.setDisable(true);
+    }
+
+    private void pageReforMat(){
+        btnDelete.setDisable(true);
+        btnUpdate.setDisable(true);
+        btnReset.setDisable(true);
+        btnSave.setDisable(false);
+    }
+    @FXML
+    void gotoManageBook(ActionEvent event) {
+        try{
+            body.getChildren().clear();
+            AnchorPane load = FXMLLoader.load(getClass().getResource("/view/ManageBookIssueView.fxml"));
+            body.getChildren().add(load);
+        }catch (IOException e1){
+            System.out.println("IOException");
+            e1.printStackTrace();
+        }
+    }
+
+    @FXML
+    void gotoHomepage(ActionEvent event) {
+        try{
+            body.getChildren().clear();
+            AnchorPane load = FXMLLoader.load(getClass().getResource("/view/HomePage.fxml"));
+            body.getChildren().add(load);
+        }catch (IOException e1){
+            System.out.println("IOException");
+            e1.printStackTrace();
+        }
+    }
+
+    @FXML
+    void addBookToTempTable(ActionEvent event) {
+        try {
+            if (comboBookId.getValue() != null) {
+                BookDto bookDetails = bookModel.getBookDetails(comboBookId.getValue());
+                Button btn = new Button("Remove");
+                TempBookTM bookTM = new TempBookTM(
+                        bookDetails.getBookId(),
+                        bookDetails.getName(),
+                        bookDetails.getQty(),
+                        bookDetails.getPrice(),
+                        bookDetails.getBookShelfId(),
+                        btn
+                );
+
+                btn.setOnAction(actionEvent -> {
+                    //HERE REMOVE THIS FORM ARRAY LIST
+                    tempBookTMSArrayList.remove(bookTM);
+                    tempBookTable.refresh();
+                    //HERE LOAD THE TABLE AFTER CHANGES
+                    loadTempTable();
+                });
+
+                //HERE CHECK IS ALL READY HAVE?
+                for(TempBookTM temp :tempBookTMSArrayList){
+                    if(temp.getBookId().equals(bookTM.getBookId())){
+                        new Alert(Alert.AlertType.WARNING, "This Book is AllReady Have...!").show();
+                        return;
+                    }
+                }
+
+                tempBookTMSArrayList.add(bookTM);
+
+                ObservableList<TempBookTM> observableList = FXCollections.observableArrayList();
+                for(TempBookTM temp : tempBookTMSArrayList){
+                    observableList.add(temp);
+                }
+
+                tempBookTable.setItems(observableList);
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not Found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
+        }
+    }
+
+    @FXML
+    void saveSupplier(ActionEvent event) {
+        if(isReadyToSaveSupplier(false)){
+            if(tempBookTMSArrayList.isEmpty()){
+                new Alert(Alert.AlertType.WARNING, "Please Add the Supplier Books...\nBefore save the supplier!").show();
+            }else{
+                save();
+            }
+        }
+    }
+
+    @FXML
+    void UpdateSupplier(ActionEvent event) {
+        if(isReadyToSaveSupplier(true)){
+            if(tempBookTMSArrayList.isEmpty()){
+                new Alert(Alert.AlertType.WARNING, "Supplier Cannot have Without Supply Books").show();
+            }else{
+                save();
+            }
+        }
+    }
+
+    @FXML
+    void deleteSupplier(ActionEvent event) {
+        try{
+            //BOOK DELETE HERE
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Do you want to delete, Are you sure?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> optionalButtonType = alert.showAndWait();
+
+            if (optionalButtonType.isPresent() && optionalButtonType.get() == ButtonType.YES) {
+                boolean isDeleted = supplierModel.deleteSupplier(lblSupplierId.getText());
+                if(isDeleted){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Deleted!..").show();
+                    pageRefresh();
+                    loadTable();
+                    pageLoad();
+                    clearTempTable();
+                }else{
+                    new Alert(Alert.AlertType.CONFIRMATION,"Supplier Deleting Problem").show();
+                }
+            }
+
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not Found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
+        }
     }
 
 
-//    private boolean isReadyToSaveSupplier(){
-//        if(Validation.isValidName(txtSuplier Name.getText())){
-//            //CHECK SUPPLIER NAME
-//            if(Validation.isValidMobileNumber(txtSupplierContact.getText())){
-//                //CHECK SUPPLIER CONTACT
-//                if(Validation.isValidName(txtSupplierAddress.getText())){
-//                    //CHECK SUPPLIER ADDRESS
-//                    if(Validation.isValidEmail(txtSupplierEmail.getText())){
-//                        //CHECK SUPPLIER EMAIL
-//                        if(isEmailIsUnique()){
-//                            //HERE CHECK THE EMAIL IS IT UNIQUE
-//                            if(Validation.isValidInteger(txtSuppliedQty.getText())){
-//                                //CHECK THE IS IT INTEGER ?
-//                                return true;
-//                            }else{
-//                                new Alert(Alert.AlertType.WARNING, "You must add the numbers \nyou can't add the letters..\nExample - (1 - 9) \n*Can not be Zero (0)*").show();
-//                                return false;
-//                            }
-//                        }else{
-//                            new Alert(Alert.AlertType.ERROR,"This Email is All ready Have...").show();
-//                            return false;
-//                        }
-//                    }else{
-//                        new Alert(Alert.AlertType.WARNING,"Please Enter the Valid Email \nEmail canot be null").show();
-//                        return false;
-//                    }
-//                }else{
-//                    new Alert(Alert.AlertType.WARNING, "Please check the City name, \nAddress Canot be Null").show();
-//                    return false;
-//                }
-//            }else {
-//                new Alert(Alert.AlertType.WARNING, "Please Enter Valid Contact").show();
-//                return false;
-//            }
-//        }else{
-//            new Alert(Alert.AlertType.WARNING, "Please Enter Valid Name \nNames Only can have letters \nEx - (A-z").show();
-//            return false;
-//        }
-//    }
-//
-//    private boolean isEmailIsUnique(){
-//        try{
-//            boolean isEmailUnique = supplierModel.isEmailUnique(txtSupplierEmail.getText());
-//            if(isEmailUnique){
-//                //true - Unique
-//                return true;
-//            }
-//            //false - AllReady Have
-//            return false;
-//        }catch (ClassNotFoundException e1){
-//            System.out.println("Class Not found Exception");
-//            e1.printStackTrace();
-//        }catch (SQLException e2){
-//            System.out.println("Sql Exception");
-//            e2.printStackTrace();
-//        }
-//        return false;
-//    }
-//
-//    @FXML
-//    void btnSaveSupplier(ActionEvent event) {
-//        if(isReadyToSaveSupplier()){
-//            SupplierDto dto = new SupplierDto(
-//                    lblSupplierId.getText(),
-//                    txtSuplierName.getText(),
-//                    txtSupplierContact.getText(),
-//                    txtSupplierAddress.getText(),
-//                    txtSupplierEmail.getText()
-//            );
-//
-//            try{
-//                boolean isSaved = supplierModel.saveSupplier(dto);
-//                if(isSaved){
-//                    pageReset();
-//                    clearTextSupplier();
-//                    anchorSupplier.setVisible(false);
-//                    new Alert(Alert.AlertType.CONFIRMATION,"Supplier Saved").show();
-//                }else{
-//                    new Alert(Alert.AlertType.ERROR,"Supplier Saving failed \nSomething Went wrong...").show();
-//                }
-//            }catch (ClassNotFoundException e1){
-//                System.out.println("Class Not Found Exception");
-//                e1.printStackTrace();
-//            }catch (SQLException e2){
-//                System.out.println("SQL Exception");
-//                e2.printStackTrace();
-//            }
-//        }
-//    }
+    private boolean isReadyToSaveSupplier(boolean isUpdate){
+        if(Validation.isValidName(txtName.getText())){
+            //CHECK SUPPLIER NAME
+            if(Validation.isValidName(txtAddress.getText())){
+                //CHECK SUPPLIER CONTACT
+                if(Validation.isValidEmail(txtEmail.getText())){
+                    //CHECK SUPPLIER ADDRESS
+                    if(isUpdate){
+                        //------->>>>> UPDATING HERE
+                        if(isEmailUniqueOrSame()){
+
+                        }
+                    }else{
+                        //------->>>>> SAVING HERE
+                        if(isEmailIsUnique()){
+                            //HERE CHECK THE EMAIL IS IT UNIQUE
+                        }else{
+                            new Alert(Alert.AlertType.ERROR,"This Email is All ready Have...").show();
+                            return false;
+                        }
+                    }
+
+                    if(Validation.isValidMobileNumber(txtContact.getText())){
+                        //CHECK SUPPLIER EMAIL
+                        return true;
+                    }else{
+                        new Alert(Alert.AlertType.WARNING, "Please Enter Valid Contact").show();
+                        return false;
+                    }
+
+                }else{
+                    new Alert(Alert.AlertType.WARNING,"Please Enter the Valid Email \nEmail canot be null").show();
+                    return false;
+                }
+            }else {
+                new Alert(Alert.AlertType.WARNING, "Please check the City name, \nAddress Canot be Null").show();
+                return false;
+            }
+        }else{
+            new Alert(Alert.AlertType.WARNING, "Please Enter Valid Name \nNames Only can have letters \nEx - (A-z").show();
+            return false;
+        }
+    }
+
+    private boolean isEmailIsUnique(){
+        try{
+            boolean isEmailUnique = supplierModel.isEmailUnique(txtEmail.getText());
+            if(isEmailUnique){
+                //true - Unique
+                return true;
+            }
+            //false - AllReady Have
+            return false;
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("Sql Exception");
+            e2.printStackTrace();
+        }
+        return false;
+    }
+
+
+    private void isEmailUniqueOrSame(){
+
+    }
+
+    private void save() {
+
+        SupplierDto dto = new SupplierDto(
+                lblSupplierId.getText(),
+                txtName.getText(),
+                txtContact.getText(),
+                txtAddress.getText(),
+                txtEmail.getText()
+        );
+
+        try{
+            boolean isSaved = manageSupplierModel.save(dto,tempBookTMSArrayList);
+            if(isSaved){
+                resetPage();
+                loadTable();
+                new Alert(Alert.AlertType.CONFIRMATION,"Supplier Saved").show();
+            }else{
+                new Alert(Alert.AlertType.ERROR,"Supplier Saving failed \nSomething Went wrong...").show();
+            }
+
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not Found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
+        }
+    }
 }
