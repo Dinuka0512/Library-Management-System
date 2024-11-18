@@ -178,6 +178,7 @@ public class ManageSuppliersView implements Initializable {
         }
     }
 
+
     private void pageRefresh(){
         //CLEAR THE ALL TEXT
         loardNextSupplierIds();
@@ -203,8 +204,13 @@ public class ManageSuppliersView implements Initializable {
         pageRefresh();
     }
 
+    public void getDataOnClick(javafx.scene.input.MouseEvent mouseEvent) {
+
+    }
+
+
 //    private boolean isReadyToSaveSupplier(){
-//        if(Validation.isValidName(txtSuplierName.getText())){
+//        if(Validation.isValidName(txtSuplier Name.getText())){
 //            //CHECK SUPPLIER NAME
 //            if(Validation.isValidMobileNumber(txtSupplierContact.getText())){
 //                //CHECK SUPPLIER CONTACT
