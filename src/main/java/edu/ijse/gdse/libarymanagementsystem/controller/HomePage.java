@@ -1,6 +1,9 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
+import edu.ijse.gdse.libarymanagementsystem.model.BookIssueModel;
+import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
 import edu.ijse.gdse.libarymanagementsystem.model.UserModel;
 import edu.ijse.gdse.libarymanagementsystem.util.Validation;
 import javafx.event.ActionEvent;
@@ -21,6 +24,7 @@ import lombok.Setter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class HomePage implements Initializable {
@@ -65,9 +69,36 @@ public class HomePage implements Initializable {
     @Setter
     private AnchorPane dashboardBody;
 
+    @FXML
+    private Label lblBook1;
+
+    @FXML
+    private Label lblBook2;
+
+    @FXML
+    private Label lblBook3;
+
+    @FXML
+    private Label lblBook4;
+
+    @FXML
+    private Label lblbookqty1;
+
+    @FXML
+    private Label lblbookqty2;
+
+    @FXML
+    private Label lblbookqty3;
+
+    @FXML
+    private Label lblbookqty4;
+
     private String userEmail;
 
     private static String userName;
+    private final BookIssueModel bookIssueModel = new BookIssueModel();
+    private final BookModel bookModel = new BookModel();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -79,6 +110,8 @@ public class HomePage implements Initializable {
 
         lblWellcome.setText("Wellcome " + userName + ",");
         currentUName.setText(userName);
+
+        setPopulerBooks();
     }
 
 
@@ -190,4 +223,39 @@ public class HomePage implements Initializable {
             e.printStackTrace();
         }
     }
+
+    private void setPopulerBooks(){
+        //HERE SET THE POPULAR BOOKS
+        try{
+            int lblId = 1;
+            ArrayList<String> bookIds = bookIssueModel.getPopularBooks();
+            for(String bookId : bookIds){
+                BookDto dto = bookModel.getBookDetails(bookId);
+
+                if (lblId == 1) {
+                    lblBook1.setText(dto.getName());
+                    lblbookqty1.setText(Integer.toString(dto.getQty()));
+                } else if (lblId == 2) {
+                    lblBook2.setText(dto.getName());
+                    lblbookqty2.setText(Integer.toString(dto.getQty()));
+                } else if (lblId == 3) {
+                    lblBook3.setText(dto.getName());
+                    lblbookqty3.setText(Integer.toString(dto.getQty()));
+                } else if (lblId == 4) {
+                    lblBook4.setText(dto.getName());
+                    lblbookqty4.setText(Integer.toString(dto.getQty()));
+                }
+                lblId++;
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("class not Found");
+            e1.printStackTrace();
+        } catch (SQLException e2){
+            System.out.println("Sql queree error");
+            e2.printStackTrace();
+        }
+    }
+
+
+
 }

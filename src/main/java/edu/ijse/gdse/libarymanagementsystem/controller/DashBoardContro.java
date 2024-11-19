@@ -1,6 +1,9 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
+import edu.ijse.gdse.libarymanagementsystem.model.BookIssueModel;
+import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
 import edu.ijse.gdse.libarymanagementsystem.model.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +24,7 @@ import lombok.Setter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -99,8 +103,6 @@ public class DashBoardContro implements Initializable  {
 
     @FXML
     private AnchorPane body;
-
-
 
 
     //ADD USER --------
