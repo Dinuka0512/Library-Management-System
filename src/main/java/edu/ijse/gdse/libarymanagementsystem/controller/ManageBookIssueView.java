@@ -20,6 +20,10 @@ import javafx.scene.layout.AnchorPane;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
+import javax.mail.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -502,9 +506,18 @@ public class ManageBookIssueView implements Initializable {
             );
 
             if(isIssueCompleted){
+                String subject = "Confirmation of Book Issue: Gnanapradeepa Public Library";
+                String body = "Dear " + memberDetails.getName() + ", " + "\n\nThis is to confirm that you have successfully issued a book from the" +
+                        "Gnanapradeepa Public Library, Bandaragama.\n" + "Issue Date: " + date +" "+ formattedTime +  "\nDue Date: " + LocalDate.now().plusWeeks(2) +
+                        "\n* Please ensure that the book is returned on due date (Two weeks) or before the due date to avoid any late fees. \n* Failure to return the book on time will result in fines as per the library’s policy." +
+                        "\n\nThank you! \nWe hope you enjoy your reading." +
+                        "\n\nSincerely,Gnanapradeepa Public Library \nBandaragama";
+
+                System.out.println(body);
                 pageReload();
                 tempBookIssuesArrayList.clear();
                 loardThetempIssueTable();
+                sendEmails("Dinuhi0512@gmail.com",memberDetails.getEmail(),subject,body);
                 new Alert(Alert.AlertType.CONFIRMATION, "Book Issue Successfuly!").show();
             }else{
                 new Alert(Alert.AlertType.ERROR,"Book Issuing problem\nSomething went wrong..!!").show();
@@ -561,28 +574,41 @@ public class ManageBookIssueView implements Initializable {
         }
     }
 
-    //-----<<<<HERE SEND THE EMAILS>>>>-----//
-    private void sendEmails(String from, String to, String subject, String body){
-        //THE USERNAME MUST BE THE aipkey...
-        final String userName = "apikey";
-        final String password = "avfc bvka girm bwkc";
+    public void sendEmails(String fromEmail, String toEmail, String subject, String body) {
+        // SMTP server settings
+        final String username = fromEmail; // Your email
+        final String password = "jcct qqyt gzit cofm";       // Your email password or app-specific password
+        String host = "smtp.gmail.com";
 
-        /*
-        *    SMTP server ->
-        *    SIMPLE MAIL TRANSFER PROTOCOL..
-        *    (Sending emails)
-        *
-        *    IMAP ->
-        *    INTERNET MAIL ACCESS PROTOCOL..
-        *    (Receive the mails)
-        * */
+        // Set properties
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.sendgrid.net");
+        props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.ssl.trust", "smtp.sendgrid.net");
 
+        // Create session
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
 
+        try {
+            // Create the email message
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject(subject);
+            message.setText(body);
+
+            // Send the email
+            Transport.send(message);
+
+            new Alert(Alert.AlertType.CONFIRMATION,"Email sent successfully to " + toEmail).show();
+        } catch (MessagingException e) {
+            new Alert(Alert.AlertType.ERROR,"Error while sending email: " + e.getMessage()).show();
+            e.printStackTrace();
+        }
     }
 }
