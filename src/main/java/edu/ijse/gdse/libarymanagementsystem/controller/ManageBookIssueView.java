@@ -182,7 +182,6 @@ public class ManageBookIssueView implements Initializable {
         //LOAD TABLE DATA
         loadIssueTable();
 
-        proBar.setVisible(false);
         lblSendingMessage.setVisible(false);
     }
 
@@ -480,7 +479,6 @@ public class ManageBookIssueView implements Initializable {
          * TO CHECK THE ARRAY LIST IS ARRAY LIST IS EMPTY
          * WE USE THE .isEmpty() METHOD...
          * */
-        proBar.setVisible(true);
         lblSendingMessage.setVisible(true);
 
         if(!tempBookIssuesArrayList.isEmpty()){

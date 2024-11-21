@@ -16,5 +16,4 @@ public class BookReturningTm {
     private String bookName;
     private String issueDate;
     private String issueTime;
-    private Button action;
 }
