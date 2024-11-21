@@ -7,6 +7,8 @@ import edu.ijse.gdse.libarymanagementsystem.dto.MemberDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.IssueTableTm;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.TempBookIssueTm;
 import edu.ijse.gdse.libarymanagementsystem.model.*;
+import edu.ijse.gdse.libarymanagementsystem.util.Gmail;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,6 +44,9 @@ public class ManageBookIssueView implements Initializable {
 
     @FXML
     private AnchorPane anchorBookIssue;
+
+    @FXML
+    private AnchorPane anchorSendingMail;
 
     @FXML
     private AnchorPane anchorIssueTable;
@@ -96,6 +101,12 @@ public class ManageBookIssueView implements Initializable {
 
     @FXML
     private Label lblMemName;
+
+    @FXML
+    private ProgressBar proBar;
+
+    @FXML
+    private Label lblSendingMessage;
 
     @FXML
     private Label lblMemberNameload;
@@ -170,6 +181,9 @@ public class ManageBookIssueView implements Initializable {
 
         //LOAD TABLE DATA
         loadIssueTable();
+
+        proBar.setVisible(false);
+        lblSendingMessage.setVisible(false);
     }
 
     //LOAD ISSUE TABLE HERE
@@ -466,6 +480,9 @@ public class ManageBookIssueView implements Initializable {
          * TO CHECK THE ARRAY LIST IS ARRAY LIST IS EMPTY
          * WE USE THE .isEmpty() METHOD...
          * */
+        proBar.setVisible(true);
+        lblSendingMessage.setVisible(true);
+
         if(!tempBookIssuesArrayList.isEmpty()){
             if(memberDetails != null){
                 bookIssuingProcess();
@@ -488,6 +505,8 @@ public class ManageBookIssueView implements Initializable {
         LocalTime time = LocalTime.now(); //----> EX - 10.14.20.9900975
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mma"); // HERE FORMAT THAT
         String formattedTime = time.format(formatter).toLowerCase();
+
+
 
         //HERE CREATING THE ISSUE TABLE DTO
         IssueTableDto issueTableDto = new IssueTableDto(
@@ -512,12 +531,10 @@ public class ManageBookIssueView implements Initializable {
                         "\n* Please ensure that the book is returned on due date (Two weeks) or before the due date to avoid any late fees. \n* Failure to return the book on time will result in fines as per the library’s policy." +
                         "\n\nThank you! \nWe hope you enjoy your reading." +
                         "\n\nSincerely,Gnanapradeepa Public Library \nBandaragama";
-
-                System.out.println(body);
                 pageReload();
                 tempBookIssuesArrayList.clear();
                 loardThetempIssueTable();
-                sendEmails("Dinuhi0512@gmail.com",memberDetails.getEmail(),subject,body);
+                Gmail.sendEmails("Dinuhi0512@gmail.com",memberDetails.getEmail(),subject,body);
                 new Alert(Alert.AlertType.CONFIRMATION, "Book Issue Successfuly!").show();
             }else{
                 new Alert(Alert.AlertType.ERROR,"Book Issuing problem\nSomething went wrong..!!").show();
@@ -529,8 +546,16 @@ public class ManageBookIssueView implements Initializable {
         }catch (SQLException e2){
             System.out.println("SQL Exception");
             e2.printStackTrace();
+        }finally {
+            // Hide the progress bar and message after the operation
+            Platform.runLater(() -> {
+                lblSendingMessage.setVisible(false);
+                proBar.setVisible(false);
+            });
         }
+
     }
+
 
     @FXML
     void btnOpenBookIssueTable(ActionEvent event) {
@@ -571,44 +596,6 @@ public class ManageBookIssueView implements Initializable {
             new Alert(Alert.AlertType.ERROR,"Failed to load report").show();
             System.out.println("JRException");
             e3.printStackTrace();
-        }
-    }
-
-    public void sendEmails(String fromEmail, String toEmail, String subject, String body) {
-        // SMTP server settings
-        final String username = fromEmail; // Your email
-        final String password = "jcct qqyt gzit cofm";       // Your email password or app-specific password
-        String host = "smtp.gmail.com";
-
-        // Set properties
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", "587");
-
-        // Create session
-        Session session = Session.getInstance(props, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-
-        try {
-            // Create the email message
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(fromEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
-            message.setSubject(subject);
-            message.setText(body);
-
-            // Send the email
-            Transport.send(message);
-
-            new Alert(Alert.AlertType.CONFIRMATION,"Email sent successfully to " + toEmail).show();
-        } catch (MessagingException e) {
-            new Alert(Alert.AlertType.ERROR,"Error while sending email: " + e.getMessage()).show();
-            e.printStackTrace();
         }
     }
 }
