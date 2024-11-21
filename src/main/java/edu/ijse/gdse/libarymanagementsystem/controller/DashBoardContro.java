@@ -55,37 +55,35 @@ public class DashBoardContro implements Initializable  {
         DashBoardContro.userEmail = userEmail;
     }
 
-
-    @FXML
-    private AnchorPane authorAnch;
-
-    @FXML
-    private AnchorPane bookAnch;
-
     @FXML
     private AnchorPane btnNamesAnchor;
 
     @FXML
-    private AnchorPane cupAnch;
+    private AnchorPane anchorAuthor;
 
     @FXML
-    private AnchorPane damAnch;
+    private AnchorPane anchorBook;
 
     @FXML
-    private AnchorPane empAnch;
+    private AnchorPane anchorBookIssue;
 
     @FXML
-    private AnchorPane memAnch;
+    private AnchorPane anchorBookReturn;
 
     @FXML
-    private AnchorPane payAnch;
+    private AnchorPane anchorBtnBody;
 
     @FXML
-    private AnchorPane sectAnch;
+    private AnchorPane anchorDash;
 
     @FXML
-    private AnchorPane supAnch;
+    private AnchorPane anchorEmployee;
 
+    @FXML
+    private AnchorPane anchorMember;
+
+    @FXML
+    private AnchorPane anchorSupplier;
     @FXML
     private Label lblWellcome;
 
@@ -142,16 +140,16 @@ public class DashBoardContro implements Initializable  {
 
 
 
-    //BOOK MANAGE -------
+//    BOOK MANAGE -------
     @FXML
     void showName(MouseEvent event) {
         btnNamesAnchor.setVisible(false);
-        bookAnch.setVisible(true);
+        anchorBook.setVisible(true);
     }
 
     @FXML
     void closeName(MouseEvent event) {
-        bookAnch.setVisible(false);
+        anchorBook.setVisible(false);
     }
 
     @FXML
@@ -170,16 +168,16 @@ public class DashBoardContro implements Initializable  {
 
 
 
-    //MEMBER
+    //MEMBER----->
     @FXML
     void closeNameMem(MouseEvent event) {
-        btnNamesAnchor.setVisible(false);
-        memAnch.setVisible(false);
+        anchorMember.setVisible(false);
     }
 
     @FXML
     void showNameMem(MouseEvent event) {
-        memAnch.setVisible(true);
+        btnNamesAnchor.setVisible(false);
+        anchorMember.setVisible(true);
     }
 
     @FXML
@@ -196,17 +194,17 @@ public class DashBoardContro implements Initializable  {
 
 
 
-    //AUTHORS
+    //AUTHORS---->
     @FXML
     void showNameAuth(MouseEvent event) {
         btnNamesAnchor.setVisible(false);
-        authorAnch.setVisible(true);
+        anchorAuthor.setVisible(true);
     }
 
 
     @FXML
     void closeNameAuth(MouseEvent event) {
-        authorAnch.setVisible(false);
+        anchorAuthor.setVisible(false);
     }
 
     @FXML
@@ -225,16 +223,16 @@ public class DashBoardContro implements Initializable  {
 
 
 
-    //BOOK ISSUES
+//    BOOK ISSUES---->
     @FXML
     void showNameSec(MouseEvent event) {
         btnNamesAnchor.setVisible(false);
-        sectAnch.setVisible(true);
+        anchorBookIssue.setVisible(true);
     }
 
     @FXML
     void closeNameSec(MouseEvent event) {
-        sectAnch.setVisible(false);
+        anchorBookIssue.setVisible(false);
     }
 
     @FXML
@@ -253,17 +251,17 @@ public class DashBoardContro implements Initializable  {
 
 
 
-    //SUPPLIERS
+    //SUPPLIERS---->
     @FXML
     void showNameSup(MouseEvent event) {
         btnNamesAnchor.setVisible(false);
-        supAnch.setVisible(true);
+        anchorSupplier.setVisible(true);
     }
 
 
     @FXML
     void closeNameSup(MouseEvent event) {
-        supAnch.setVisible(false);
+        anchorSupplier.setVisible(false);
     }
 
     @FXML
@@ -279,63 +277,33 @@ public class DashBoardContro implements Initializable  {
     }
 
 
-    //CUPBOARD
-    @FXML
-    void showNameCup(MouseEvent event) {
-        btnNamesAnchor.setVisible(false);
-        cupAnch.setVisible(true);
-    }
 
 
-    @FXML
-    void closeNameCup(MouseEvent event) {
-        cupAnch.setVisible(false);
-    }
-
-
-
-
-    //PAYMENTS
-    @FXML
-    void showNamePay(MouseEvent event) {
-        btnNamesAnchor.setVisible(false);
-        payAnch.setVisible(true);
-    }
-
-
-    @FXML
-    void closeNamePay(MouseEvent event) {
-        payAnch.setVisible(false);
-    }
-
-
-
-
-    //DAMAGE
+    //DAMAGE ---->
     @FXML
     void showNameDama(MouseEvent event) {
         btnNamesAnchor.setVisible(false);
-        damAnch.setVisible(true);
+        anchorBookReturn.setVisible(true);
     }
 
 
     @FXML
     void closeNameDama(MouseEvent event) {
-        damAnch.setVisible(false);
+        anchorBookReturn.setVisible(false);
     }
 
 
 
-    //EMPLOYEE
+    //EMPLOYEE--->
     @FXML
     void showNameEmp(MouseEvent event) {
         btnNamesAnchor.setVisible(false);
-        empAnch.setVisible(true);
+        anchorEmployee.setVisible(true);
     }
 
     @FXML
     void closeNameEmp(MouseEvent event) {
-        empAnch.setVisible(false);
+        anchorEmployee.setVisible(false);
     }
 
 
@@ -414,5 +382,16 @@ public class DashBoardContro implements Initializable  {
             System.out.printf("IOException");
             e1.printStackTrace();
         }
+    }
+
+    @FXML
+    void openDashAnchor(MouseEvent event) {
+        btnNamesAnchor.setVisible(false);
+        anchorDash.setVisible(true);
+    }
+
+    @FXML
+    void closeDashAnchor(MouseEvent event) {
+        anchorDash.setVisible(false);
     }
 }
