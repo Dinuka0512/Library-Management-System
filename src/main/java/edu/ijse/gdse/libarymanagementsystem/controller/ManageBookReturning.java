@@ -4,14 +4,18 @@ import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.BookReturningTm;
 import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
 import edu.ijse.gdse.libarymanagementsystem.model.ManageBookReturningModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -30,6 +34,8 @@ import java.util.ResourceBundle;
 
 public class ManageBookReturning implements Initializable {
 
+    @FXML
+    private Slider slider;
 
     @FXML
     private Label lbltodayDate;
@@ -99,6 +105,19 @@ public class ManageBookReturning implements Initializable {
         columnBookName.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         columnIssueDate.setCellValueFactory(new PropertyValueFactory<>("issueDate"));
         columnIssueTime.setCellValueFactory(new PropertyValueFactory<>("issueTime"));
+
+        slider.setValue(0);
+
+        //SET DAMAGE SIZE
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            String text;
+            if(newValue.intValue() == 0){
+                lblDamageSize.setTextFill(Color.GREEN);
+            }else{
+                lblDamageSize.setTextFill(Color.RED);
+            }
+            lblDamageSize.setText(newValue.intValue() + "%");
+        });
 
         pageLoad();
     }
@@ -181,4 +200,6 @@ public class ManageBookReturning implements Initializable {
 
         return 14 - daysBetween;
     }
+
+
 }

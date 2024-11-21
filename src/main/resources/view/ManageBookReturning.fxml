@@ -64,7 +64,7 @@
                </font>
             </Label>
             <Label fx:id="lblBookPrice" layoutX="106.0" layoutY="146.0" prefHeight="26.0" prefWidth="122.0" text="-" />
-            <Slider layoutX="16.0" layoutY="211.0" majorTickUnit="10.0" minorTickCount="5" prefHeight="14.0" prefWidth="204.0" showTickLabels="true" showTickMarks="true" />
+            <Slider fx:id="slider" layoutX="16.0" layoutY="211.0" majorTickUnit="10.0" minorTickCount="5" prefHeight="14.0" prefWidth="204.0" showTickLabels="true" showTickMarks="true" />
             <Label layoutX="19.0" layoutY="183.0" text="Damage size :">
                <font>
                   <Font name="System Bold" size="16.0" />
