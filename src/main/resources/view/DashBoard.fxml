@@ -51,7 +51,7 @@
                   <Image url="@../images/supplier.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="damageImg" fitHeight="45.0" fitWidth="45.0" layoutX="25.0" layoutY="496.0" onMouseEntered="#showNameDama" onMouseExited="#closeNameDama" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="damageImg" fitHeight="45.0" fitWidth="45.0" layoutX="25.0" layoutY="496.0" onMouseClicked="#openBookReturning" onMouseEntered="#showNameDama" onMouseExited="#closeNameDama" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/damages.png" />
                </image>

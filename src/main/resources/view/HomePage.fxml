@@ -44,43 +44,43 @@
                   <Font name="Poppins SemiBold Italic" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lblBook1" layoutX="789.0" layoutY="101.0" text="Most Popular Books">
+            <Label fx:id="lblBook1" layoutX="789.0" layoutY="101.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
             <Line endX="100.0" endY="16.0" layoutX="676.0" layoutY="58.0" startX="100.0" startY="132.0" stroke="#000000ad" strokeWidth="0.5" />
-            <Label fx:id="lblBook2" layoutX="789.0" layoutY="124.0" text="Most Popular Books">
+            <Label fx:id="lblBook2" layoutX="789.0" layoutY="124.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lblBook3" layoutX="789.0" layoutY="148.0" text="Most Popular Books">
+            <Label fx:id="lblBook3" layoutX="789.0" layoutY="148.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lblBook4" layoutX="789.0" layoutY="173.0" text="Most Popular Books">
+            <Label fx:id="lblBook4" layoutX="789.0" layoutY="173.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lblbookqty1" layoutX="963.0" layoutY="101.0" prefHeight="25.0" prefWidth="64.0" text="1500">
+            <Label fx:id="lblbookqty1" layoutX="963.0" layoutY="101.0" prefHeight="25.0" prefWidth="64.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lblbookqty4" layoutX="963.0" layoutY="171.0" prefHeight="25.0" prefWidth="64.0" text="1500">
+            <Label fx:id="lblbookqty4" layoutX="963.0" layoutY="171.0" prefHeight="25.0" prefWidth="64.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lblbookqty3" layoutX="963.0" layoutY="148.0" prefHeight="25.0" prefWidth="64.0" text="1500">
+            <Label fx:id="lblbookqty3" layoutX="963.0" layoutY="148.0" prefHeight="25.0" prefWidth="64.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lblbookqty2" layoutX="963.0" layoutY="125.0" prefHeight="25.0" prefWidth="64.0" text="1500">
+            <Label fx:id="lblbookqty2" layoutX="963.0" layoutY="125.0" prefHeight="25.0" prefWidth="64.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
@@ -91,33 +91,33 @@
                   <Font name="Poppins SemiBold Italic" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="789.0" layoutY="277.0" prefHeight="25.0" prefWidth="130.0" text="sample">
+            <Label fx:id="lblpopMemName1" layoutX="789.0" layoutY="277.0" prefHeight="25.0" prefWidth="130.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
             <Line endX="100.0" layoutX="676.0" layoutY="259.0" startX="100.0" startY="84.0" stroke="#000000ad" strokeWidth="0.5" />
-            <Label layoutX="789.0" layoutY="300.0" prefHeight="25.0" prefWidth="130.0" text="sample">
+            <Label fx:id="lblpopMemName2" layoutX="789.0" layoutY="300.0" prefHeight="25.0" prefWidth="130.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="789.0" layoutY="322.0" prefHeight="25.0" prefWidth="130.0" text="sample">
+            <Label fx:id="lblpopMemName3" layoutX="789.0" layoutY="322.0" prefHeight="25.0" prefWidth="130.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="923.0" layoutY="277.0" prefHeight="25.0" prefWidth="99.0" text="1500">
+            <Label fx:id="lblpopMemEmail1" layoutX="923.0" layoutY="277.0" prefHeight="25.0" prefWidth="99.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="923.0" layoutY="300.0" prefHeight="25.0" prefWidth="99.0" text="1500">
+            <Label fx:id="lblpopMemEmail2" layoutX="923.0" layoutY="300.0" prefHeight="25.0" prefWidth="99.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="923.0" layoutY="322.0" prefHeight="25.0" prefWidth="99.0" text="1500">
+            <Label fx:id="lblpopMemEmail3" layoutX="923.0" layoutY="322.0" prefHeight="25.0" prefWidth="99.0" text="-">
                <font>
                   <Font name="Poppins Light" size="13.0" />
                </font>
@@ -162,7 +162,7 @@
                   <Font name="Poppins Medium" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="923.0" layoutY="259.0" text="Qty" underline="true">
+            <Label layoutX="923.0" layoutY="259.0" text="Issue Qty" underline="true">
                <font>
                   <Font name="Poppins Medium" size="12.0" />
                </font>

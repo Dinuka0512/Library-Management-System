@@ -292,6 +292,17 @@ public class DashBoardContro implements Initializable  {
         anchorBookReturn.setVisible(false);
     }
 
+    @FXML
+    void openBookReturning(MouseEvent event) {
+        try{
+            body.getChildren().clear();
+            AnchorPane load = FXMLLoader.load(getClass().getResource("/view/ManageBookReturning.fxml"));
+            body .getChildren().add(load);
+        }catch (IOException e1){
+            System.out.println("Unable to load Book Returning page");
+            e1.printStackTrace();
+        }
+    }
 
 
     //EMPLOYEE--->

@@ -1,9 +1,11 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
+import edu.ijse.gdse.libarymanagementsystem.dto.Member;
 import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
 import edu.ijse.gdse.libarymanagementsystem.model.BookIssueModel;
 import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
+import edu.ijse.gdse.libarymanagementsystem.model.MemberModel;
 import edu.ijse.gdse.libarymanagementsystem.model.UserModel;
 import edu.ijse.gdse.libarymanagementsystem.util.Validation;
 import javafx.event.ActionEvent;
@@ -39,6 +41,25 @@ public class HomePage implements Initializable {
 
     @FXML
     private TextField txtPasswordConfirm;
+
+    @FXML
+    private Label lblpopMemEmail1;
+
+    @FXML
+    private Label lblpopMemEmail2;
+
+    @FXML
+    private Label lblpopMemEmail3;
+
+    @FXML
+    private Label lblpopMemName1;
+
+    @FXML
+    private Label lblpopMemName2;
+
+    @FXML
+    private Label lblpopMemName3;
+
 
     @FXML
     private Button btnSave;
@@ -98,7 +119,7 @@ public class HomePage implements Initializable {
     private static String userName;
     private final BookIssueModel bookIssueModel = new BookIssueModel();
     private final BookModel bookModel = new BookModel();
-
+    private final MemberModel memberModel = new MemberModel();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -112,6 +133,7 @@ public class HomePage implements Initializable {
         currentUName.setText(userName);
 
         setPopulerBooks();
+        setPopularMembers();
     }
 
 
@@ -256,5 +278,30 @@ public class HomePage implements Initializable {
         }
     }
 
+    private void setPopularMembers(){
+        try{
+            int i = 1;
+            ArrayList<Member> popMembers = memberModel.getPopularMember();
+            for(Member member : popMembers){
+                if(i==1){
+                    lblpopMemName1.setText(member.getName());
+                    lblpopMemEmail1.setText(Integer.toString(member.getTotalIssues()));
 
+                } else if (i == 2) {
+                    lblpopMemName2.setText(member.getName());
+                    lblpopMemEmail2.setText(Integer.toString(member.getTotalIssues()));
+                } else if (i == 3) {
+                    lblpopMemName3.setText(member.getName());
+                    lblpopMemEmail3.setText(Integer.toString(member.getTotalIssues()));
+                }
+                i++;
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("class not Found");
+            e1.printStackTrace();
+        } catch (SQLException e2){
+            System.out.println("Sql queree error");
+            e2.printStackTrace();
+        }
+    }
 }
