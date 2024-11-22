@@ -1,7 +1,7 @@
 package edu.ijse.gdse.libarymanagementsystem.model;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.IssueTableDto;
-import edu.ijse.gdse.libarymanagementsystem.dto.Barcharts.Linechart;
+import edu.ijse.gdse.libarymanagementsystem.dto.ShortCuts.Linechart;
 import edu.ijse.gdse.libarymanagementsystem.util.CrudUtil;
 
 import java.sql.ResultSet;

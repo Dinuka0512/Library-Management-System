@@ -1,8 +1,9 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
-import edu.ijse.gdse.libarymanagementsystem.dto.Barcharts.Barchart;
+import edu.ijse.gdse.libarymanagementsystem.dto.ShortCuts.Barchart;
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
-import edu.ijse.gdse.libarymanagementsystem.dto.Barcharts.Linechart;
+import edu.ijse.gdse.libarymanagementsystem.dto.ShortCuts.BookIdAndQty;
+import edu.ijse.gdse.libarymanagementsystem.dto.ShortCuts.Linechart;
 import edu.ijse.gdse.libarymanagementsystem.dto.BookSupplyNameAndQtyDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.Member;
 import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
@@ -14,7 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
@@ -376,22 +376,22 @@ public class HomePage implements Initializable {
         //HERE SET THE POPULAR BOOKS
         try{
             int lblId = 1;
-            ArrayList<String> bookIds = bookIssueModel.getPopularBooks();
-            for(String bookId : bookIds){
-                BookDto dto = bookModel.getBookDetails(bookId);
+            ArrayList<BookIdAndQty> bookIds = bookIssueModel.getPopularBooks();
+            for(BookIdAndQty arr : bookIds){
+                BookDto dto = bookModel.getBookDetails(arr.getBook_Id());
 
                 if (lblId == 1) {
                     lblBook1.setText(dto.getName());
-                    lblbookqty1.setText(Integer.toString(dto.getQty()));
+                    lblbookqty1.setText(Integer.toString(arr.getQty()));
                 } else if (lblId == 2) {
                     lblBook2.setText(dto.getName());
-                    lblbookqty2.setText(Integer.toString(dto.getQty()));
+                    lblbookqty2.setText(Integer.toString(arr.getQty()));
                 } else if (lblId == 3) {
                     lblBook3.setText(dto.getName());
-                    lblbookqty3.setText(Integer.toString(dto.getQty()));
+                    lblbookqty3.setText(Integer.toString(arr.getQty()));
                 } else if (lblId == 4) {
                     lblBook4.setText(dto.getName());
-                    lblbookqty4.setText(Integer.toString(dto.getQty()));
+                    lblbookqty4.setText(Integer.toString(arr.getQty()));
                 }
                 lblId++;
             }

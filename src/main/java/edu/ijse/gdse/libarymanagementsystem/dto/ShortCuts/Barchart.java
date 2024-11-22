@@ -1,4 +1,4 @@
-package edu.ijse.gdse.libarymanagementsystem.dto.Barcharts;
+package edu.ijse.gdse.libarymanagementsystem.dto.ShortCuts;
 import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
