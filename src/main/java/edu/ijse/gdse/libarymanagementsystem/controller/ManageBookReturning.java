@@ -4,6 +4,7 @@ import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.BookReturningTm;
 import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
 import edu.ijse.gdse.libarymanagementsystem.model.ManageBookReturningModel;
+import edu.ijse.gdse.libarymanagementsystem.model.ReturnBookModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -105,7 +106,7 @@ public class ManageBookReturning implements Initializable {
 
     @FXML
     private Label lblFullPayment;
-
+    private ReturnBookModel returnBookModel  = new ReturnBookModel();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -251,9 +252,52 @@ public class ManageBookReturning implements Initializable {
     @FXML
     void payNow(ActionEvent event) {
         if(tabelDetails != null){
-            boolean isSaved = manageBookReturningModel.returnBook(bookDetail, tabelDetails.getIssueID());
+            try{
+                boolean isSaved = manageBookReturningModel.returnBook(bookDetail, tabelDetails.getIssueID(), fee);
+                if(isSaved){
+                    pageLoad();
+                    sendEmail();
+                    new Alert(Alert.AlertType.CONFIRMATION,"Successful").show();
+                }else{
+                    new Alert(Alert.AlertType.ERROR,"Something Went wrong").show();
+                }
+            }catch (SQLException e1){
+                System.out.println("SQL Exception");
+                e1.printStackTrace();
+            }catch (ClassNotFoundException e2){
+                System.out.println("Class Not Found Exception");
+                e2.printStackTrace();
+            }
         }else{
             new Alert(Alert.AlertType.WARNING,"You must Select the book before return...").show();
         }
+    }
+
+    private void sendEmail(){
+        /*Dear [Member_Name],
+        We hope this message finds you well.
+        We are writing to confirm the return of the following book(s) that you borrowed from our library:
+
+        ** Book Title**: [Book_Name]
+        ** Date Borrowed**: [Issue_Date]
+        ** Return Date**: [Return_Date]
+        ** Damage cost :
+        ** Late Date Cots :
+
+        Thank you for returning the book(s) on time. However, we noticed that the return was [daysLate] day(s) late.
+        The late return fee, calculated as [daysLate] day(s) * Rs. [Late_Fee_Per_Day], amounts to Rs. [Total_Late_Fee].
+        **Total Amount Paid**: Rs. [Total_Amount_Paid]
+
+        We appreciate your timely settlement of the dues.
+        If you have any questions or need further assistance, please do not hesitate to contact us.
+        Thank you for your attention to this matter, and we look forward to your continued patronage.
+
+        THANK YOU & WELLCOME!
+
+        Best Regards,
+        Gnanapradeepa Public Library
+        Bandaragama
+        0382 289 975
+        */
     }
 }
