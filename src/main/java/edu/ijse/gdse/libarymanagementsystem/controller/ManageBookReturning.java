@@ -1,10 +1,13 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
+import edu.ijse.gdse.libarymanagementsystem.dto.MemberDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.BookReturningTm;
 import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
 import edu.ijse.gdse.libarymanagementsystem.model.ManageBookReturningModel;
+import edu.ijse.gdse.libarymanagementsystem.model.MemberModel;
 import edu.ijse.gdse.libarymanagementsystem.model.ReturnBookModel;
+import edu.ijse.gdse.libarymanagementsystem.util.Gmail;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -108,6 +111,7 @@ public class ManageBookReturning implements Initializable {
     private Label lblFullPayment;
     private ReturnBookModel returnBookModel  = new ReturnBookModel();
 
+    private final MemberModel memberModel = new MemberModel();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //INITIALIZING TABLE COLUMNS
@@ -255,9 +259,9 @@ public class ManageBookReturning implements Initializable {
             try{
                 boolean isSaved = manageBookReturningModel.returnBook(bookDetail, tabelDetails.getIssueID(), fee);
                 if(isSaved){
-                    pageLoad();
                     sendEmail();
                     new Alert(Alert.AlertType.CONFIRMATION,"Successful").show();
+                    pageLoad();
                 }else{
                     new Alert(Alert.AlertType.ERROR,"Something Went wrong").show();
                 }
@@ -274,30 +278,51 @@ public class ManageBookReturning implements Initializable {
     }
 
     private void sendEmail(){
-        /*Dear [Member_Name],
-        We hope this message finds you well.
-        We are writing to confirm the return of the following book(s) that you borrowed from our library:
+        try{
+            MemberDto memberDto = memberModel.getMemberDetails(tabelDetails.getMemID());
 
-        ** Book Title**: [Book_Name]
-        ** Date Borrowed**: [Issue_Date]
-        ** Return Date**: [Return_Date]
-        ** Damage cost :
-        ** Late Date Cots :
+            String subject = "Book Return Confirmation & Late Fee Details Gnanapradeepa Public Library Bandaragama";
+            String body = "Dear "+memberDto.getName()+",\n" +
+                    "Thank you for returning the book(s) to Gnanapradeepa Public Library. " +
+                    "\nBelow are the details of your return and any applicable fees:" +
+                    "\n" +
+                    "-----------------------------------------------------\n" +
+                    "**Book Return Details:**\n" +
+                    "\n" +
+                    "Book Title:       "+ bookDetail.getName() +" Book,\n" +
+                    "Date Borrowed:    "+ tabelDetails.getIssueDate() +"\n" +
+                    "Return Date:      "+ LocalDate.now() +"\n" +
+                    "-----------------------------------------------------\n" +
+                    "\n" +
+                    "**Fee Details:**\n" +
+                    "\n" +
+                    "Late Fee Rate:    Rs. 10 per day\n" +
+                    "Your Late Fee :    Rs. "+ feeLateFee +"\n\n" +
+                    "Book Pirce:    Rs."+ bookDetail.getPrice() +" \n" +
+                    "Damage percentage: "+ slider.getValue() +"%\n" +
+                    "Damage Fee Rate:    Rs. "+ damageFee +"/= \n\n" +
+                    "Total Late Fee:   Rs. " + (feeLateFee + damageFee) +"/= \n" +
+                    "-----------------------------------------------------\n" +
+                    "-----------------------------------------------------\n\n" +
+                    "Thank you for your timely settlement of the dues. \n" +
+                    "If you have any questions or need further assistance, please contact us at 0382 289 975.\n" +
+                    "\n" +
+                    "Thank you for your attention, and we look forward to your continued patronage.\n" +
+                    "THANK YOU & WELLCOME \n" +
+                    "\n" +
+                    "Best Regards,\n" +
+                    "Gnanapradeepa Public Library  \n" +
+                    "Bandaragama  \n" +
+                    "Contact: 0382 289 975\n";
 
-        Thank you for returning the book(s) on time. However, we noticed that the return was [daysLate] day(s) late.
-        The late return fee, calculated as [daysLate] day(s) * Rs. [Late_Fee_Per_Day], amounts to Rs. [Total_Late_Fee].
-        **Total Amount Paid**: Rs. [Total_Amount_Paid]
+            Gmail.sendEmails("Dinuhi0512@gmail.com",memberDto.getEmail(), subject, body);
 
-        We appreciate your timely settlement of the dues.
-        If you have any questions or need further assistance, please do not hesitate to contact us.
-        Thank you for your attention to this matter, and we look forward to your continued patronage.
-
-        THANK YOU & WELLCOME!
-
-        Best Regards,
-        Gnanapradeepa Public Library
-        Bandaragama
-        0382 289 975
-        */
+        }catch (SQLException e1){
+            System.out.println("SQL Exception");
+            e1.printStackTrace();
+        }catch (ClassNotFoundException e2){
+            System.out.println("Class Not Found Exception");
+            e2.printStackTrace();
+        }
     }
 }
