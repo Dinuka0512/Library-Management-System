@@ -1,4 +1,4 @@
-package edu.ijse.gdse.libarymanagementsystem.dto.LineChart;
+package edu.ijse.gdse.libarymanagementsystem.dto.Barcharts;
 import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor

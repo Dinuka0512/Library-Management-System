@@ -1,7 +1,9 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
+import edu.ijse.gdse.libarymanagementsystem.dto.Barcharts.Barchart;
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
-import edu.ijse.gdse.libarymanagementsystem.dto.LineChart.Linechart;
+import edu.ijse.gdse.libarymanagementsystem.dto.Barcharts.Linechart;
+import edu.ijse.gdse.libarymanagementsystem.dto.BookSupplyNameAndQtyDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.Member;
 import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
 import edu.ijse.gdse.libarymanagementsystem.model.*;
@@ -12,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
@@ -27,6 +30,7 @@ import lombok.Setter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -119,7 +123,33 @@ public class HomePage implements Initializable {
     @FXML
     private Label lblbookqty4;
 
+    @FXML
+    private Label lblTodayBi;
+
+    @FXML
+    private Label lblTodaybR;
+
+    @FXML
+    private Label lblCashOnHandTd;
     private String userEmail;
+
+    @FXML
+    private Label lblSupplierName1;
+
+    @FXML
+    private Label lblSupplierName2;
+
+    @FXML
+    private Label lblSupplierName3;
+
+    @FXML
+    private Label lblSupplierSupbQty1;
+
+    @FXML
+    private Label lblSupplierSupbQty2;
+
+    @FXML
+    private Label lblSupplierSupbQty3;
 
     private static String userName;
     private final BookIssueModel bookIssueModel = new BookIssueModel();
@@ -127,9 +157,15 @@ public class HomePage implements Initializable {
     private final MemberModel memberModel = new MemberModel();
     private final IssueModel issueModel = new IssueModel();
     private final ReturnBookModel returnBookModel = new ReturnBookModel();
+    private final BookSupplyModel bookSupplyModel = new BookSupplyModel();
+
+    private String date = String.valueOf(LocalDate.now());
 
     @FXML
     private LineChart<String, Number> lineBarChart;
+
+    @FXML
+    private LineChart<String, Number> barchartPayments;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userDetails = DashBoardContro.getDto();
@@ -143,10 +179,64 @@ public class HomePage implements Initializable {
 
         setPopulerBooks();
         setPopularMembers();
+        setPopularSupplier();
 
         setUpBarChart();
+        todayBookIssues();
+        todayBookReturns();
+        setCashOnHand();
+        loadPaymentBarchart();
     }
 
+    private void setPopularSupplier(){
+        ArrayList<BookSupplyNameAndQtyDto> dtos = bookSupplyModel.getSupplierNameAndAllBookSuppliedQty();
+        if(dtos != null){
+            int i = 1;
+            for(BookSupplyNameAndQtyDto dto : dtos){
+                if(i == 1){
+                    lblSupplierName1.setText(dto.getSupplierName());
+                    lblSupplierSupbQty1.setText(Integer.toString(dto.getQty()));
+                }else if(i == 2){
+                    lblSupplierName2.setText(dto.getSupplierName());
+                    lblSupplierSupbQty2.setText(Integer.toString(dto.getQty()));
+                } else if (i ==3) {
+                    lblSupplierName3.setText(dto.getSupplierName());
+                    lblSupplierSupbQty3.setText(Integer.toString(dto.getQty()));
+                }
+                i++;
+            }
+        }
+    }
+
+    private void loadPaymentBarchart(){
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Return Amounts");
+
+        ArrayList<Barchart> data = returnBookModel.getBarchartValues();
+
+        for (Barchart item : data) {
+            series.getData().add(new XYChart.Data<>(item.getDate(), item.getAmount()));
+        }
+
+        barchartPayments.getData().add(series);
+    }
+
+    private void setCashOnHand(){
+        int cashonHandToday = returnBookModel.getCashonHandToday(date);
+        lblCashOnHandTd.setText("Rs " + cashonHandToday + "/=");
+    }
+
+    private void todayBookIssues(){
+        int bookIssueCount = issueModel.getTodaYIssueBookCounts(date);
+        String bi = String.format("%02d", bookIssueCount);
+        lblTodayBi.setText(bi);
+    }
+
+    private void todayBookReturns(){
+        int bookReturnCount = returnBookModel.getTodayBookReturns(date);
+        String br = String.format("%02d", bookReturnCount);
+        lblTodaybR.setText(br);
+    }
 
     private void setUpBarChart() {
         // Create data series

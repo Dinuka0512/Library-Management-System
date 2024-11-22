@@ -1,7 +1,7 @@
 package edu.ijse.gdse.libarymanagementsystem.model;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.IssueTableDto;
-import edu.ijse.gdse.libarymanagementsystem.dto.LineChart.Linechart;
+import edu.ijse.gdse.libarymanagementsystem.dto.Barcharts.Linechart;
 import edu.ijse.gdse.libarymanagementsystem.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -67,5 +67,23 @@ public class IssueModel {
             e2.printStackTrace();
         }
         return  null;
+    }
+
+    public int getTodaYIssueBookCounts(String date) {
+        try{
+            String sql = "select count(Issue_Id) as count from Issue where Date = ?";
+            ResultSet res = CrudUtil.execute(sql,date);
+            if(res.next()){
+                return res.getInt("count");
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class Not found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("Sql Exception");
+            e2.printStackTrace();
+        }
+
+        return 0;
     }
 }
