@@ -8,12 +8,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +19,7 @@ import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.chrono.ChronoPeriod;
@@ -94,6 +93,20 @@ public class ManageBookReturning implements Initializable {
     private final ManageBookReturningModel manageBookReturningModel = new ManageBookReturningModel();
     private final BookModel bookModel = new BookModel();
 
+    private BookReturningTm tabelDetails;
+    private long daysLate;
+
+    private BookDto bookDetail;
+    private final int lateFeeforOneDay = 10;
+
+    private double fee;
+    private double feeLateFee;
+    private double damageFee;
+
+    @FXML
+    private Label lblFullPayment;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //INITIALIZING TABLE COLUMNS
@@ -106,6 +119,23 @@ public class ManageBookReturning implements Initializable {
         columnIssueDate.setCellValueFactory(new PropertyValueFactory<>("issueDate"));
         columnIssueTime.setCellValueFactory(new PropertyValueFactory<>("issueTime"));
 
+        pageLoad();
+    }
+
+    private void pageLoad(){
+        //LOAD THE TABLE DATA
+        bookReturningTableLoad();
+
+        //HERE SET THE TODAY DATE
+        setTodayDate();
+
+        //HERE LOAD THE BOOK DAMAGE PRICE
+        loadBookDamagePrice(0);
+
+        setSlider();
+    }
+
+    private void setSlider(){
         slider.setValue(0);
 
         //SET DAMAGE SIZE
@@ -116,18 +146,10 @@ public class ManageBookReturning implements Initializable {
             }else{
                 lblDamageSize.setTextFill(Color.RED);
             }
+
+            loadBookDamagePrice(newValue.intValue());
             lblDamageSize.setText(newValue.intValue() + "%");
         });
-
-        pageLoad();
-    }
-
-    private void pageLoad(){
-        //LOAD THE TABLE DATA
-        bookReturningTableLoad();
-
-        //HERE SET THE TODAY DATE
-        setTodayDate();
     }
 
     private void setTodayDate(){
@@ -158,9 +180,9 @@ public class ManageBookReturning implements Initializable {
     @FXML
     void getTableDetails(MouseEvent event) {
         try {
-            BookReturningTm tabelDetails = BookReturningTabel.getSelectionModel().getSelectedItem();
+            tabelDetails = BookReturningTabel.getSelectionModel().getSelectedItem();
             if (tabelDetails != null) {
-                BookDto bookDetail = bookModel.getBookDetails(tabelDetails.getBookId());
+                bookDetail = bookModel.getBookDetails(tabelDetails.getBookId());
 
                 lblBookId.setText(bookDetail.getBookId());
                 lblBookName.setText(bookDetail.getName());
@@ -168,7 +190,7 @@ public class ManageBookReturning implements Initializable {
                 lblBookPrice.setText(Double.toString(bookDetail.getPrice()));
                 lblIssueDate.setText(tabelDetails.getIssueDate());
 
-                long daysLate = getDaysBetween(LocalDate.parse(tabelDetails.getIssueDate()), LocalDate.now());
+                daysLate = getDaysBetween(LocalDate.parse(tabelDetails.getIssueDate()), LocalDate.now());
                 String text;
                 if (daysLate >= 0) {
                     lblLateDates.setTextFill(Color.GREEN);
@@ -178,6 +200,7 @@ public class ManageBookReturning implements Initializable {
                     text = "Late " + daysLate * (-1) + " Days";
                 }
                 lblLateDates.setText(text);
+
             }
         }catch (SQLException e1){
             System.out.println("SQL Exception");
@@ -201,5 +224,36 @@ public class ManageBookReturning implements Initializable {
         return 14 - daysBetween;
     }
 
+    private void loadBookDamagePrice(int damageValue){
 
+
+        if(tabelDetails != null){
+            if(slider.getValue() != 0){
+                //THERE HAVE DAMAGE
+                damageFee = (bookDetail.getPrice() / 100) * damageValue;
+            }
+            if(daysLate < 0){
+                //HAVE BOOK LATE
+                feeLateFee = (daysLate * -1) * lateFeeforOneDay;
+            }
+        }
+
+        fee = feeLateFee + damageFee;
+
+        // Create a DecimalFormat instance with the desired format
+        DecimalFormat df = new DecimalFormat("#.00");
+        // Format the number
+        String formattedPrice = df.format(fee);
+
+        lblFullPayment.setText("Rs " + formattedPrice + " /=");
+    }
+
+    @FXML
+    void payNow(ActionEvent event) {
+        if(tabelDetails != null){
+            boolean isSaved = manageBookReturningModel.returnBook(bookDetail, tabelDetails.getIssueID());
+        }else{
+            new Alert(Alert.AlertType.WARNING,"You must Select the book before return...").show();
+        }
+    }
 }

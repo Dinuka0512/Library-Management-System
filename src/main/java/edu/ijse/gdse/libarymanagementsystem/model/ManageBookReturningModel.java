@@ -1,5 +1,6 @@
 package edu.ijse.gdse.libarymanagementsystem.model;
 
+import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.tm.BookReturningTm;
 import edu.ijse.gdse.libarymanagementsystem.util.CrudUtil;
 import javafx.scene.control.Button;
@@ -7,6 +8,7 @@ import javafx.scene.control.Button;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ManageBookReturningModel {
     public ArrayList<BookReturningTm> loadTabel() throws SQLException,ClassNotFoundException {
@@ -30,5 +32,11 @@ public class ManageBookReturningModel {
         }
 
         return bookReturningTms;
+    }
+
+
+    public boolean returnBook(BookDto bookDetails, String issueId) throws SQLException, ClassNotFoundException {
+        //UPDATE BOOK RETURNING
+        String updateSql = "update Issue set isCompleted = ? where ";
     }
 }

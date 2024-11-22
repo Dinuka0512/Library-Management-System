@@ -75,12 +75,12 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Button layoutX="14.0" layoutY="467.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="204.0" style="-fx-background-color: #ff3d3d;" text="Pay Now" textFill="WHITE">
+            <Button layoutX="14.0" layoutY="467.0" mnemonicParsing="false" onAction="#payNow" prefHeight="26.0" prefWidth="204.0" style="-fx-background-color: #ff3d3d;" text="Pay Now" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
             </Button>
-            <Label layoutX="20.0" layoutY="401.0" prefHeight="28.0" prefWidth="195.0" text="Rs.1000/=" textAlignment="CENTER">
+            <Label fx:id="lblFullPayment" layoutX="20.0" layoutY="401.0" prefHeight="28.0" prefWidth="195.0" text="Rs.1000/=" textAlignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>
