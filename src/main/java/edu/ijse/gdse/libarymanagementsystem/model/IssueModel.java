@@ -1,6 +1,7 @@
 package edu.ijse.gdse.libarymanagementsystem.model;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.IssueTableDto;
+import edu.ijse.gdse.libarymanagementsystem.dto.LineChart.Linechart;
 import edu.ijse.gdse.libarymanagementsystem.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -41,4 +42,30 @@ public class IssueModel {
         return dtos;
     }
 
+    public ArrayList<Linechart> getDataToAddLineChart(){
+        try{
+            String sql = "select Date, count(*) as count  from Issue Group by Date";
+            ResultSet res = CrudUtil.execute(sql);
+
+            ArrayList<Linechart> linecharts = new ArrayList<>();
+            while(res.next()){
+                Linechart linechart = new Linechart(
+                        res.getString("Date"),
+                        res.getInt("count")
+                );
+
+                linecharts.add(linechart);
+            }
+
+            return linecharts;
+
+        } catch (ClassNotFoundException e1){
+            System.out.println("Class Not found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("Sql Exception");
+            e2.printStackTrace();
+        }
+        return  null;
+    }
 }

@@ -317,6 +317,21 @@ public class DashBoardContro implements Initializable  {
         anchorEmployee.setVisible(false);
     }
 
+    @FXML
+    void gotomanageEmployeePage(MouseEvent event) {
+        if(userEmail.equals("admin@gmail.com")){
+            try{
+                body.getChildren().clear();
+                AnchorPane load = FXMLLoader.load(getClass().getResource("/view/ManageEmployees.fxml"));
+                body.getChildren().add(load);
+            }catch (IOException e1){
+                System.out.println("IoException");
+                e1.printStackTrace();
+            }
+        }else{
+            new Alert(Alert.AlertType.WARNING, "Only admin can Manage the Employees!!").show();
+        }
+    }
 
 
     //LOG OUT

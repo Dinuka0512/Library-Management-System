@@ -56,7 +56,7 @@
                   <Image url="@../images/damages.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="employeeImg" fitHeight="35.0" fitWidth="45.0" layoutX="29.0" layoutY="581.0" onMouseEntered="#showNameEmp" onMouseExited="#closeNameEmp" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="employeeImg" fitHeight="35.0" fitWidth="45.0" layoutX="29.0" layoutY="581.0" onMouseClicked="#gotomanageEmployeePage" onMouseEntered="#showNameEmp" onMouseExited="#closeNameEmp" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/empolyes.png" />
                </image>

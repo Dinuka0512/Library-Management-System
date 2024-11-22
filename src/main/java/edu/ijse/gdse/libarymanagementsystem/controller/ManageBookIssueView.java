@@ -548,7 +548,6 @@ public class ManageBookIssueView implements Initializable {
             // Hide the progress bar and message after the operation
             Platform.runLater(() -> {
                 lblSendingMessage.setVisible(false);
-                proBar.setVisible(false);
             });
         }
 

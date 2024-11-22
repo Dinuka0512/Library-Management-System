@@ -1,12 +1,10 @@
 package edu.ijse.gdse.libarymanagementsystem.controller;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
+import edu.ijse.gdse.libarymanagementsystem.dto.LineChart.Linechart;
 import edu.ijse.gdse.libarymanagementsystem.dto.Member;
 import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
-import edu.ijse.gdse.libarymanagementsystem.model.BookIssueModel;
-import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
-import edu.ijse.gdse.libarymanagementsystem.model.MemberModel;
-import edu.ijse.gdse.libarymanagementsystem.model.UserModel;
+import edu.ijse.gdse.libarymanagementsystem.model.*;
 import edu.ijse.gdse.libarymanagementsystem.util.Validation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +12,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,6 +31,10 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class HomePage implements Initializable {
+
+
+    @FXML
+    private StackedBarChart<String, Number> barchartMember;
 
     private UserModel userModel = new UserModel();
 
@@ -120,7 +125,11 @@ public class HomePage implements Initializable {
     private final BookIssueModel bookIssueModel = new BookIssueModel();
     private final BookModel bookModel = new BookModel();
     private final MemberModel memberModel = new MemberModel();
+    private final IssueModel issueModel = new IssueModel();
+    private final ReturnBookModel returnBookModel = new ReturnBookModel();
 
+    @FXML
+    private LineChart<String, Number> lineBarChart;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userDetails = DashBoardContro.getDto();
@@ -134,8 +143,35 @@ public class HomePage implements Initializable {
 
         setPopulerBooks();
         setPopularMembers();
+
+        setUpBarChart();
     }
 
+
+    private void setUpBarChart() {
+        // Create data series
+        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+        series1.setName("Books Issued");
+
+        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+        series2.setName("Books Returned");
+
+        ArrayList<Linechart> lineChartsIssue = issueModel.getDataToAddLineChart();
+        ArrayList<Linechart> lineChartsReturn = returnBookModel.getDataToAddLineChart();
+
+        //ISSUES
+        for (Linechart linechart : lineChartsIssue) {
+            series1.getData().add(new XYChart.Data<>(linechart.getDate(), linechart.getCount()));
+        }
+
+        //RETURNS
+        for (Linechart linechart : lineChartsReturn) {
+            series2.getData().add(new XYChart.Data<>(linechart.getDate(), linechart.getCount()));
+        }
+
+        // Add data series to the StackedBarChart
+        lineBarChart.getData().addAll(series1, series2);
+    }
 
     //EXIT BUTTON
     @FXML

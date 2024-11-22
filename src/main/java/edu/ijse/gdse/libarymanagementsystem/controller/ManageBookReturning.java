@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
@@ -39,6 +40,9 @@ public class ManageBookReturning implements Initializable {
 
     @FXML
     private Slider slider;
+
+    @FXML
+    private AnchorPane anchorQr;
 
     @FXML
     private Label lbltodayDate;
@@ -324,5 +328,17 @@ public class ManageBookReturning implements Initializable {
             System.out.println("Class Not Found Exception");
             e2.printStackTrace();
         }
+    }
+
+
+    @FXML
+    void closeQr(MouseEvent event) {
+        anchorQr.setVisible(false);
+    }
+
+
+    @FXML
+    void openQr(MouseEvent event) {
+        anchorQr.setVisible(true);
     }
 }

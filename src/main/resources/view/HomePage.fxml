@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -30,18 +30,10 @@
                </image>
             </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="254.0" layoutX="14.0" layoutY="37.0" stroke="TRANSPARENT" strokeType="INSIDE" style="-fx-arc-height: 6; -fx-arc-height: 6;" width="724.0" />
-            <StackedBarChart layoutX="21.0" layoutY="345.0" prefHeight="184.0" prefWidth="705.0">
-               <xAxis>
-                  <CategoryAxis side="BOTTOM" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis side="LEFT" />
-               </yAxis>
-            </StackedBarChart>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="173.0" layoutX="749.0" layoutY="37.0" stroke="TRANSPARENT" strokeType="INSIDE" style="-fx-arc-height: 6; -fx-arc-height: 6;" width="289.0" />
             <Label layoutX="761.0" layoutY="53.0" text="Most Popular Books">
                <font>
-                  <Font name="Poppins SemiBold Italic" size="13.0" />
+                  <Font name="Poppins SemiBold" size="13.0" />
                </font>
             </Label>
             <Label fx:id="lblBook1" layoutX="789.0" layoutY="101.0" text="-">
@@ -88,7 +80,7 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="151.0" layoutX="749.0" layoutY="216.0" stroke="TRANSPARENT" strokeType="INSIDE" style="-fx-arc-height: 6; -fx-arc-height: 6;" width="289.0" />
             <Label layoutX="761.0" layoutY="235.0" text="Best Members">
                <font>
-                  <Font name="Poppins SemiBold Italic" size="13.0" />
+                  <Font name="Poppins SemiBold" size="13.0" />
                </font>
             </Label>
             <Label fx:id="lblpopMemName1" layoutX="789.0" layoutY="277.0" prefHeight="25.0" prefWidth="130.0" text="-">
@@ -122,7 +114,7 @@
                   <Font name="Poppins Light" size="13.0" />
                </font>
             </Label>
-            <Label layoutX="36.0" layoutY="316.0" text="Member Activities">
+            <Label layoutX="27.0" layoutY="313.0" text="Member Activities">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -157,6 +149,7 @@
                   <Font name="Poppins Medium" size="12.0" />
                </font>
             </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#91ff9317" height="85.0" layoutX="25.0" layoutY="94.0" stroke="#00ac28" strokeType="INSIDE" strokeWidth="2.0" width="222.0" />
             <Label layoutX="789.0" layoutY="258.0" text="Member Name" underline="true">
                <font>
                   <Font name="Poppins Medium" size="12.0" />
@@ -167,6 +160,71 @@
                   <Font name="Poppins Medium" size="12.0" />
                </font>
             </Label>
+            <Label layoutX="25.0" layoutY="76.0" text="Payments">
+               <font>
+                  <Font name="Poppins Light" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="34.0" layoutY="104.0" text="Rs. 1000/=">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="38.0" layoutY="147.0" text="Current">
+               <font>
+                  <Font name="Poppins Light" size="13.0" />
+               </font>
+            </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00b6ff17" height="73.0" layoutX="24.0" layoutY="202.0" stroke="#0047ab" strokeType="INSIDE" strokeWidth="2.0" width="222.0" />
+            <Label layoutX="27.0" layoutY="184.0" text="Book Issueings &amp; Returnings">
+               <font>
+                  <Font name="Poppins Light" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="34.0" layoutY="207.0" text="10">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="84.0" layoutY="221.0" text="Books">
+               <font>
+                  <Font name="Poppins Medium" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="84.0" layoutY="235.0" text="Issued">
+               <font>
+                  <Font name="Poppins Medium" size="13.0" />
+               </font>
+            </Label>
+            <Line endX="-100.00001525878906" endY="72.0" layoutX="235.0" layoutY="197.0" startX="-100.0" startY="11.20001220703125" stroke="#2850c7" />
+            <Label layoutX="137.0" layoutY="208.0" text="10">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="186.0" layoutY="221.0" text="Books">
+               <font>
+                  <Font name="Poppins Medium" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="186.0" layoutY="235.0" text="Return">
+               <font>
+                  <Font name="Poppins Medium" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblWellcome1" layoutX="24.0" layoutY="45.0" text="Today Details">
+               <font>
+                  <Font name="Poppins ExtraBold Italic" size="16.0" />
+               </font>
+            </Label>
+            <LineChart fx:id="lineBarChart" layoutX="26.0" layoutY="332.0" prefHeight="199.0" prefWidth="702.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
          </children>
       </AnchorPane>
    </children>
