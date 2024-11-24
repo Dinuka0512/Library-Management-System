@@ -2,9 +2,11 @@ package edu.ijse.gdse.libarymanagementsystem.controller;
 
 import edu.ijse.gdse.libarymanagementsystem.dto.BookDto;
 import edu.ijse.gdse.libarymanagementsystem.dto.UserDto;
+import edu.ijse.gdse.libarymanagementsystem.util.BaseController;
 import edu.ijse.gdse.libarymanagementsystem.model.BookIssueModel;
 import edu.ijse.gdse.libarymanagementsystem.model.BookModel;
 import edu.ijse.gdse.libarymanagementsystem.model.UserModel;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class DashBoardContro implements Initializable  {
+public class DashBoardContro extends BaseController implements Initializable {
     @Getter
     public static UserDto dto;
     //CAN GET ALL USERS DETAILS
@@ -354,6 +356,18 @@ public class DashBoardContro implements Initializable  {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Initialize auto-logout for this scene
+        Platform.runLater(() -> {
+            Scene scene = dashboardBody.getScene();
+            if (scene != null) {
+                initAutoLogout(scene);
+            } else {
+                System.err.println("Scene is null, auto-logout not initialized.");
+            }
+        });
+
+
+
         getUserDetailsAndSetGmail();
         openHomePage();
     }
