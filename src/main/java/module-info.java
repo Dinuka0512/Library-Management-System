@@ -6,6 +6,7 @@ module edu.ijse.gdse.libarymanagementsystem {
     requires net.sf.jasperreports.core;
     requires java.mail;
 
+    opens edu.ijse.gdse.libarymanagementsystem.dto to javafx.base;
     opens edu.ijse.gdse.libarymanagementsystem.dto.tm to javafx.base;
     opens edu.ijse.gdse.libarymanagementsystem.controller to javafx.fxml;
     exports edu.ijse.gdse.libarymanagementsystem;

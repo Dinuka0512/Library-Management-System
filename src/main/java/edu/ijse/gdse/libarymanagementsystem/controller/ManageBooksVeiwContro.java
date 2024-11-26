@@ -25,6 +25,29 @@ import java.util.ResourceBundle;
 public class ManageBooksVeiwContro implements Initializable {
 
     @FXML
+    private AnchorPane anchSearchResults;
+
+    @FXML
+    private Button btnSearchTabelClose;
+
+    @FXML
+    private TableColumn<BookDto, String> columnSearchBookId;
+
+    @FXML
+    private TableColumn<BookDto, String> columnSearchName;
+
+    @FXML
+    private TableColumn<BookDto, Double> columnSearchPrice;
+
+    @FXML
+    private TableColumn<BookDto, Integer> columnSearchQty;
+
+    @FXML
+    private TableView<BookDto> searchTable;
+
+
+
+    @FXML
     private TextField txtBookName;
 
     @FXML
@@ -150,29 +173,11 @@ public class ManageBooksVeiwContro implements Initializable {
     @FXML
     private AnchorPane anchorSection;
 
-    //SUPPLIER
+    @FXML
+    private Button btnSearch;
 
-//    @FXML
-//    private AnchorPane anchorSupplier;
-//
-//    @FXML
-//    private Label lblSupplierId;
-//
-//    @FXML
-//    private TextField txtSuplierName;
-//
-//    @FXML
-//    private TextField txtSupplierAddress;
-//
-//    @FXML
-//    private TextField txtSupplierContact;
-//
-//    @FXML
-//    private TextField txtSupplierEmail;
-//
-//    @FXML
-//    private TextField txtSuppliedQty;
-
+    @FXML
+    private TextField txtSearch;
 
     private final AuthorModel authorModel = new AuthorModel();
     private final CategoryModel categoryModel = new CategoryModel();
@@ -182,8 +187,6 @@ public class ManageBooksVeiwContro implements Initializable {
     private final AuthorBookModel authorBookModel = new AuthorBookModel();
     private final BookCategoryModel bookCategoryModel = new BookCategoryModel();
     private final ManabeBooksViewModel manabeBooksViewModel = new ManabeBooksViewModel();
-//    private final SupplierModel supplierModel = new SupplierModel();
-//    private final BookSupplyModel bookSupplyModel = new BookSupplyModel();
 
     //HERE SAVE NEW SECTION
     @FXML
@@ -327,6 +330,12 @@ public class ManageBooksVeiwContro implements Initializable {
         columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         columnCategory.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
         columnAuthor.setCellValueFactory(new PropertyValueFactory<>("authorName"));
+
+        //SEARCH TABLE
+        columnSearchBookId.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        columnSearchName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnSearchQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        columnSearchPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         pageReset();
     }
@@ -905,6 +914,9 @@ public class ManageBooksVeiwContro implements Initializable {
         lblAuthorName.setText("");
         lblCategoryName.setText("");
         lblBookShelfName.setText("");
+
+        txtSearch.setText("");
+        txtSearch.setPromptText("Search Book");
     }
 
     @FXML
@@ -953,7 +965,7 @@ public class ManageBooksVeiwContro implements Initializable {
                 Integer.parseInt(txtBookQty.getText()),
                 Double.parseDouble(txtBookPrice.getText()),
                 comboCategoryId.getValue(),
-                comboAuthorId.getValue()
+                comboAuthorId.getValue() 
         );
 
         try{
@@ -972,5 +984,40 @@ public class ManageBooksVeiwContro implements Initializable {
             System.out.println("SQL Exception");
             e2.printStackTrace();
         }
+    }
+
+    @FXML
+    void searchTheBook(ActionEvent event) {
+        try{
+            if(!txtSearch.getText().equals("")){
+                ArrayList<BookDto> books = bookModel.searchBook(txtSearch.getText());
+                if(!books.isEmpty()){
+                    anchSearchResults.setVisible(true);
+                    ObservableList<BookDto> observableList = FXCollections.observableArrayList();
+                    for(BookDto book : books){
+                        observableList.add(book);
+                    }
+
+                    searchTable.setItems(observableList);
+                    txtSearch.setText("");
+                    txtSearch.setPromptText("Search Book");
+                }else{
+                    new Alert(Alert.AlertType.CONFIRMATION, "BOOK IS NOT FOUND").show();
+                }
+            }else{
+                new Alert(Alert.AlertType.WARNING, "Please enter the Book name Search bar..").show();
+            }
+        }catch (ClassNotFoundException e1){
+            System.out.println("Class not Found Exception");
+            e1.printStackTrace();
+        }catch (SQLException e2){
+            System.out.println("SQL Exception");
+            e2.printStackTrace();
+        }
+    }
+
+    @FXML
+    void closeTheSearchResultTab(ActionEvent event) {
+        anchSearchResults.setVisible(false);
     }
 }

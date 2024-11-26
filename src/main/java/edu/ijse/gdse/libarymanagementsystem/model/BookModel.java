@@ -88,4 +88,44 @@ public class BookModel {
         }
         return null;
     }
+
+    public ArrayList<BookDto> searchBook(String name) throws SQLException, ClassNotFoundException {
+        ArrayList<BookDto> bookList = new ArrayList<>();
+
+        // First, try to find the exact match
+        String searchByFullName = "SELECT * FROM Book WHERE name = ?";
+        ResultSet res1 = CrudUtil.execute(searchByFullName, name);
+        addResultsToList(res1, bookList);
+
+        // If no results, try to find names ending with the search term
+        if (bookList.isEmpty()) {
+            String searchByEnding = "SELECT * FROM Book WHERE name LIKE ?";
+            ResultSet res2 = CrudUtil.execute(searchByEnding, "%" + name);
+            addResultsToList(res2, bookList);
+        }
+
+        // If still no results, try to find names starting with the search term
+        if (bookList.isEmpty()) {
+            String searchByStarting = "SELECT * FROM Book WHERE name LIKE ?";
+            ResultSet res3 = CrudUtil.execute(searchByStarting, name + "%");
+            addResultsToList(res3, bookList);
+        }
+
+        return bookList;
+    }
+
+    private void addResultsToList(ResultSet rs, ArrayList<BookDto> bookList) throws SQLException {
+        while (rs != null && rs.next()) {
+            BookDto book = new BookDto(
+                    rs.getString("Book_Id"),
+                    rs.getString("name"),
+                    rs.getInt("qty"),
+                    rs.getDouble("price"),
+                    rs.getString("bookshelf_Id")
+            );
+            bookList.add(book);
+        }
+    }
+
+
 }
